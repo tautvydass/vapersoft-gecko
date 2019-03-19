@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
 import { Observable, of } from 'rxjs';
+import { HostService } from '../host/host.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UserService {
     role: 'default'
   }
 
-  constructor() { }
+  constructor(private hostService: HostService) { }
 
   getUser(): Observable<User> {
     return of(this.temporaryUser);
