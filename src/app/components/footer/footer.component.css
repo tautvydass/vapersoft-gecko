@@ -1,0 +1,12 @@
+.footer {
+    background-color:#e2e2e2;
+    padding-right: 2em;
+    width: 100%;
+    overflow: hidden;
+}
+
+.footer-element {
+    float: right;
+    padding: 0.1em;
+    padding-left: 1em;
+} 
