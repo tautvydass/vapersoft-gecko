@@ -1,0 +1,4 @@
+enum TripDocumentType {
+    ticket,
+    hotelReservation
+}
