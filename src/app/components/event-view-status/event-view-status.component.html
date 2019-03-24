@@ -5,7 +5,7 @@
   </div>
   <div *ngSwitchCase="'approved'" class="approved">
     <span class="dot dot-approved"></span>
-    <div class="status-text">{{getStatus()}} (by {{advisorFullname}})</div>
+    <div class="status-text"><span class="approved">{{getStatus()}} (by {{advisorFullname}})</span></div>
   </div>
   <div *ngSwitchCase="'rejected'" class="rejected">
     <span class="dot dot-rejected"></span>

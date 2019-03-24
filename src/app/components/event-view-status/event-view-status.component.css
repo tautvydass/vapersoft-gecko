@@ -8,22 +8,26 @@
 }
 
 .dot-pending {
-    background-color: #ffe680;
+    background-color: #d9d9d9;
 }
 
 .dot-approved {
-    background-color: #009900;
+    background-color: #8db48e;
 }
 
 .dot-rejected, .dot-canceled {
-    background-color: #b30000;
+    background-color: #e67a65;
 }
 
 .dot-archived {
-    background-color: #a6a6a6;
+    background-color: #8c8c8c;
 }
 
 .status-text {
     display: inline-block;
-    padding-left: 0.25em;
+    padding-left: 0.4em;
+}
+
+.approved {
+    color: #8db48e;
 }

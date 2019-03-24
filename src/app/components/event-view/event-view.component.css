@@ -19,7 +19,9 @@
 
 .event-view-title {
     font-size: 1.5em;
+    font-family: "OpenSans";
     display: inline-block;
+    color: #4d724d;
 }
 
 .event-view-date {

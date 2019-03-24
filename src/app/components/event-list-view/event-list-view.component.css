@@ -1,4 +1,7 @@
 .container {
-    margin-top: 4.25em;
     margin-bottom: 1em;
+}
+
+.push {
+    height: 2em;
 }
