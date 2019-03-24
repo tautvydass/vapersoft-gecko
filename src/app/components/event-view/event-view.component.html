@@ -1,0 +1,19 @@
+<div class="event-view">
+  <!--div class="status-bar" [ngStyle]="getBackgroundColor()"></div-->
+  <div class="event-view-line">
+    <div class="event-view-title">
+      {{event.officeFrom.name}} - {{event.officeTo.name}}
+    </div>
+    <div class="event-view-date">
+      {{event.date}}
+    </div>
+  </div>
+  <div class="event-view-line">
+    Destination {{event.officeTo.address}}
+  </div>
+  <div class="event-view-line">
+    <div class="event-view-line-text">
+      <event-view-status [status]="event.status" [advisorFullname]="event.advisor.fullname"></event-view-status>
+    </div>
+  </div>
+</div>

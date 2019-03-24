@@ -1,0 +1,23 @@
+<div [ngSwitch]="getStatus()">
+  <div *ngSwitchCase="'pending'" class="pending">
+    <span class="dot dot-pending"></span>
+    <div class="status-text">{{getStatus()}}</div>
+  </div>
+  <div *ngSwitchCase="'approved'" class="approved">
+    <span class="dot dot-approved"></span>
+    <div class="status-text">{{getStatus()}} (by {{advisorFullname}})</div>
+  </div>
+  <div *ngSwitchCase="'rejected'" class="rejected">
+    <span class="dot dot-rejected"></span>
+    <div class="status-text">{{getStatus()}} (by {{advisorFullname}})</div>
+  </div>
+  <div *ngSwitchCase="'canceled'" class="canceled">
+    <span class="dot dot-canceled"></span>
+    <div class="status-text">{{getStatus()}}</div>
+  </div>
+  <div *ngSwitchCase="'archived'" class="archived">
+    <span class="dot dot-archived"></span>
+    <div class="status-text">{{getStatus()}}</div>
+  </div>
+  <div *ngSwitchDefault>error</div>
+</div>

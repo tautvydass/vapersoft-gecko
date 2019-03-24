@@ -1,4 +1,4 @@
-enum TripDocumentType {
+export enum TripDocumentType {
     ticket,
     hotelReservation
 }

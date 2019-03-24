@@ -1,0 +1,29 @@
+.dot {
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    display: inline-block;
+    padding-right: 1em;
+    vertical-align: middle;
+}
+
+.dot-pending {
+    background-color: #ffe680;
+}
+
+.dot-approved {
+    background-color: #009900;
+}
+
+.dot-rejected, .dot-canceled {
+    background-color: #b30000;
+}
+
+.dot-archived {
+    background-color: #a6a6a6;
+}
+
+.status-text {
+    display: inline-block;
+    padding-left: 0.25em;
+}

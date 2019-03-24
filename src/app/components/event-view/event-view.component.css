@@ -1,0 +1,27 @@
+.event-view {
+    background-color: white;
+    border-radius: 0.4em;
+    margin: 0.75em;
+    border: 1px solid #d9d9d9;
+}
+
+.status-bar {
+    height: 0.4em;
+    border-radius: 0.4em;
+}
+
+.event-view-line {
+    overflow: hidden;
+    vertical-align: middle;
+    margin: 0.5em;
+    margin-left: 1em;
+}
+
+.event-view-title {
+    font-size: 1.5em;
+    display: inline-block;
+}
+
+.event-view-date {
+    float: right;
+}

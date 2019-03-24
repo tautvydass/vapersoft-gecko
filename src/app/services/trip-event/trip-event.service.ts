@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TripEvent } from '../../models/trip-event';
+import { Role } from '../../models/enums/role';
 import { Office } from '../../models/office';
 import { Observable, of } from 'rxjs';
 import { HostService } from '../host/host.service';
+import { Status } from '../../models/enums/status';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,13 @@ export class TripEventService {
       },
       date: '2019-03-30',
       status: Status.pending,
-      userTrips: null
+      userTrips: null,
+      advisor: {
+        id: 1,
+        fullname: 'Tautvydas Stukenas',
+        email: 'placeholder',
+        role: Role.advisor
+      }
     },
     {
       id: 2,
@@ -46,7 +54,13 @@ export class TripEventService {
       },
       date: '2019-04-05',
       status: Status.approved,
-      userTrips: null
+      userTrips: null,
+      advisor: {
+        id: 1,
+        fullname: 'Tautvydas Stukenas',
+        email: 'placeholder',
+        role: Role.advisor
+      }
     },
     {
       id: 3,
@@ -64,7 +78,13 @@ export class TripEventService {
       },
       date: '2019-04-10',
       status: Status.approved,
-      userTrips: null
+      userTrips: null,
+      advisor: {
+        id: 1,
+        fullname: 'Tautvydas Stukenas',
+        email: 'placeholder',
+        role: Role.advisor
+      }
     },
     {
       id: 4,
@@ -82,7 +102,13 @@ export class TripEventService {
       },
       date: '2019-03-28',
       status: Status.rejected,
-      userTrips: null
+      userTrips: null,
+      advisor: {
+        id: 2,
+        fullname: 'Albert Jurkoit',
+        email: 'placeholder',
+        role: Role.advisor
+      }
     },
     {
       id: 5,
@@ -100,7 +126,13 @@ export class TripEventService {
       },
       date: '2019-02-13',
       status: Status.archived,
-      userTrips: null
+      userTrips: null,
+      advisor: {
+        id: 1,
+        fullname: 'Tautvydas Stukenas',
+        email: 'placeholder',
+        role: Role.advisor
+      }
     },
     {
       id: 6,
@@ -118,7 +150,13 @@ export class TripEventService {
       },
       date: '2019-03-01',
       status: Status.archived,
-      userTrips: null
+      userTrips: null,
+      advisor: {
+        id: 2,
+        fullname: 'Albert Jurkoit',
+        email: 'placeholder',
+        role: Role.advisor
+      }
     }
   ];
 

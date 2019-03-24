@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
+import { Role } from '../../models/enums/role';
 import { Observable, of } from 'rxjs';
 import { HostService } from '../host/host.service';
 
@@ -12,7 +13,7 @@ export class UserService {
     id: 1,
     fullname: 'Fullname Placeholder',
     email: 'Email Placeholder',
-    role: 'default'
+    role: Role.advisor
   }
 
   constructor(private hostService: HostService) { }
