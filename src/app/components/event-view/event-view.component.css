@@ -3,6 +3,7 @@
     border-radius: 0.4em;
     margin: 0.75em;
     border: 1px solid #d9d9d9;
+    position: relative;
 }
 
 .status-bar {
@@ -11,19 +12,29 @@
 }
 
 .event-view-line {
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
     vertical-align: middle;
     margin: 0.5em;
     margin-left: 1em;
 }
 
+.event-view-line-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .event-view-title {
     font-size: 1.5em;
     font-family: "OpenSans";
-    display: inline-block;
     color: #4d724d;
 }
 
-.event-view-date {
+.float-right {
     float: right;
+    margin-left: 0.5em;
+}
+
+.comments-button {
+    width: 9em;
 }

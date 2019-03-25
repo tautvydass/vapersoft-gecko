@@ -1,19 +1,28 @@
-<div class="event-view">
-  <!--div class="status-bar" [ngStyle]="getBackgroundColor()"></div-->
+<div class="event-view" (click)="toggleExpanded()">
   <div class="event-view-line">
     <div class="event-view-title">
       {{event.officeFrom.name}} - {{event.officeTo.name}}
     </div>
-    <div class="event-view-date">
+    <div class="float-right">
       {{event.date}}
     </div>
   </div>
   <div class="event-view-line">
     Destination {{event.officeTo.address}}
   </div>
-  <div class="event-view-line">
+  <div class="event-view-line" *ngIf="expanded">
+    <event-details></event-details>
+  </div>
+  <div class="event-view-line" *ngIf="expanded && showComments">
+    <comment-list-view></comment-list-view>
+  </div>
+  <div class="event-view-line flex-display">
     <div class="event-view-line-text">
       <event-view-status [status]="event.status" [advisorFullname]="event.advisor.fullname"></event-view-status>
+    </div>
+    <div *ngIf="expanded">
+        <button class="float-right" (click)="$event.preventDefault(); $event.stopPropagation(); openDetails()">Full Details</button>
+        <button class="float-right comments-button" (click)="$event.preventDefault(); $event.stopPropagation(); toggleComments()">{{showComments ? 'Hide' : 'Show'}} Comments</button>
     </div>
   </div>
 </div>

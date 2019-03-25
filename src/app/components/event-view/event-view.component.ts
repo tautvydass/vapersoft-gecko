@@ -9,24 +9,26 @@ import { Status } from '../../models/enums/status';
 })
 export class EventViewComponent implements OnInit {
 
-  constructor() { }
-
   @Input() event: TripEvent;
+
+  expanded: boolean = false;
+  showComments: boolean = false;
+
+  constructor() { }
 
   ngOnInit() {
   }
 
-  getBackgroundColor() {
-    switch(this.event.status) {
-      case Status.pending:
-        return { "background-color": "#e6d398" };
-      case Status.rejected:
-        return { "background-color": "#e69898" };
-      case Status.approved:
-        return { "background-color": "#99e699" };
-      case Status.archived:
-        return { "background-color": "#a6a6a6" };
-    }
+  toggleExpanded() {
+    this.expanded = !this.expanded;
+  }
+
+  openDetails() {
+
+  }
+
+  toggleComments() {
+    this.showComments = !this.showComments;
   }
 
 }

@@ -17,7 +17,6 @@ export class EventViewStatusComponent implements OnInit {
   }
 
   getStatus(): string {
-    console.log(Status[this.status]);
     return Status[this.status];
   }
 

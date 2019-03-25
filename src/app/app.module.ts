@@ -8,6 +8,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { EventViewComponent } from './components/event-view/event-view.component';
 import { EventListViewComponent } from './components/event-list-view/event-list-view.component';
 import { EventViewStatusComponent } from './components/event-view-status/event-view-status.component';
+import { CommentListViewComponent } from './components/comment-list-view/comment-list-view.component';
+import { CommentViewComponent } from './components/comment-view/comment-view.component';
+import { EventDetailsComponent } from './components/event-details/event-details.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { EventViewStatusComponent } from './components/event-view-status/event-v
     HeaderComponent,
     EventViewComponent,
     EventListViewComponent,
-    EventViewStatusComponent
+    EventViewStatusComponent,
+    CommentListViewComponent,
+    CommentViewComponent,
+    EventDetailsComponent
   ],
   imports: [
     BrowserModule,

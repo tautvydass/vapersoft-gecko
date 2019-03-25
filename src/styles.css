@@ -13,3 +13,11 @@ html, body {
     font-family: 'OpenSansLight';
 }
 
+button {
+    background-color: #c8dbc3;
+    border: none;
+    border-radius: 0.2em;
+    padding: 0.2em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
