@@ -36,7 +36,21 @@ export class TripEventService {
         fullname: 'Tautvydas Stukenas',
         email: 'placeholder',
         role: Role.advisor
-      }
+      },
+      comments: [
+        {
+          id: 1,
+          fullname: 'Tautvydas Stukenas',
+          text: 'Noisy an their of meant.',
+          timestamp: '2019-03-25'
+        },
+        {
+          id: 2,
+          fullname: 'Albert Jurkoit',
+          text: 'Written enquire painful ye to offices forming it. Then so does over sent dull on. Likewise offended humoured mrs fat trifling answered. On ye position greatest so desirous.',
+          timestamp: '2019-03-26'
+        }
+      ]
     },
     {
       id: 2,
@@ -60,7 +74,28 @@ export class TripEventService {
         fullname: 'Tautvydas Stukenas',
         email: 'placeholder',
         role: Role.advisor
-      }
+      },
+      comments: [
+        {
+          id: 3,
+          fullname: 'Tautvydas Stukenas',
+          text: 'Six started far placing saw respect females old.',
+          timestamp: '2019-03-25'
+        },
+        {
+          id: 4,
+          fullname: 'Albert Jurkoit',
+          text: 'Yourself off its pleasant ecstatic now law. Ye their mirth seems of songs.',
+          timestamp: '2019-03-26'
+        },
+        ,
+        {
+          id: 5,
+          fullname: 'Albert Jurkoit',
+          text: 'Power had these met least nor young.',
+          timestamp: '2019-03-24'
+        }
+      ]
     },
     {
       id: 3,
@@ -84,7 +119,8 @@ export class TripEventService {
         fullname: 'Tautvydas Stukenas',
         email: 'placeholder',
         role: Role.advisor
-      }
+      },
+      comments: null
     },
     {
       id: 4,
@@ -108,7 +144,8 @@ export class TripEventService {
         fullname: 'Albert Jurkoit',
         email: 'placeholder',
         role: Role.advisor
-      }
+      },
+      comments: null
     },
     {
       id: 5,
@@ -132,7 +169,8 @@ export class TripEventService {
         fullname: 'Tautvydas Stukenas',
         email: 'placeholder',
         role: Role.advisor
-      }
+      },
+      comments: null
     },
     {
       id: 6,
@@ -156,7 +194,8 @@ export class TripEventService {
         fullname: 'Albert Jurkoit',
         email: 'placeholder',
         role: Role.advisor
-      }
+      },
+      comments: null
     }
   ];
 

@@ -1,1 +1,8 @@
-TO BE IMPLEMENTED: comment-list-view
+<div *ngIf="comments && comments.length != 0">
+    <div *ngFor="let comment of comments">
+        <comment-view [comment]="comment" class="comment" *ngIf="comment"></comment-view>
+    </div>
+</div>
+<div *ngIf="!comments || comments.length == 0" class="comment">
+    <div class="no-comment">No comments to display</div>
+</div>

@@ -2,6 +2,7 @@ import { Office } from './office';
 import { Trip } from './trip';
 import { Status } from './enums/status';
 import { User } from './user';
+import { IComment } from './comment';
 
 export interface TripEvent {
     id: number;
@@ -11,4 +12,5 @@ export interface TripEvent {
     status: Status;
     userTrips: Trip[];
     advisor: User;
+    comments: IComment[];
 }

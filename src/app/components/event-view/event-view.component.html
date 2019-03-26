@@ -14,7 +14,7 @@
     <event-details></event-details>
   </div>
   <div class="event-view-line" *ngIf="expanded && showComments">
-    <comment-list-view></comment-list-view>
+    <comment-list-view [comments]="event.comments" class="comment-section"></comment-list-view>
   </div>
   <div class="event-view-line flex-display">
     <div class="event-view-line-text">
