@@ -15,4 +15,16 @@ export class CommentListViewComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSubmitComment(value: string) {
+    if (value && value !== '') {
+      const comment: IComment = {
+        id: 1,
+        fullname: 'Current Web User',
+        text: value,
+        timestamp: '2019-04-01'
+      };
+      this.comments.unshift(comment);
+    }
+  }
+
 }

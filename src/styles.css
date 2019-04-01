@@ -21,3 +21,7 @@ button {
     padding-left: 0.5em;
     padding-right: 0.5em;
 }
+
+:focus {
+    outline: 0 !important;
+}

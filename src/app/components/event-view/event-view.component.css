@@ -13,10 +13,14 @@
 
 .event-view-line {
     display: flex;
-    justify-content: space-between;
     vertical-align: middle;
     margin: 0.5em;
     margin-left: 1em;
+    margin-right: 1em;
+}
+
+.space {
+    justify-content: space-between;
 }
 
 .event-view-line-text {
@@ -39,6 +43,19 @@
     width: 9em;
 }
 
-.comment-section {
+.max-width {
     width: 100%;
+}
+
+button {
+    margin-top: 0.4em;
+}
+
+.clickable-text {
+    background-color: white;
+    color: #7a7a7a;
+}
+
+.active:active .focus:focus {
+    background-color: red;
 }
