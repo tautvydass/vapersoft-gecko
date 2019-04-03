@@ -488,3 +488,26 @@ components:
         date:
           type: string
           format: date
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        accessToken:
+          type: string
+          description: Random generated string of N symbols
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+        created:
+          type: string
+          format: date
+        expires:
+          type: string
+          format: date
