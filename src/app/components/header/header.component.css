@@ -15,3 +15,26 @@
 .space {
     height: 3.5em;
 }
+
+.btn-outline-primary {
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn:hover {
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.imgUser {
+    width: 2.5em;
+    height: 2.5em;
+    color: #f8f9fa;
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    margin-right: .7em;
+}
+
+.navHolder {
+    margin-right: 3em;
+}

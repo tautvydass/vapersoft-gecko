@@ -1,6 +1,16 @@
 <div class="space"></div>
 <nav class="navbar">
   <div class="container">
-    <span class="title">Gecko</span>
+    <span class="title text-light">Gecko</span>
+    <div *ngIf="isUserLoggedIn()">
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-light" href="#">Trips</a>
+        <a class="p-2 text-light" href="#">New Trip</a>
+        <a class="p-2 text-light" href="#">Statistics</a>
+        <a class="p-2 text-light" href="#">Apartments</a>
+        <a class="p-2 text-light" href="#">Help</a>
+        <a href="#"><img class="imgUser" src="../../../assets/userIcon.png"></a>
+      </nav>
+    </div>
   </div>
 </nav>
