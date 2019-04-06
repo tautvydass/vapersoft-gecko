@@ -35,7 +35,6 @@
     color: #f8f9fa;
     -webkit-filter: invert(100%);
     filter: invert(100%);
-    margin-right: .7em;
 }
 
 .icon {
@@ -44,5 +43,14 @@
 }
 
 .container {
-    justify-content: flex-start;
+    display: flex;
+}
+
+.navHolder {
+    float:right;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
 }
