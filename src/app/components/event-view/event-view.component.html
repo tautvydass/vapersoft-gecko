@@ -1,5 +1,5 @@
 <div class="event-view" (click)="toggleExpanded()">
-  <div class="event-view-line">
+  <div class="event-view-line space">
     <div class="event-view-title">
       {{event.officeFrom.name}} - {{event.officeTo.name}}
     </div>
@@ -8,21 +8,15 @@
     </div>
   </div>
   <div class="event-view-line">
-    Destination {{event.officeTo.address}}
+    <event-view-status [status]="event.status" [advisorFullname]="event.advisor.fullname"></event-view-status>
   </div>
   <div class="event-view-line" *ngIf="expanded">
     <event-details></event-details>
   </div>
-  <div class="event-view-line" *ngIf="expanded && showComments">
-    <comment-list-view [comments]="event.comments" class="comment-section"></comment-list-view>
+  <div class="event-view-line">
+    <button class="clickable-text" (click)="$event.preventDefault(); $event.stopPropagation(); toggleComments()">{{getCommentCount()}} comments</button>
   </div>
-  <div class="event-view-line flex-display">
-    <div class="event-view-line-text">
-      <event-view-status [status]="event.status" [advisorFullname]="event.advisor.fullname"></event-view-status>
-    </div>
-    <div *ngIf="expanded">
-        <button class="float-right" (click)="$event.preventDefault(); $event.stopPropagation(); openDetails()">Full Details</button>
-        <button class="float-right comments-button" (click)="$event.preventDefault(); $event.stopPropagation(); toggleComments()">{{showComments ? 'Hide' : 'Show'}} Comments</button>
-    </div>
+  <div class="event-view-line" *ngIf="showComments">
+    <comment-list-view [comments]="event.comments" class="max-width"></comment-list-view>
   </div>
 </div>

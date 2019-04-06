@@ -88,7 +88,6 @@ export class TripEventService {
           text: 'Yourself off its pleasant ecstatic now law. Ye their mirth seems of songs.',
           timestamp: '2019-03-26'
         },
-        ,
         {
           id: 5,
           fullname: 'Albert Jurkoit',

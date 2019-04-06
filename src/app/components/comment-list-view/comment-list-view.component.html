@@ -1,8 +1,11 @@
-<div *ngIf="comments && comments.length != 0">
-    <div *ngFor="let comment of comments">
-        <comment-view [comment]="comment" class="comment" *ngIf="comment"></comment-view>
+<div (click)="$event.preventDefault(); $event.stopPropagation();">
+    <input class="no-comment" #box (keyup.enter)="onSubmitComment(box.value); box.value='' " placeholder="Write new comment...">
+    <div *ngIf="comments && comments.length != 0">
+        <div *ngFor="let comment of comments">
+            <comment-view [comment]="comment" class="comment" *ngIf="comment"></comment-view>
+        </div>
     </div>
-</div>
-<div *ngIf="!comments || comments.length == 0" class="comment">
-    <div class="no-comment">No comments to display</div>
+    <div *ngIf="!comments || comments.length == 0" class="comment">
+        <div class="no-comment">No comments to display</div>
+    </div>
 </div>
