@@ -11,6 +11,7 @@ import { EventViewStatusComponent } from './components/event-view-status/event-v
 import { CommentListViewComponent } from './components/comment-list-view/comment-list-view.component';
 import { CommentViewComponent } from './components/comment-view/comment-view.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { LoginViewComponent } from './components/login-view/login-view.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { EventDetailsComponent } from './components/event-details/event-details.
     EventViewStatusComponent,
     CommentListViewComponent,
     CommentViewComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    LoginViewComponent
   ],
   imports: [
     BrowserModule,

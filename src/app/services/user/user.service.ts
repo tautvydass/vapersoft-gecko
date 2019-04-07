@@ -9,7 +9,7 @@ import { HostService } from '../host/host.service';
 })
 export class UserService {
 
-  temporaryUser: User = {
+  currenUser: User = {
     id: 1,
     fullname: 'Fullname Placeholder',
     email: 'Email Placeholder',
@@ -19,10 +19,14 @@ export class UserService {
   constructor(private hostService: HostService) { }
 
   getUser(): Observable<User> {
-    return of(this.temporaryUser);
+    return of(this.currenUser);
   }
 
   login(username, password): Observable<User> {
-    return of(this.temporaryUser);
+    return of(this.currenUser);
+  }
+
+  isLoggedIn(): boolean {
+    return this.currenUser != null;
   }
 }
