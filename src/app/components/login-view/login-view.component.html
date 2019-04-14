@@ -1,14 +1,24 @@
-<div class="container">
+<div class="space-container"></div>
+<div class="login-container">
   <div class="content-box">
-    <div class="element center">Sign in to begin your session</div>
-    <div class="element flex">
-      <div class="input-description">Username</div>
-      <input placeholder="username">
+    <div class="title-container">
+      <div class="center">
+        Sign in to begin your session
+      </div>
     </div>
-    <div class="element flex">
-      <div class="input-description">Password</div>
-      <input type="password" placeholder="password">
+    <div class="input-container">
+      <input placeholder="username" (keyup)="onUsernameKey($event)" autofocus>
     </div>
-    <button (click)="login()">Login</button>
+    <div class="input-container">
+      <input type="password" placeholder="password" (keyup)="onPasswordKey($event)" (keyup.enter)="login()" #passwordinput>
+    </div>
+    <div class="error-container">
+      <div *ngIf="showError" class="error-message">
+        {{errorMessage}}
+      </div>
+    </div>
+    <div class="button-container">
+      <button (click)="login()" [disabled]="!canLogin">Login</button>
+    </div>
   </div>
 </div>  

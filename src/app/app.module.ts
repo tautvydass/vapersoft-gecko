@@ -12,6 +12,9 @@ import { CommentListViewComponent } from './components/comment-list-view/comment
 import { CommentViewComponent } from './components/comment-view/comment-view.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { LoginViewComponent } from './components/login-view/login-view.component';
+import { UserService } from './services/user/user.service';
+import { TripEventService } from './services/trip-event/trip-event.service';
+import { HostService } from './services/host/host.service';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,11 @@ import { LoginViewComponent } from './components/login-view/login-view.component
   imports: [
     BrowserModule,
     AppRoutingModule
+  ],
+  providers: [
+    UserService,
+    TripEventService,
+    HostService
   ],
   bootstrap: [AppComponent]
 })

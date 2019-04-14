@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import {Router} from "@angular/router"
 import { Input } from "@angular/core";
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-login-view',
@@ -10,30 +11,55 @@ import { Input } from "@angular/core";
 })
 export class LoginViewComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { }
+  readonly INVALID_CREDENTIALS_ERROR = "invalid username or password";
 
-  @Input() username: string;
-  @Input() password: string;
+  @ViewChild('passwordinput') passwordInputElement: ElementRef;
+
+  username: string;
+  password: string;
+
+  showError: boolean;
+  errorMessage: string;
+
+  canLogin: boolean;
+
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  onUsernameUpdated() {
-
-  }
-
-  onPasswordUpdated() {
-
-  }
-
   login() {
+    if (!this.canLogin) return;
     if (this.userService.login(this.username, this.password) != null) {
+      this.showError = false;
       this.router.navigate(['/main']);
+    } else {
+      this.errorMessage = this.INVALID_CREDENTIALS_ERROR;
+      this.showError = true;
+      this.passwordInputElement.nativeElement.focus();
+      this.passwordInputElement.nativeElement.select();
     }
   }
 
-  isValid(): boolean {
-    return this.username != null && this.password != null;
+  onUsernameKey(event: any) {
+    this.username = event.target.value;
+    this.updateLoginButton();
   }
 
+  onPasswordKey(event: any) {
+    this.password = event.target.value;
+    this.updateLoginButton();
+  }
+
+  updateLoginButton() {
+    this.canLogin = this.validateUsername() && this.validatePassword();
+  }
+
+  validateUsername(): boolean {
+    return !isNullOrUndefined(this.username) && this.username.length > 0;
+  }
+
+  validatePassword(): boolean {
+    return !isNullOrUndefined(this.password) && this.password.length > 5;
+  }
 }
