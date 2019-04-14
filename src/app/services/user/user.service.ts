@@ -14,31 +14,35 @@ export class UserService {
   readonly TEST_USERNAME = "test";
   readonly TEST_PASSWORD = "111111"
 
-  currenUser: User = null;
+  currentUser: User = null;
 
   constructor(private hostService: HostService, private router: Router) { }
 
   validateCurrentUser() {
-    if (isNullOrUndefined(this.currenUser)) {
+    if (isNullOrUndefined(this.currentUser)) {
       this.router.navigate(['/']);
     }
   }
 
   getUser(): Observable<User> {
-    return of(this.currenUser);
+    return of(this.currentUser);
   }
 
   login(username, password): Observable<User> {
     if (username === this.TEST_USERNAME && password === this.TEST_PASSWORD) {
-      this.currenUser = {
+      this.currentUser = {
         id: 1,
         fullname: 'Fullname Placeholder',
         email: 'Email Placeholder',
         role: Role.advisor
       };
-      return of(this.currenUser);
+      return of(this.currentUser);
     } else {
       return null;
     }
+  }
+
+  isLoggedIn(): boolean {
+    return !isNullOrUndefined(this.currentUser);
   }
 }
