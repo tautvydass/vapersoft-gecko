@@ -5,44 +5,69 @@ import { Observable, of } from 'rxjs';
 import { HostService } from '../host/host.service';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { HttpClient } from '@angular/common/http';
+import { HeaderService } from '../header/header.service';
+import { GlobalsService } from '../globals/globals.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  readonly TEST_USERNAME = "test";
-  readonly TEST_PASSWORD = "111111"
-
-  currentUser: User = null;
-
-  constructor(private hostService: HostService, private router: Router) { }
-
-  validateCurrentUser() {
-    if (isNullOrUndefined(this.currentUser)) {
-      this.router.navigate(['/']);
-    }
-  }
+  constructor(
+    private hostService: HostService,
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private httpClient: HttpClient,
+    private headerService: HeaderService,
+    private globalsService: GlobalsService) { }
 
   getUser(): Observable<User> {
-    return of(this.currentUser);
+    const localUser = this.localStorageService.getCurrentUser();
+    if (isNullOrUndefined(localUser)) {
+      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user', { headers: this.headerService.getHeader() })
+        .subscribe(user => {
+          this.localStorageService.setCurrentUser(user);
+          return user;
+        }, error => {
+          console.error('Error in getUser(): ' + error);
+          this.redirectToLoginScreen();
+        });
+    } else {
+      return of(localUser);
+    }
   }
 
   login(username, password): Observable<User> {
-    if (username === this.TEST_USERNAME && password === this.TEST_PASSWORD) {
-      this.currentUser = {
-        id: 1,
-        fullname: 'Fullname Placeholder',
-        email: 'Email Placeholder',
-        role: Role.advisor
-      };
-      return of(this.currentUser);
-    } else {
-      return null;
-    }
+    // TODO: encode password
+    this.httpClient.post<any>(
+      this.hostService.getHostServerUrl() + 'user/login',
+      { username: username, password: password },
+      { headers: this.headerService.getHeader() })
+        .subscribe(response => {
+          let user: User = <User>response.body;
+          this.localStorageService.setCurrentUser(user);
+          this.localStorageService.setAccessToken(response.headers.get(this.globalsService.BACKEND_ACCESS_TOKEN_KEY));
+          return user;
+        }, error => {
+          console.log('Error in login(): ' + error);
+          return null;
+        });
+    return null;
+  }
+
+  logout() {
+    this.localStorageService.deleteCurrentUser();
+    this.localStorageService.deleteAccessToken();
   }
 
   isLoggedIn(): boolean {
-    return !isNullOrUndefined(this.currentUser);
+    const user = this.localStorageService.getCurrentUser();
+    return !isNullOrUndefined(user);
+  }
+
+  redirectToLoginScreen(): void {
+    this.router.navigate(['/']);
   }
 }

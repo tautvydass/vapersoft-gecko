@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,11 @@ import { LoginViewComponent } from './components/login-view/login-view.component
 import { UserService } from './services/user/user.service';
 import { TripEventService } from './services/trip-event/trip-event.service';
 import { HostService } from './services/host/host.service';
+import { StorageServiceModule } from 'ngx-webstorage-service';
+import { LocalStorageService } from './services/local-storage/local-storage.service';
+import { HeaderService } from './services/header/header.service';
+import { HttpClient } from '@angular/common/http';
+import { GlobalsService } from './services/globals/globals.service';
 
 @NgModule({
   declarations: [
@@ -31,12 +37,18 @@ import { HostService } from './services/host/host.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StorageServiceModule,
+    HttpClientModule
   ],
   providers: [
     UserService,
     TripEventService,
-    HostService
+    HostService,
+    LocalStorageService,
+    HeaderService,
+    HttpClient,
+    GlobalsService
   ],
   bootstrap: [AppComponent]
 })

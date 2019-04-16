@@ -15,7 +15,6 @@ export class EventListViewComponent implements OnInit {
   constructor(private eventService: TripEventService, private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.validateCurrentUser();
     this.eventService.getEvents().subscribe((events: TripEvent[]) => {
       this.events = events;
     });
