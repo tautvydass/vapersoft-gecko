@@ -2,9 +2,7 @@
 <div class="login-container">
   <div class="content-box">
     <div class="title-container">
-      <div class="center">
         Sign in to begin your session
-      </div>
     </div>
     <div class="input-container">
       <input placeholder="username" (keyup)="onUsernameKey($event)" autofocus>
@@ -15,6 +13,13 @@
     <div class="error-container">
       <div *ngIf="showError" class="error-message">
         {{errorMessage}}
+      </div>
+    </div>
+    <div class="spinner-container">
+      <div class="spinner" *ngIf="loggingIn">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
       </div>
     </div>
     <div class="button-container">

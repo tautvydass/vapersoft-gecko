@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
-import {Router} from "@angular/router"
-import { Input } from "@angular/core";
+import { Router } from "@angular/router"
 import { isNullOrUndefined } from 'util';
-import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
-import { GlobalsService } from 'src/app/services/globals/globals.service';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login-view',
@@ -18,11 +14,11 @@ export class LoginViewComponent implements OnInit {
 
   @ViewChild('passwordinput') passwordInputElement: ElementRef;
 
-  username: string = '';
-  password: string = '';
+  username: string;
+  password: string;
 
   showError: boolean = false;
-  errorMessage: string = '';
+  errorMessage: string;
 
   canLogin: boolean = false;
   loggingIn: boolean = false;
@@ -35,6 +31,8 @@ export class LoginViewComponent implements OnInit {
     if (this.userService.isLoggedIn()) {
       this.goToMainScreen();
     }
+
+    this.updateLoginButton();
   }
 
   login() {
@@ -43,15 +41,13 @@ export class LoginViewComponent implements OnInit {
 
     this.userService.login(this.username, this.password).subscribe(user => {
       this.goToMainScreen();
+      this.loggingIn = false;
     }, error => {
       // TODO: show message based on returned error code
       this.errorMessage = error.message;
       this.showError = true;
       this.passwordInputElement.nativeElement.focus();
       this.passwordInputElement.nativeElement.select();
-
-      console.error(error);
-    }, () => {
       this.loggingIn = false;
     });
   }

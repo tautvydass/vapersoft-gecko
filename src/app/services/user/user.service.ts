@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { User } from '../../models/user';
 import { Role } from '../../models/enums/role';
 import { Observable, of, throwError } from 'rxjs';
@@ -14,6 +14,9 @@ import { Md5 } from 'ts-md5';
   providedIn: 'root'
 })
 export class UserService {
+
+  onLogin: EventEmitter<User> = new EventEmitter();
+  onLogout: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private hostService: HostService,
@@ -32,7 +35,7 @@ export class UserService {
             observer.next(user);
           }, error => {
             observer.next(error);
-            this.redirectToLoginScreen();
+            this.logout();
           }, () => {
             observer.complete();
           });
@@ -52,9 +55,9 @@ export class UserService {
         { username: username, password: encodedPassword },
         { observe: 'response' }).subscribe(response => {
           this.localStorageService.setCurrentUser(response.body);
-          console.log('HEADERS: ' + response.headers.keys());
           this.localStorageService.setAccessToken(response.headers.get(this.globalsService.BACKEND_ACCESS_TOKEN_KEY));
           observer.next(response.body);
+          this.onLogin.emit(response.body);
         }, error => {
           observer.error(error);
         }, () => {
@@ -67,6 +70,7 @@ export class UserService {
     this.localStorageService.deleteCurrentUser();
     this.localStorageService.deleteAccessToken();
     this.redirectToLoginScreen();
+    this.onLogout.emit(null);
   }
 
   isLoggedIn(): boolean {
