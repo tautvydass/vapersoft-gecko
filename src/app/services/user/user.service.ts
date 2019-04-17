@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
 import { Role } from '../../models/enums/role';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { HostService } from '../host/host.service';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { LocalStorageService } from '../local-storage/local-storage.service';
-import { HttpClient } from '@angular/common/http';
-import { HeaderService } from '../header/header.service';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { GlobalsService } from '../globals/globals.service';
+import { Md5 } from 'ts-md5';
 
 @Injectable({
   providedIn: 'root'
@@ -20,46 +20,53 @@ export class UserService {
     private router: Router,
     private localStorageService: LocalStorageService,
     private httpClient: HttpClient,
-    private headerService: HeaderService,
     private globalsService: GlobalsService) { }
 
   getUser(): Observable<User> {
     const localUser = this.localStorageService.getCurrentUser();
     if (isNullOrUndefined(localUser)) {
-      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user', { headers: this.headerService.getHeader() })
-        .subscribe(user => {
-          this.localStorageService.setCurrentUser(user);
-          return user;
-        }, error => {
-          console.error('Error in getUser(): ' + error);
-          this.redirectToLoginScreen();
-        });
+      return Observable.create(observer => {
+        this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user')
+          .subscribe(user => {
+            this.localStorageService.setCurrentUser(user);
+            observer.next(user);
+          }, error => {
+            observer.next(error);
+            this.redirectToLoginScreen();
+          }, () => {
+            observer.complete();
+          });
+      });
     } else {
       return of(localUser);
     }
   }
 
-  login(username, password): Observable<User> {
-    // TODO: encode password
-    this.httpClient.post<any>(
-      this.hostService.getHostServerUrl() + 'user/login',
-      { username: username, password: password },
-      { headers: this.headerService.getHeader() })
-        .subscribe(response => {
-          let user: User = <User>response.body;
-          this.localStorageService.setCurrentUser(user);
+  login(username: string, password: string): Observable<User> {
+    const md5 = new Md5();
+    let encodedPassword = md5.appendStr(password).end().toString();
+
+    return Observable.create(observer => {
+      this.httpClient.post<User>(
+        this.hostService.getHostServerUrl() + 'user/login',
+        { username: username, password: encodedPassword },
+        { observe: 'response' }).subscribe(response => {
+          this.localStorageService.setCurrentUser(response.body);
+          console.log('HEADERS: ' + response.headers.keys());
           this.localStorageService.setAccessToken(response.headers.get(this.globalsService.BACKEND_ACCESS_TOKEN_KEY));
-          return user;
+          observer.next(response.body);
         }, error => {
-          console.log('Error in login(): ' + error);
-          return null;
+          observer.error(error);
+        }, () => {
+          observer.complete();
         });
-    return null;
+    });
   }
 
   logout() {
     this.localStorageService.deleteCurrentUser();
     this.localStorageService.deleteAccessToken();
+    this.redirectToLoginScreen();
   }
 
   isLoggedIn(): boolean {

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HeaderService } from './header.service';
+import { HeaderInterceptor } from './header-interceptor.service';
 
-describe('HeaderService', () => {
+describe('HeaderInterceptorService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: HeaderService = TestBed.get(HeaderService);
+    const service: HeaderInterceptor = TestBed.get(HeaderInterceptor);
     expect(service).toBeTruthy();
   });
 });
