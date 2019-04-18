@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
-import {Router} from "@angular/router"
-import { Input } from "@angular/core";
+import { Router } from "@angular/router"
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -18,27 +17,44 @@ export class LoginViewComponent implements OnInit {
   username: string;
   password: string;
 
-  showError: boolean;
+  showError: boolean = false;
   errorMessage: string;
 
-  canLogin: boolean;
+  canLogin: boolean = false;
+  loggingIn: boolean = false;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit() {
+    if (this.userService.isLoggedIn()) {
+      this.goToMainScreen();
+    }
+
+    this.updateLoginButton();
   }
 
   login() {
-    if (!this.canLogin) return;
-    if (this.userService.login(this.username, this.password) != null) {
-      this.showError = false;
-      this.router.navigate(['/main']);
-    } else {
-      this.errorMessage = this.INVALID_CREDENTIALS_ERROR;
+    if (!this.canLogin || this.loggingIn) return;
+    this.loggingIn = true;
+
+    this.userService.login(this.username, this.password).subscribe(user => {
+      this.goToMainScreen();
+      this.loggingIn = false;
+    }, error => {
+      // TODO: show message based on returned error code
+      this.errorMessage = error.message;
       this.showError = true;
       this.passwordInputElement.nativeElement.focus();
       this.passwordInputElement.nativeElement.select();
-    }
+      this.loggingIn = false;
+    });
+  }
+
+  goToMainScreen() {
+    this.showError = false;
+    this.router.navigate(['/main']);
   }
 
   onUsernameKey(event: any) {

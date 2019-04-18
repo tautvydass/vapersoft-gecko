@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,11 @@ import { LoginViewComponent } from './components/login-view/login-view.component
 import { UserService } from './services/user/user.service';
 import { TripEventService } from './services/trip-event/trip-event.service';
 import { HostService } from './services/host/host.service';
+import { StorageServiceModule } from 'ngx-webstorage-service';
+import { LocalStorageService } from './services/local-storage/local-storage.service';
+import { HttpClient } from '@angular/common/http';
+import { GlobalsService } from './services/globals/globals.service';
+import { HeaderInterceptor } from './interceptors/header-interceptor/header-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -31,12 +37,22 @@ import { HostService } from './services/host/host.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StorageServiceModule,
+    HttpClientModule
   ],
   providers: [
     UserService,
     TripEventService,
-    HostService
+    HostService,
+    LocalStorageService,
+    HttpClient,
+    GlobalsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

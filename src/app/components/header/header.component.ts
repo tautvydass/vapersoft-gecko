@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-header',
@@ -8,13 +9,29 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class HeaderComponent implements OnInit {
 
+  user: User;
+  loggedIn: boolean;
+
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.onLogin.subscribe(user => {
+      this.user = user;
+      this.loggedIn = true;
+    });
+
+    this.userService.onLogout.subscribe(any => {
+      this.user = null;
+      this.loggedIn = false;
+    });
+    
+    this.userService.getUser().subscribe(user => {
+      this.user = user;
+      this.loggedIn = true;
+    });
   }
 
-  isUserLoggedIn(): boolean {
-    return this.userService.isLoggedIn();
+  logout(): void {
+    this.userService.logout();
   }
-
 }

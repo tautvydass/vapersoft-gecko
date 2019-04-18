@@ -5,11 +5,11 @@ import { Injectable } from '@angular/core';
 })
 export class HostService {
 
-  hostServerUrl = 'https://vapersoft-gecko.firebaseapp.com/';
+  readonly BACKEND_URL = 'https://psk-backend.herokuapp.com/';
 
   constructor() { }
 
   getHostServerUrl(): string {
-    return this.hostServerUrl;
+    return this.BACKEND_URL;
   }
 }
