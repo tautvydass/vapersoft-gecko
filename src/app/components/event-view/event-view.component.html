@@ -1,14 +1,14 @@
 <div class="content-box" (click)="toggleExpanded()">
   <div class="event-view-line space">
     <div class="event-view-title">
-      {{event.officeFrom.name}} - {{event.officeTo.name}}
+      {{groupTrip.officeFrom.name}} - {{groupTrip.officeTo.name}}
     </div>
     <div class="float-right">
-      {{event.date}}
+      {{groupTrip.dateFrom}} - {{groupTrip.dateTo}}
     </div>
   </div>
   <div class="event-view-line">
-    <event-view-status [status]="event.status" [advisorFullname]="event.advisor.fullname"></event-view-status>
+    <event-view-status [status]="groupTrip.status" [advisorFullname]="groupTrip.advisor.fullname"></event-view-status>
   </div>
   <div class="event-view-line" *ngIf="expanded">
     <event-details></event-details>
@@ -17,6 +17,6 @@
     <button class="clickable-text" (click)="$event.preventDefault(); $event.stopPropagation(); toggleComments()">{{getCommentCount()}} comments</button>
   </div>
   <div class="event-view-line" *ngIf="showComments">
-    <comment-list-view [comments]="event.comments" class="max-width"></comment-list-view>
+    <comment-list-view [comments]="groupTrip.comments" class="max-width"></comment-list-view>
   </div>
 </div>

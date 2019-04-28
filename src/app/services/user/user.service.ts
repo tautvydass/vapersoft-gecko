@@ -1,12 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { User } from '../../models/user';
 import { Role } from '../../models/enums/role';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HostService } from '../host/host.service';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { LocalStorageService } from '../local-storage/local-storage.service';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { GlobalsService } from '../globals/globals.service';
 import { Md5 } from 'ts-md5';
 
@@ -18,6 +18,9 @@ export class UserService {
   onLogin: EventEmitter<User> = new EventEmitter();
   onLogout: EventEmitter<any> = new EventEmitter();
 
+  readonly ERROR_INVALID_CREDENTIALS: string = "invalid username or password";
+  readonly ERROR_INTERNAL_SERVER: string = "service unavailable";
+
   constructor(
     private hostService: HostService,
     private router: Router,
@@ -26,23 +29,18 @@ export class UserService {
     private globalsService: GlobalsService) { }
 
   getUser(): Observable<User> {
-    const localUser = this.localStorageService.getCurrentUser();
-    if (isNullOrUndefined(localUser)) {
-      return Observable.create(observer => {
-        this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user')
-          .subscribe(user => {
-            this.localStorageService.setCurrentUser(user);
-            observer.next(user);
-          }, error => {
-            observer.next(error);
-            this.logout();
-          }, () => {
-            observer.complete();
-          });
-      });
-    } else {
-      return of(localUser);
-    }
+    return Observable.create(observer => {
+      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user')
+        .subscribe(user => {
+          this.localStorageService.setCurrentUser(user);
+          observer.next(user);
+          observer.complete();
+        }, error => {
+          observer.next(error);
+          this.logout();
+          observer.complete();
+        });
+    });
   }
 
   login(username: string, password: string): Observable<User> {
@@ -55,12 +53,16 @@ export class UserService {
         { username: username, password: encodedPassword },
         { observe: 'response' }).subscribe(response => {
           this.localStorageService.setCurrentUser(response.body);
-          this.localStorageService.setAccessToken(response.headers.get(this.globalsService.BACKEND_ACCESS_TOKEN_KEY));
+          this.localStorageService.setAccessToken(response.headers.get(this.globalsService.ACCESS_TOKEN_KEY));
           observer.next(response.body);
           this.onLogin.emit(response.body);
+          observer.complete();
         }, error => {
+          switch(error.status) {
+            case 401: error.message = this.ERROR_INVALID_CREDENTIALS; break;
+            default: error.message = this.ERROR_INTERNAL_SERVER;
+          }
           observer.error(error);
-        }, () => {
           observer.complete();
         });
     });
@@ -69,16 +71,12 @@ export class UserService {
   logout() {
     this.localStorageService.deleteCurrentUser();
     this.localStorageService.deleteAccessToken();
-    this.redirectToLoginScreen();
+    this.router.navigate(['/']);
     this.onLogout.emit(null);
   }
 
   isLoggedIn(): boolean {
     const user = this.localStorageService.getCurrentUser();
     return !isNullOrUndefined(user);
-  }
-
-  redirectToLoginScreen(): void {
-    this.router.navigate(['/']);
   }
 }

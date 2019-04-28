@@ -13,13 +13,14 @@ export class HeaderInterceptor implements HttpInterceptor {
   constructor(private localStorageService: LocalStorageService, private globalsService: GlobalsService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
-    let headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
+
+    var headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Access-Control-Allow-Origin', '*');
 
     let accessToken = this.localStorageService.getAccessToken();
     if (!isNullOrUndefined(accessToken)) {
-      headers.append(this.globalsService.BACKEND_ACCESS_TOKEN_KEY, accessToken);
+      headers = headers.append(this.globalsService.ACCESS_TOKEN_KEY, accessToken);
     }
 
     request = request.clone({ headers: headers });

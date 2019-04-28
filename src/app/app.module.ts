@@ -14,13 +14,14 @@ import { CommentViewComponent } from './components/comment-view/comment-view.com
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { LoginViewComponent } from './components/login-view/login-view.component';
 import { UserService } from './services/user/user.service';
-import { TripEventService } from './services/trip-event/trip-event.service';
+import { GroupTripService } from './services/group-trip/group-trip.service';
 import { HostService } from './services/host/host.service';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { LocalStorageService } from './services/local-storage/local-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { GlobalsService } from './services/globals/globals.service';
 import { HeaderInterceptor } from './interceptors/header-interceptor/header-interceptor.service';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { HeaderInterceptor } from './interceptors/header-interceptor/header-inte
     CommentListViewComponent,
     CommentViewComponent,
     EventDetailsComponent,
-    LoginViewComponent
+    LoginViewComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,7 @@ import { HeaderInterceptor } from './interceptors/header-interceptor/header-inte
   ],
   providers: [
     UserService,
-    TripEventService,
+    GroupTripService,
     HostService,
     LocalStorageService,
     HttpClient,

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TripEvent } from '../../models/trip-event';
+import { GroupTrip } from '../../models/group-trip';
 import { Status } from '../../models/enums/status';
 import { IComment } from '../../models/comment';
 
@@ -10,7 +10,7 @@ import { IComment } from '../../models/comment';
 })
 export class EventViewComponent implements OnInit {
 
-  @Input() event: TripEvent;
+  @Input() groupTrip: GroupTrip;
 
   expanded: boolean = false;
   showComments: boolean = false;
@@ -47,7 +47,16 @@ export class EventViewComponent implements OnInit {
   }
 
   getCommentCount(): number {
-    return this.event.comments ? this.event.comments.length : 0;
+    return this.groupTrip.comments ? this.groupTrip.comments.length : 0;
   }
 
+  getStatus(): Status {
+    console.error(this.groupTrip.status);
+    return this.groupTrip.status;
+  }
+
+  getAdvisorFullname(): string {
+    console.error(this.groupTrip.advisor.fullname);
+    return this.groupTrip.advisor.fullname;
+  }
 }

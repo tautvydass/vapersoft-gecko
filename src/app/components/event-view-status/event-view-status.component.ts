@@ -17,7 +17,10 @@ export class EventViewStatusComponent implements OnInit {
   }
 
   getStatus(): string {
-    return Status[this.status];
+    return this.status.toString();
   }
 
+  getDisplayStatus(): string {
+    return this.status.toString().toLowerCase();
+  }
 }

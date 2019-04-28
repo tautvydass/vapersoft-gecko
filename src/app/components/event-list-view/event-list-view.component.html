@@ -1,5 +1,10 @@
 <div class="container">
-  <div *ngFor="let event of events">
-    <event-view [event]="event"></event-view>
+  <div class="error-container" *ngIf="emptyEvents()">
+    No trips to show
+  </div>
+  <div *ngIf="!emptyEvents()">
+    <div *ngFor="let groupTrip of groupTrips">
+      <event-view [groupTrip]="groupTrip"></event-view>
+    </div>
   </div>
 </div>

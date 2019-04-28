@@ -1,7 +1,7 @@
 export enum Status {
-    pending,
-    approved,
-    rejected,
-    canceled,
-    archived
+    PENDING,
+    APPROVED,
+    REJECTED,
+    CANCELED,
+    ARCHIVED
 }

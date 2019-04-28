@@ -1,5 +1,5 @@
 import { TripDocument } from './trip-document';
-import { TripEvent } from './trip-event';
+import { GroupTrip } from './group-trip';
 import { Houseroom } from './houseroom';
 import { Status } from './enums/status';
 
@@ -9,5 +9,5 @@ export interface Trip {
     status: Status;
     documents: TripDocument[];
     houserooms: Houseroom[];
-    tripInfo: TripEvent;
+    tripInfo: GroupTrip;
 }

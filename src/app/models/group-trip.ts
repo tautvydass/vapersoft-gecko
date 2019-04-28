@@ -4,11 +4,12 @@ import { Status } from './enums/status';
 import { User } from './user';
 import { IComment } from './comment';
 
-export interface TripEvent {
+export interface GroupTrip {
     id: number;
     officeFrom: Office;
     officeTo: Office;
-    date: string;
+    dateFrom: string;
+    dateTo: string;
     status: Status;
     userTrips: Trip[];
     advisor: User;
