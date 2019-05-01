@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PopoverModule } from "ngx-popover";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,7 +40,8 @@ import { HeaderInterceptor } from './interceptors/header-interceptor/header-inte
     BrowserModule,
     AppRoutingModule,
     StorageServiceModule,
-    HttpClientModule
+    HttpClientModule,
+    PopoverModule
   ],
   providers: [
     UserService,
