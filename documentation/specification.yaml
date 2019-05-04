@@ -7,13 +7,13 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.0
+  version: 1.0.2
 paths:
-  /user:
+  /v1/user:
     get:
       description: Get user by access token.
       parameters:
-      - name: access-token
+      - name: gecko-access-token
         in: header
         required: true
         schema:
@@ -26,9 +26,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: TBD
-    put:
+          description: Bad request.
+        '404':
+          description: User not found.
+    post:
       description: Register new user.
+      parameters:
+      - name: gecko-access-token
+        in: header
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
             'application/json':
@@ -43,12 +51,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: TBD
-  /user/{id}:
-    post:
-      description: Check if user is available at given period.
+          description: Bad request.
+        '401':
+          description: Not authorized.
+  /v1/user/{id}:
+    put:
+      description: Update existing user data.
       parameters:
-        - name: access-token
+        - name: gecko-access-token
           in: header
           required: true
           schema:
@@ -63,6 +73,86 @@ paths:
         content:
             'application/json':
               schema:
+                $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: User not found.
+  /v1/user/{id}/availability:
+    get:
+      description: Check if user is available at given period.
+      parameters:
+        - name: gecko-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK, user is unavailable at given periods
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Period'
+        '400':
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: User not found.
+    post:
+      description: Mark users availability at given period.
+      parameters:
+        - name: gecko-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          description: true - available, false - unavailable, default - unavailable
+          schema:
+            type: boolean
+      requestBody:
+        content:
+            'application/json':
+              schema:
                 $ref: '#/components/schemas/Period'
         required: true
       responses:
@@ -73,8 +163,12 @@ paths:
               schema:
                 type: boolean
         '400':
-          description: TBD
-  /user/login:
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: User not found.
+  /v1/user/login:
     post:
       description: Login with given credentials.
       requestBody:
@@ -85,18 +179,40 @@ paths:
         required: true
       responses:
         '200':
+          description: Add gecko-access-token header.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid username or password.
+  /v1/user/all:
+    get:
+      description: Return all users.
+      parameters:
+        - name: gecko-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
           description: OK
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: TBD
-  /trip:
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Users not found.
+  /v1/trip:
     get:
       description: Get all trips associated with user.
       parameters:
-      - name: access-token
+      - name: gecko-access-token
         in: header
         required: true
         schema:
@@ -111,12 +227,16 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         '400':
-          description: TBD
-  /trip/{id}:
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Trips not found.
+  /v1/trip/{id}:
     get:
       description: Get trip by id.
       parameters:
-      - name: access-token
+      - name: gecko-access-token
         in: header
         required: true
         schema:
@@ -135,12 +255,150 @@ paths:
               schema:
                 $ref: '#/components/schemas/Trip'
         '400':
-          description: TBD
-  /office:
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Trip not found.
+    put:
+      description: Update trip by id.
+      parameters:
+      - name: gecko-access-token
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Trip'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Trip'
+        '400':
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Trip not found.
+  /v1/trip/{id}/document/{documentId}:
+    get:
+      description: Download trip document by id.
+      parameters:
+      - name: gecko-access-token
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: documentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/pdf':
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Trip and/or document not found.
+    put:
+      description: Update document by id (add pdf).
+      parameters:
+      - name: gecko-access-token
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: documentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Document'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Trip and/or document not found.
+  /v1/trip/{id}/document/all:
+    get:
+      description: Download all trips documents.
+      parameters:
+      - name: gecko-access-token
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/pdf':
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: binary
+        '400':
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Trip and/or document(s) not found.
+  /v1/office:
     get:
       description: Get all offices.
       parameters:
-        - name: access-token
+        - name: gecko-access-token
           in: header
           required: true
           schema:
@@ -155,12 +413,43 @@ paths:
                 items:
                   $ref: '#/components/schemas/Office'
         '400':
-          description: TBD
-  /office/{id}:
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Trip not found.
+    post:
+      description: Create new office.
+      parameters:
+        - name: gecko-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Office'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Office'
+        '400':
+          description: Bad request.
+        '401':
+          description: Not authorized.
+  /v1/office/{id}:
     get:
       description: Get office by id.
       parameters:
-        - name: access-token
+        - name: gecko-access-token
           in: header
           required: true
           schema:
@@ -178,12 +467,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Office'
         '400':
-          description: TBD
-  /houseroom/{officeId}:
-    post:
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Office not found.
+  /v1/office/{officeId}/houseroom/availability:
+    get:
       description: Get available office houserooms at period.
       parameters:
-        - name: access-token
+        - name: gecko-access-token
           in: header
           required: true
           schema:
@@ -193,12 +486,18 @@ paths:
           required: true
           schema:
             type: integer
-      requestBody:
-        content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/Period'
-        required: true
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
       responses:
         '200':
           description: OK
@@ -209,12 +508,62 @@ paths:
                 items:
                   $ref: '#/components/schemas/Houseroom'
         '400':
-          description: TBD
-  /group-trip:
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Office not found.
+  /v1/office/{officeId}/houseroom/{houseRoomId}/availability:
     get:
-      description: Get all group trips associated with user (don't include user trips).
+      description: Get houserooms unavailability periods.
       parameters:
-        - name: access-token
+        - name: gecko-access-token
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: officeId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: houseRoomId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK, houseroom is unavailable at given periods
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Period'
+        '400':
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Office and/or houseroom not found.
+  /v1/group-trip:
+    get:
+      description: Get all group trips associated with user.
+      parameters:
+        - name: gecko-access-token
           in: header
           required: true
           schema:
@@ -229,11 +578,15 @@ paths:
                 items:
                   $ref: '#/components/schemas/GroupTrip'
         '400':
-          description: TBD
-    put:
-      description: Create new group trip (massive validation in backend).
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Group trips not found.
+    post:
+      description: Create new group trip.
       parameters:
-        - name: access-token
+        - name: gecko-access-token
           in: header
           required: true
           schema:
@@ -252,12 +605,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/GroupTrip'
         '400':
-          description: TBD
-  /group-trip/{id}:
+          description: Bad request.
+        '401':
+          description: Not authorized.
+  /v1/group-trip/{id}:
     get:
       description: Get group trip by id.
       parameters:
-        - name: access-token
+        - name: gecko-access-token
           in: header
           required: true
           schema:
@@ -273,13 +628,17 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Office'
+                $ref: '#/components/schemas/GroupTrip'
         '400':
-          description: TBD
-    patch:
-      description: Update group trip (massive validation in backend).
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Group trip not found.
+    put:
+      description: Update group trip.
       parameters:
-        - name: access-token
+        - name: gecko-access-token
           in: header
           required: true
           schema:
@@ -299,7 +658,11 @@ paths:
         '200':
           description: OK
         '400':
-          description: TBD
+          description: Bad request.
+        '401':
+          description: Not authorized.
+        '404':
+          description: Group trip not found.
 components:
   schemas:
     Trip:
@@ -325,7 +688,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HouseroomOccupation'
-        tripDetails:
+        tripInfo:
           type: object
           example:
             $ref: '#/components/schemas/GroupTrip'
@@ -355,6 +718,7 @@ components:
           - pending
           - approved
           - archived
+          - rejected
         userTrips:
           type: array
           items:
@@ -363,6 +727,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Comment'
+        advisor:
+          type: object
+          example:
+            $ref: '#/components/schemas/User'
     User:
       type: object
       properties:
@@ -441,19 +809,17 @@ components:
         id:
           type: integer
           format: int64
+        name:
+          type: string
+          description: Document info
         documentType:
           type: string
           enum:
           - ticket
           - hotelReservation
-        status:
+        data:
           type: string
-          enum:
-          - pending
-          - approved
-        json:
-          type: string
-          description: Serialized information about the document (json).
+          description: PDF document (Never include this, save in DB).
     HouseroomOccupation:
       type: object
       properties:
