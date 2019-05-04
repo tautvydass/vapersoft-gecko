@@ -22,6 +22,7 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalsService } from './services/globals/globals.service';
 import { HeaderInterceptor } from './interceptors/header-interceptor/header-interceptor.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { NewGroupTripComponent } from './components/new-group-trip/new-group-trip.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     CommentViewComponent,
     EventDetailsComponent,
     LoginViewComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    NewGroupTripComponent
   ],
   imports: [
     BrowserModule,

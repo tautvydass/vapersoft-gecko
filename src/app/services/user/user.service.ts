@@ -32,8 +32,23 @@ export class UserService {
     return Observable.create(observer => {
       this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user')
         .subscribe(user => {
+          user.role = Role.advisor;
           this.localStorageService.setCurrentUser(user);
           observer.next(user);
+          observer.complete();
+        }, error => {
+          observer.next(error);
+          this.logout();
+          observer.complete();
+        });
+    });
+  }
+
+  getUsers(): Observable<User> {
+    return Observable.create(observer => {
+      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user/all')
+        .subscribe(users => {
+          observer.next(users);
           observer.complete();
         }, error => {
           observer.next(error);
