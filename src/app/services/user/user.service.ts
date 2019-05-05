@@ -30,7 +30,7 @@ export class UserService {
 
   getUser(): Observable<User> {
     return Observable.create(observer => {
-      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user')
+      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'v1/user')
         .subscribe(user => {
           this.localStorageService.setCurrentUser(user);
           observer.next(user);
@@ -49,7 +49,7 @@ export class UserService {
 
     return Observable.create(observer => {
       this.httpClient.post<User>(
-        this.hostService.getHostServerUrl() + 'user/login',
+        this.hostService.getHostServerUrl() + 'v1/user/login',
         { username: username, password: encodedPassword },
         { observe: 'response' }).subscribe(response => {
           this.localStorageService.setCurrentUser(response.body);
