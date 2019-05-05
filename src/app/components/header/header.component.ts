@@ -11,13 +11,14 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   user: User;
-  loggedIn: boolean;
+  loggedIn: boolean = true;
 
   constructor(
     private userService: UserService,
     private router: Router) { }
 
   ngOnInit() {
+    /*
     this.userService.onLogin.subscribe(user => {
       this.user = user;
       this.loggedIn = true;
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit {
       this.user = user;
       this.loggedIn = true;
     });
+    */
   }
 
   logout(): void {

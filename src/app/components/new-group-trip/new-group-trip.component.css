@@ -1,3 +1,53 @@
 .content-box {
-    padding: 1em;
+    padding-left: 1.5em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.title-container {
+    font-size: 1.5em;
+    font-family: 'OpenSans';
+    margin-top: 0.5em;
+    display: inline-block;
+}
+
+.sub-title-container {
+    font-size: 1.5em;
+    color: #4d724d;
+}
+
+.content-section {
+    margin-bottom: 1em;
+}
+
+.date-picker-container {
+    margin-right: 1.5em;
+    display: inline-block;
+    margin-top: 0.5em;
+}
+
+.date-picker-title-container {
+    margin-bottom: 0.4em;
+}
+
+.spinner-container {
+    margin-left: 1em;
+    display: inline-block;
+}
+
+.add-member-container {
+    margin-top: 0.5em;
+    display: inline-block;
+}
+
+.submit-container {
+    display: inline-block;
+    width: 100%;
+}
+
+.submit-container-element {
+    margin-left: 0.5em;
+    text-align: right;
+    float: right;
 }

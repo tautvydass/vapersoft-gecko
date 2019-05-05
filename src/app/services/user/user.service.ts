@@ -30,7 +30,7 @@ export class UserService {
 
   getUser(): Observable<User> {
     return Observable.create(observer => {
-      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user')
+      this.httpClient.get<User>(this.hostService.getHostServerUrl() + '/v1/user')
         .subscribe(user => {
           user.role = Role.advisor;
           this.localStorageService.setCurrentUser(user);
@@ -44,15 +44,15 @@ export class UserService {
     });
   }
 
-  getUsers(): Observable<User> {
+  getUsers(): Observable<User[]> {
     return Observable.create(observer => {
-      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user/all')
+      this.httpClient.get<User[]>(this.hostService.getHostServerUrl() + '/v1/user/all')
         .subscribe(users => {
           observer.next(users);
           observer.complete();
         }, error => {
           observer.next(error);
-          this.logout();
+          //this.logout();
           observer.complete();
         });
     });
@@ -64,7 +64,7 @@ export class UserService {
 
     return Observable.create(observer => {
       this.httpClient.post<User>(
-        this.hostService.getHostServerUrl() + 'user/login',
+        this.hostService.getHostServerUrl() + '/v1/user/login',
         { username: username, password: encodedPassword },
         { observe: 'response' }).subscribe(response => {
           this.localStorageService.setCurrentUser(response.body);

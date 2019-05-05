@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/models/user';
+import { Office } from 'src/app/models/office';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'new-group-trip',
@@ -7,9 +10,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewGroupTripComponent implements OnInit {
 
-  constructor() { }
+  loading: boolean = true;
+
+  users: User[];
+
+  offices: Office[];
+
+  members: User[];
+
+  isFormValid: boolean;
+
+  constructor(
+    private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+    }, error => {
+      console.log(error.message);
+    }, () => {
+      this.loading = false;
+    })
+    // TODO: get office services
   }
 
 }
