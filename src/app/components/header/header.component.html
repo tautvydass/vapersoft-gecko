@@ -18,11 +18,12 @@
 
         <popover-content #myPopover placement="bottom" [closeOnClickOutside]="true">
           <img class="imgUserWindow" src="../../../assets/userIcon.png">
-          <ul class="list-group">
-            <li class="list-group-item">{{user.fullname}}</li>
-            <li class="list-group-item">{{user.email}}</li>
-          </ul>
-          <button type="button" class="btn btn-outline-primary buttonLogout" (click)="logout()">Logout</button>
+          <hr class="breakLine">
+          <p class="userInformation">{{user.fullname}}</p>
+          <hr class="breakLine">
+          <p class="userInformation">{{user.email}}</p>
+          <hr>
+          <button type="button" class="buttonLogout" (click)="logout()">Logout</button>
         </popover-content>
       </nav>
     </div>

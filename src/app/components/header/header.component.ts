@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user';
+import { Role } from 'src/app/models/enums/role';
 
 @Component({
   selector: 'app-header',
