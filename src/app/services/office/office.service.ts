@@ -28,6 +28,9 @@ export class OfficeService {
             observer.next(offices);
             observer.complete();
           }, error => {
+            if (error.status === 401) {
+              this.userService.logout();
+            } 
             observer.next(error);
             observer.complete();
           });
@@ -41,6 +44,9 @@ export class OfficeService {
             observer.next(office);
             observer.complete();
           }, error => {
+            if (error.status === 401) {
+              this.userService.logout();
+            } 
             observer.next(error);
             observer.complete();
           });
@@ -60,6 +66,9 @@ export class OfficeService {
             observer.next(office);
             observer.complete();
           }, error => {
+            if (error.status === 401) {
+              this.userService.logout();
+            } 
             observer.next(error);
             observer.complete();
           });
@@ -78,6 +87,9 @@ export class OfficeService {
             observer.next(office);
             observer.complete();
           }, error => {
+            if (error.status === 401) {
+              this.userService.logout();
+            } 
             observer.next(error);
             observer.complete();
           });
