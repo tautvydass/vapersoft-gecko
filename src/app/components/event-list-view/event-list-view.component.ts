@@ -21,13 +21,13 @@ export class EventListViewComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getUser()
+    /*this.userService.getUser()
       .subscribe(user => {
         this.user = user;
         this.groupTripService.getEvents().subscribe((groupTrips: GroupTrip[]) => {
           this.groupTrips = groupTrips;
         });
-      });
+      });*/
   }
 
   emptyEvents(): boolean {

@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.onLogin.subscribe(user => {
+    /*this.userService.onLogin.subscribe(user => {
       this.user = user;
       this.loggedIn = true;
     });
@@ -29,7 +29,15 @@ export class HeaderComponent implements OnInit {
     this.userService.getUser().subscribe(user => {
       this.user = user;
       this.loggedIn = true;
-    });
+    });*/
+
+    this.user = {
+      "id":1,
+      "fullname":"Albert Jurkoit",
+      "email":"albert@mail.com",
+      "role":Role.advisor
+    }
+    this.loggedIn=true;
   }
 
   logout(): void {
