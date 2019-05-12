@@ -22,6 +22,7 @@
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
     "http": "0.0.0",
+    "ngx-popover": "0.0.16",
     "ngx-webstorage-service": "^4.0.1",
     "rxjs": "~6.3.3",
     "ts-md5": "^1.2.4",

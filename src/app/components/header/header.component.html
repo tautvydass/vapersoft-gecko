@@ -14,8 +14,17 @@
         <a class="p-2 text-light">Apartments</a>
         <a class="p-2 text-light">Help</a>
         -->
-        <a class="p-2 text-light">{{user.fullname}}</a>
-        <a><img class="imgUser" src="../../../assets/userIcon.png" (click)="logout()"></a>
+        <a><img class="imgUser" src="../../../assets/userIcon.png" [popover]="myPopover"></a>
+
+        <popover-content #myPopover placement="bottom" [closeOnClickOutside]="true">
+          <img class="imgUserWindow" src="../../../assets/userIcon.png">
+          <hr class="breakLine">
+          <p class="userInformation">{{user.fullname}}</p>
+          <hr class="breakLine">
+          <p class="userInformation">{{user.email}}</p>
+          <hr>
+          <button type="button" class="buttonLogout" (click)="logout()">Logout</button>
+        </popover-content>
       </nav>
     </div>
   </div>
