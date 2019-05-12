@@ -5,7 +5,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserService } from '../user/user.service';
 import { HostService } from '../host/host.service';
-//import { Houseroom } from 'src/app/models/houseroom';
+import { Houseroom } from 'src/app/models/houseroom';
 
 
 @Injectable({
@@ -23,8 +23,7 @@ export class OfficeService {
 
     getOffices(): Observable<Office[]> {
       return Observable.create(observer => {
-        this.httpClient.get<Office[]>(this.hostService.getHostServerUrl() + 'v1/office', 
-        { headers: {"Gecko-Access-Token":this.localStorageService.getAccessToken()}})
+        this.httpClient.get<Office[]>(this.hostService.getHostServerUrl() + 'v1/office')
           .subscribe(offices => {
             observer.next(offices);
             observer.complete();
@@ -35,10 +34,9 @@ export class OfficeService {
       });
     }
 
-    getOffice(id: number): Observable<Office> {
+    getOffice(officeId: number): Observable<Office> {
       return Observable.create(observer => {
-        this.httpClient.get<Office>(this.hostService.getHostServerUrl() + 'v1/office/' + id.toString(), 
-        { headers: {"Gecko-Access-Token" : this.localStorageService.getAccessToken()}})
+        this.httpClient.get<Office>(this.hostService.getHostServerUrl() + 'v1/office/' + officeId.toString())
           .subscribe(office => {
             observer.next(office);
             observer.complete();
@@ -49,11 +47,15 @@ export class OfficeService {
       });
     }
 
-    // TODO - add proper implementation, right now /hoseroom/availability is not found. 
-    /*getAvailableHouserooms(id: number, from: string, to: string): Observable<Houseroom[]> {
+    getHouseroomsUnavailabilityPeriods(officeId: number, houseRoomId: number, fromDate: string, toDate: string): Observable<Houseroom> {
       return Observable.create(observer => {
-        this.httpClient.get<Houseroom[]>(this.hostService.getHostServerUrl() + 'v1/office/' + id.toString() + '/houseroom/availability', 
-        { headers: {"Gecko-Access-Token" : this.localStorageService.getAccessToken()}})
+        this.httpClient.get<Houseroom>(this.hostService.getHostServerUrl() + 'v1/office/' + officeId.toString() + 
+        '/houseroom/' + houseRoomId.toString() + '/availability',{
+          params: {
+            "from": fromDate,
+            "to": toDate
+          }
+        })
           .subscribe(office => {
             observer.next(office);
             observer.complete();
@@ -62,9 +64,27 @@ export class OfficeService {
             observer.complete();
           });
       });
-    }*/
-    // Uncomment and TEST!!! once this is implemented in backend
-   /* createNewOffice(office: Office): Observable<Office> {
+    }
+
+    getAvailableHouserooms(officeId: number, fromDate: string, toDate: string): Observable<Houseroom[]> {
+      return Observable.create(observer => {
+        this.httpClient.get<Houseroom[]>(this.hostService.getHostServerUrl() + 'v1/office/' + officeId.toString() + '/houseroom/availability', {
+          params: {
+            "from": fromDate,
+            "to": toDate
+          }
+        })
+          .subscribe(office => {
+            observer.next(office);
+            observer.complete();
+          }, error => {
+            observer.next(error);
+            observer.complete();
+          });
+      });
+    }
+
+    createNewOffice(office: Office): Observable<Office> {
       return Observable.create(observer => {
         this.httpClient.post<Office>(
           this.hostService.getHostServerUrl() + 'v1/office', office, 
@@ -81,6 +101,5 @@ export class OfficeService {
               observer.complete();
             });
       });
-    }*/
-
+    }
 }
