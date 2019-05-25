@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserService } from '../user/user.service';
 import { HostService } from '../host/host.service';
 import { Houseroom } from 'src/app/models/houseroom';
+import { Period } from 'src/app/models/period';
 
 
 @Injectable({
@@ -46,30 +47,32 @@ export class OfficeService {
           }, error => {
             if (error.status === 401) {
               this.userService.logout();
-            } 
+            }
             observer.next(error);
             observer.complete();
           });
       });
     }
 
-    getHouseroomsUnavailabilityPeriods(officeId: number, houseRoomId: number, fromDate: string, toDate: string): Observable<Houseroom> {
+    getHouseroomsUnavailabilityPeriods(officeId: number, houseRoomId: number, fromDate: string, toDate: string): Observable<Period[]> {
       return Observable.create(observer => {
-        this.httpClient.get<Houseroom>(this.hostService.getHostServerUrl() + 'v1/office/' + officeId.toString() + 
+        this.httpClient.get<Period[]>(this.hostService.getHostServerUrl() + 'v1/office/' + officeId.toString() + 
         '/houseroom/' + houseRoomId.toString() + '/availability',{
           params: {
             "from": fromDate,
             "to": toDate
           }
         })
-          .subscribe(office => {
-            observer.next(office);
+          .subscribe(periods => {
+            observer.next(periods);
             observer.complete();
           }, error => {
             if (error.status === 401) {
               this.userService.logout();
-            } 
-            observer.next(error);
+              observer.next(error);
+            } else if (error.status === 404) {
+              observer.next([]);
+            }
             observer.complete();
           });
       });
@@ -89,8 +92,10 @@ export class OfficeService {
           }, error => {
             if (error.status === 401) {
               this.userService.logout();
-            } 
-            observer.next(error);
+              observer.next(error);
+            } else if (error.status === 404) {
+              observer.next([]);
+            }
             observer.complete();
           });
       });
