@@ -52,7 +52,7 @@ export class UserService {
           observer.complete();
         }, error => {
           observer.next(error);
-          //this.logout();
+          this.logout();
           observer.complete();
         });
     });
@@ -74,7 +74,8 @@ export class UserService {
           observer.complete();
         }, error => {
           switch(error.status) {
-            case 401: error.message = this.ERROR_INVALID_CREDENTIALS; break;
+            case 401:
+            case 404: error.message = this.ERROR_INVALID_CREDENTIALS; break;
             default: error.message = this.ERROR_INTERNAL_SERVER;
           }
           observer.error(error);

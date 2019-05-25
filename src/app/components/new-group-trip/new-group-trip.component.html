@@ -36,24 +36,26 @@
     </div>
     <hr>
     <div class="sub-title-container">Members</div>
+    <button class="add-member-button" (click)="addMember()">Add Member</button>
     <div class="content-section">
       <div *ngIf="members">
         <div *ngFor="let member of members"></div>
       </div>
       <div *ngIf="!members" class="info-text"><i>You haven't added any members yet.</i></div>
-      <div class="add-member-container">
-        <button class="button" type="button">Add Member</button>        
+      <div *ngIf="members" class="max-width">
+        <div *ngFor="let member of members">
+          <trip-member [viewModel]="member" (onRemove)="removeMember($event)" (onSelected)="onUserSelected($event)"></trip-member>
+        </div>
       </div>
     </div>
     <hr>
-    <div class="info-text"><i>Submitted form will be sent to advisor for approval.</i></div>
     <div class="submit-container">
-      <div class="submit-container-element">
-        
+      <div class="submit-container-element width-80">
+        <i>Submitted form will be sent to advisor for approval.</i>
       </div>
       <div class="submit-container-element">
-          <button class="button button-primary" type="button">Submit</button>
-        </div>
+        <button class="button button-primary" type="button">Submit</button>
+      </div>
     </div>
   </div>
 </div>

@@ -19,7 +19,7 @@ export class GroupTripService {
 
   getEvents(): Observable<GroupTrip[]> {
     return Observable.create(observer => {
-      this.httpClient.get<GroupTrip[]>(this.hostService.getHostServerUrl() + 'groupTrips')
+      this.httpClient.get<GroupTrip[]>(this.hostService.getHostServerUrl() + '/groupTrips')
         .subscribe(GroupTrips => {
           observer.next(GroupTrips);
           observer.complete();
@@ -39,7 +39,7 @@ export class GroupTripService {
   getEvent(id: number): Observable<GroupTrip> {
     return Observable.create(observer => {
       this.httpClient.get<GroupTrip>(
-        this.hostService.getHostServerUrl() + 'groupTrip',
+        this.hostService.getHostServerUrl() + '/groupTrip',
         { params: new HttpParams().set('id', id.toString()) })
           .subscribe(groupTrip => {
             observer.next(groupTrip);
@@ -60,7 +60,7 @@ export class GroupTripService {
   createEvent(GroupTrip: GroupTrip): Observable<GroupTrip> {
     return Observable.create(observer => {
       this.httpClient.post<GroupTrip>(
-        this.hostService.getHostServerUrl() + 'addGroupTrip', GroupTrip)
+        this.hostService.getHostServerUrl() + '/addGroupTrip', GroupTrip)
           .subscribe(groupTrip => {
             observer.next(groupTrip);
             this.onGroupTripCreated.emit(groupTrip);

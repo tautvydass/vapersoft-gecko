@@ -1,0 +1,32 @@
+<div class="member-container">
+  <div class="info-container">
+    <div class="info-container-element">
+      <input
+        id="typeahead-focus"
+        type="text"
+        class="form-control member-select"
+        [(ngModel)]="model"
+        [ngbTypeahead]="search"
+        (selectItem)="onUserSelected($event)"
+        (focus)="focus$.next($event.target.value)"
+        (click)="click$.next($event.target.value)"
+        #instance="ngbTypeahead"
+      />
+    </div>
+    
+    <div class="info-container-element" *ngIf="viewModel.selectedUser">
+      <div class="advanced-switch">
+        <ui-switch [(ngModel)]="viewModel.containsDetails" size="small" color="#4d724d"></ui-switch>
+      </div>
+    </div>
+
+    <div class="info-container-element" *ngIf="viewModel.selectedUser">
+      advanced
+    </div>
+  </div>
+
+  <div class="float-right">
+    <button class="remove-button" (click)="remove()">Remove</button>
+  </div>
+
+</div>

@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +26,7 @@ import { GlobalsService } from './services/globals/globals.service';
 import { HeaderInterceptor } from './interceptors/header-interceptor/header-interceptor.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NewGroupTripComponent } from './components/new-group-trip/new-group-trip.component';
+import { TripMemberComponent } from './components/new-group-trip/trip-member/trip-member.component';
 
 @NgModule({
   declarations: [
@@ -38,14 +41,17 @@ import { NewGroupTripComponent } from './components/new-group-trip/new-group-tri
     EventDetailsComponent,
     LoginViewComponent,
     SpinnerComponent,
-    NewGroupTripComponent
+    NewGroupTripComponent,
+    TripMemberComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     StorageServiceModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    UiSwitchModule
   ],
   providers: [
     UserService,

@@ -13,7 +13,7 @@
 }
 
 .sub-title-container {
-    font-size: 1.5em;
+    font-size: 1.25em;
     color: #4d724d;
 }
 
@@ -42,12 +42,26 @@
 }
 
 .submit-container {
-    display: inline-block;
+    display: flex;
     width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .submit-container-element {
-    margin-left: 0.5em;
-    text-align: right;
-    float: right;
+    display: flex;
+}
+
+.width-80 {
+    width: 80%;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.member-divider {
+    margin: 0em;
+    margin-bottom: 0.5em;
 }
