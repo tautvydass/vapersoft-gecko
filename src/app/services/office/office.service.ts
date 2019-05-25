@@ -24,7 +24,7 @@ export class OfficeService {
 
     getOffices(): Observable<Office[]> {
       return Observable.create(observer => {
-        this.httpClient.get<Office[]>(this.hostService.getHostServerUrl() + 'v1/office')
+        this.httpClient.get<Office[]>(this.hostService.getHostServerUrl() + '/v1/office')
           .subscribe(offices => {
             observer.next(offices);
             observer.complete();
@@ -40,7 +40,7 @@ export class OfficeService {
 
     getOffice(officeId: number): Observable<Office> {
       return Observable.create(observer => {
-        this.httpClient.get<Office>(this.hostService.getHostServerUrl() + 'v1/office/' + officeId.toString())
+        this.httpClient.get<Office>(this.hostService.getHostServerUrl() + '/v1/office/' + officeId.toString())
           .subscribe(office => {
             observer.next(office);
             observer.complete();
@@ -56,7 +56,7 @@ export class OfficeService {
 
     getHouseroomsUnavailabilityPeriods(officeId: number, houseRoomId: number, fromDate: string, toDate: string): Observable<Period[]> {
       return Observable.create(observer => {
-        this.httpClient.get<Period[]>(this.hostService.getHostServerUrl() + 'v1/office/' + officeId.toString() + 
+        this.httpClient.get<Period[]>(this.hostService.getHostServerUrl() + '/v1/office/' + officeId.toString() + 
         '/houseroom/' + houseRoomId.toString() + '/availability',{
           params: {
             "from": fromDate,
@@ -80,7 +80,7 @@ export class OfficeService {
 
     getAvailableHouserooms(officeId: number, fromDate: string, toDate: string): Observable<Houseroom[]> {
       return Observable.create(observer => {
-        this.httpClient.get<Houseroom[]>(this.hostService.getHostServerUrl() + 'v1/office/' + officeId.toString() + '/houseroom/availability', {
+        this.httpClient.get<Houseroom[]>(this.hostService.getHostServerUrl() + '/v1/office/' + officeId.toString() + '/houseroom/availability', {
           params: {
             "from": fromDate,
             "to": toDate
@@ -104,7 +104,7 @@ export class OfficeService {
     createNewOffice(office: Office): Observable<Office> {
       return Observable.create(observer => {
         this.httpClient.post<Office>(
-          this.hostService.getHostServerUrl() + 'v1/office', office, 
+          this.hostService.getHostServerUrl() + '/v1/office', office, 
           { headers: {"Gecko-Access-Token" : this.localStorageService.getAccessToken()}})
             .subscribe(newOffice => {
               observer.next(newOffice);

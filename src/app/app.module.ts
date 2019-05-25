@@ -27,6 +27,7 @@ import { HeaderInterceptor } from './interceptors/header-interceptor/header-inte
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NewGroupTripComponent } from './components/new-group-trip/new-group-trip.component';
 import { TripMemberComponent } from './components/new-group-trip/trip-member/trip-member.component';
+import { OfficeService } from './services/office/office.service';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { TripMemberComponent } from './components/new-group-trip/trip-member/tri
       provide: HTTP_INTERCEPTORS,
       useClass: HeaderInterceptor,
       multi: true
-    }
+    },
+    OfficeService
   ],
   bootstrap: [AppComponent]
 })
