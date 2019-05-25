@@ -22,6 +22,7 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalsService } from './services/globals/globals.service';
 import { HeaderInterceptor } from './interceptors/header-interceptor/header-interceptor.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { OfficeService } from './services/office/office.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
       provide: HTTP_INTERCEPTORS,
       useClass: HeaderInterceptor,
       multi: true
-    }
+    },
+    OfficeService
   ],
   bootstrap: [AppComponent]
 })
