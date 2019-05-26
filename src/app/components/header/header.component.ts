@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user';
 import { Role } from 'src/app/models/enums/role';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -11,9 +12,11 @@ import { Role } from 'src/app/models/enums/role';
 export class HeaderComponent implements OnInit {
 
   user: User;
-  loggedIn: boolean;
+  loggedIn: boolean = true;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit() {
     this.userService.onLogin.subscribe(user => {
@@ -34,5 +37,9 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.userService.logout();
+  }
+
+  goToCreateNewGroupTrip() {
+    this.router.navigate(['main/create']);
   }
 }

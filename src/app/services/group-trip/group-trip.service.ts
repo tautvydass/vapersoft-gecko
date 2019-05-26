@@ -10,16 +10,14 @@ import { UserService } from '../user/user.service';
 })
 export class GroupTripService {
 
-  onGroupTripCreated: EventEmitter<GroupTrip> = new EventEmitter();
-
   constructor(
     private httpClient: HttpClient,
     private hostService: HostService,
     private userService: UserService) { }
 
-  getEvents(): Observable<GroupTrip[]> {
+  getGroupTrips(): Observable<GroupTrip[]> {
     return Observable.create(observer => {
-      this.httpClient.get<GroupTrip[]>(this.hostService.getHostServerUrl() + 'groupTrips')
+      this.httpClient.get<GroupTrip[]>(this.hostService.getHostServerUrl() + '/v1/group-trip')
         .subscribe(GroupTrips => {
           observer.next(GroupTrips);
           observer.complete();
@@ -36,11 +34,10 @@ export class GroupTripService {
     });
   }
 
-  getEvent(id: number): Observable<GroupTrip> {
+  getGroupTrip(id: number): Observable<GroupTrip> {
     return Observable.create(observer => {
       this.httpClient.get<GroupTrip>(
-        this.hostService.getHostServerUrl() + 'groupTrip',
-        { params: new HttpParams().set('id', id.toString()) })
+        this.hostService.getHostServerUrl() + '/v1/group-trip/' + id.toString())
           .subscribe(groupTrip => {
             observer.next(groupTrip);
             observer.complete();
@@ -57,14 +54,12 @@ export class GroupTripService {
     });
   }
 
-  createEvent(GroupTrip: GroupTrip): Observable<GroupTrip> {
+  createGroupTrip(groupTrip: GroupTrip): Observable<GroupTrip> {
     return Observable.create(observer => {
       this.httpClient.post<GroupTrip>(
-        this.hostService.getHostServerUrl() + 'addGroupTrip', GroupTrip)
-          .subscribe(groupTrip => {
-            observer.next(groupTrip);
-            this.onGroupTripCreated.emit(groupTrip);
-            observer.complete();
+        this.hostService.getHostServerUrl() + '/v1/group-trip', groupTrip)
+          .subscribe(gt => {
+            observer.next(gt);
           }, error => {
             if (error.status === 401) {
               this.userService.logout();
@@ -72,6 +67,7 @@ export class GroupTripService {
               // TODO: handle other errors
             }
             observer.next(error.message);
+          }, () => {
             observer.complete();
           });
     });

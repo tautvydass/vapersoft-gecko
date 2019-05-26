@@ -10,7 +10,7 @@ export interface GroupTrip {
     officeTo: Office;
     dateFrom: string;
     dateTo: string;
-    status: Status;
+    status: string;
     userTrips: Trip[];
     advisor: User;
     comments: IComment[];

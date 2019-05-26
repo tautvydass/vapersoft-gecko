@@ -8,18 +8,18 @@
 
     border-radius: 100%;
     display: inline-block;
-    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    -webkit-animation: sk-bouncedelay 0.7s infinite ease-in-out both;
+    animation: sk-bouncedelay 0.7s infinite ease-in-out both;
 }
 
 .bounce1 {
-    -webkit-animation-delay: -0.32s;
-    animation-delay: -0.32s;
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
 }
 
 .bounce2 {
-    -webkit-animation-delay: -0.16s;
-    animation-delay: -0.16s;
+    -webkit-animation-delay: -0.08s;
+    animation-delay: -0.08s;
 }
 
 @-webkit-keyframes sk-bouncedelay {
