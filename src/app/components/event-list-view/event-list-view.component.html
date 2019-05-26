@@ -1,6 +1,9 @@
 <div class="container">
-  <div class="error-container" *ngIf="emptyEvents()">
+  <div class="error-container" *ngIf="emptyEvents() && !loading">
     No trips to show
+  </div>
+  <div class="error-container" *ngIf="loading">
+    <spinner></spinner>
   </div>
   <div *ngIf="!emptyEvents()">
     <div *ngFor="let groupTrip of groupTrips">

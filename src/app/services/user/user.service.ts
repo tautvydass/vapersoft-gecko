@@ -9,6 +9,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { GlobalsService } from '../globals/globals.service';
 import { Md5 } from 'ts-md5';
+import { Period } from 'src/app/models/period';
 
 @Injectable({
   providedIn: 'root'
@@ -30,10 +31,24 @@ export class UserService {
 
   getUser(): Observable<User> {
     return Observable.create(observer => {
-      this.httpClient.get<User>(this.hostService.getHostServerUrl() + 'user')
+      this.httpClient.get<User>(this.hostService.getHostServerUrl() + '/v1/user')
         .subscribe(user => {
           this.localStorageService.setCurrentUser(user);
           observer.next(user);
+          observer.complete();
+        }, error => {
+          observer.next(error);
+          this.logout();
+          observer.complete();
+        });
+    });
+  }
+
+  getUsers(): Observable<User[]> {
+    return Observable.create(observer => {
+      this.httpClient.get<User[]>(this.hostService.getHostServerUrl() + '/v1/user/all')
+        .subscribe(users => {
+          observer.next(users);
           observer.complete();
         }, error => {
           observer.next(error);
@@ -49,7 +64,7 @@ export class UserService {
 
     return Observable.create(observer => {
       this.httpClient.post<User>(
-        this.hostService.getHostServerUrl() + 'user/login',
+        this.hostService.getHostServerUrl() + '/v1/user/login',
         { username: username, password: encodedPassword },
         { observe: 'response' }).subscribe(response => {
           this.localStorageService.setCurrentUser(response.body);
@@ -59,10 +74,30 @@ export class UserService {
           observer.complete();
         }, error => {
           switch(error.status) {
-            case 401: error.message = this.ERROR_INVALID_CREDENTIALS; break;
+            case 401:
+            case 404: error.message = this.ERROR_INVALID_CREDENTIALS; break;
             default: error.message = this.ERROR_INTERNAL_SERVER;
           }
           observer.error(error);
+          observer.complete();
+        });
+    });
+  }
+
+  checkUserAvailability(user: User, dateFrom: string, dateTo: string): Observable<Period[]> {
+    return Observable.create(observer => {
+      this.httpClient.get<User>(
+        this.hostService.getHostServerUrl() + '/v1/user/' + user.id + '/availability',
+        { params: { "from": dateFrom, "to": dateTo } }).subscribe(unavailabilityPeriods => {
+          observer.next(unavailabilityPeriods);
+        }, error => {
+          switch(error.status) {
+            case 401: this.logout(); break;
+            case 404: error.message = this.ERROR_INVALID_CREDENTIALS; break;
+            default: error.message = this.ERROR_INTERNAL_SERVER;
+          }
+          observer.error(error.message);
+        }, () => {
           observer.complete();
         });
     });

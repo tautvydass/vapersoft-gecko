@@ -1,4 +1,4 @@
 export enum Role {
-    default,
-    advisor
+    DEFAULT,
+    ADVISOR
 }

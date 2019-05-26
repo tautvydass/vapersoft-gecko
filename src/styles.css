@@ -22,6 +22,15 @@ button {
     padding-right: 0.5em;
 }
 
+.button-primary {
+    background-color: #4d724d;
+    color: white;
+    padding: 0.4em;
+    padding-right: 0.8em;
+    padding-left: 0.8em;
+    font-family: 'OpenSans';
+}
+
 :focus {
     outline: 0 !important;
 }
@@ -41,6 +50,28 @@ input {
     font-size:0.9em;
     background-color: #f5f5f5;
     border-radius: 1.5em;
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+button.calendar, button.calendar:active {
+    width: 2.75rem;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=') !important;
+    background-repeat: no-repeat;
+    background-size: 23px;
+    background-position: center;
+}
+
+.info-text {
+    color: #7a7a7a;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+}
+
+select {
+    background-color: #f5f5f5;
+    border: 1px solid #d9d9d9;
     padding: 0.5em;
     padding-left: 1em;
     padding-right: 1em;

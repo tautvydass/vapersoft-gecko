@@ -50,13 +50,11 @@ export class EventViewComponent implements OnInit {
     return this.groupTrip.comments ? this.groupTrip.comments.length : 0;
   }
 
-  getStatus(): Status {
-    console.error(this.groupTrip.status);
+  getStatus(): string {
     return this.groupTrip.status;
   }
 
   getAdvisorFullname(): string {
-    console.error(this.groupTrip.advisor.fullname);
     return this.groupTrip.advisor.fullname;
   }
 }

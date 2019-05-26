@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class HostService {
 
-  readonly BACKEND_URL = 'https://psk-backend.herokuapp.com/';
+  readonly BACKEND_URL = 'https://psk-backend.herokuapp.com';
 
   constructor() { }
 

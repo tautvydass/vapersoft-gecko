@@ -4,6 +4,7 @@ import { GroupTrip } from '../../models/group-trip';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user';
 import { isNullOrUndefined } from 'util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'event-list-view',
@@ -12,22 +13,29 @@ import { isNullOrUndefined } from 'util';
 })
 export class EventListViewComponent implements OnInit {
 
+  loading: boolean = true;
+
   groupTrips: GroupTrip[];
 
   user: User;
 
   constructor(
     private groupTripService: GroupTripService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit() {
-    /*this.userService.getUser()
+    this.userService.getUser()
       .subscribe(user => {
         this.user = user;
-        this.groupTripService.getEvents().subscribe((groupTrips: GroupTrip[]) => {
+        this.groupTripService.getGroupTrips().subscribe(groupTrips => {
           this.groupTrips = groupTrips;
-        });
-      });*/
+        }, error => {
+          // TODO: handle error
+        }, () => {
+          this.loading = false;
+        })
+      })
   }
 
   emptyEvents(): boolean {

@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PopoverModule } from "ngx-popover";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +26,9 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalsService } from './services/globals/globals.service';
 import { HeaderInterceptor } from './interceptors/header-interceptor/header-interceptor.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { NewGroupTripComponent } from './components/new-group-trip/new-group-trip.component';
+import { TripMemberComponent } from './components/new-group-trip/trip-member/trip-member.component';
+import { OfficeService } from './services/office/office.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +42,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     CommentViewComponent,
     EventDetailsComponent,
     LoginViewComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    NewGroupTripComponent,
+    TripMemberComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +52,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     StorageServiceModule,
     HttpClientModule,
     PopoverModule
+    NgbModule,
+    FormsModule,
+    UiSwitchModule
   ],
   providers: [
     UserService,
@@ -56,7 +67,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
       provide: HTTP_INTERCEPTORS,
       useClass: HeaderInterceptor,
       multi: true
-    }
+    },
+    OfficeService
   ],
   bootstrap: [AppComponent]
 })
