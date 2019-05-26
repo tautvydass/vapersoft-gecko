@@ -10,25 +10,16 @@
 }
 
 .title {
-    color: #f5f5f5;
+    color: #f5f5f5 !important;
     font-size: 1.5em;
     font-family: "OpenSans";
-    margin-right: 0.4em;
     margin-left: 1em;
+    background-color: transparent;
+    border: none;
 }
 
 .space {
     height: 3.5em;
-}
-
-.btn-outline-primary {
-    color: #f8f9fa;
-    border-color: #f8f9fa;
-}
-
-.btn:hover {
-    background-color: #f8f9fa;
-    border-color: #f8f9fa;
 }
 
 .imgUser {
@@ -42,6 +33,10 @@
 .icon {
     width: 1.5em;
     height: 1.5em;
+}
+
+.btn-outline-primary {
+    width: 100%;
 }
 
 .container {
@@ -67,31 +62,19 @@
 :host >>> .popover {
     width: 16em;
 }
-.buttonLogout {
-    margin-bottom: .3em;
-    margin-top: 1em;
-    background-color: transparent;
-    width: 95%;
-    color: #4d724d;
-    border: .1em solid;
-    border-color: #4d724d;
-    margin-left: 0.4em;
-}
-.buttonLogout:hover{
-    background-color: rgba(77, 114, 77, 0.6);
-}
-.btn:focus {
-    outline: none;
-}
+
 .userInformation {
     margin-left: .5em;
 }
+
 .breakLine {
     margin-top: .3em;
 }
 
-.create-button {
-    margin-right: 0.25em;
-    color:#4d724d;
-    font-family: "OpenSans";
+.sign-out-button-container {
+    margin: 0.3em;
+}
+
+.hr-sign-out-button {
+    margin-bottom: 0;
 }

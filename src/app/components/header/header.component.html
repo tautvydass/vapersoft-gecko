@@ -2,7 +2,7 @@
 <nav class="navbar">
   <div class="container">
     <div class="logo">
-      <span class="title text-light">Gecko</span>
+      <button class="title text-light" (click)="goToMain()">Gecko</button>
       <img src="assets/images/gecko-icon.png" class="icon"/>
     </div>
     <div class="navHolder" *ngIf="loggedIn">
@@ -14,19 +14,21 @@
         <a class="p-2 text-light">Apartments</a>
         <a class="p-2 text-light">Help</a>
         -->
-        <button class="create-button" (click)="goToCreateNewGroupTrip()">Create</button>
+        <button class="btn btn-outline-secondary2" (click)="goToCreateNewGroupTrip()">Create</button>
         <a *ngIf="user" class="p-2 text-light">{{user.fullname}}</a>
-        <a><img class="imgUser" src="../../../assets/userIcon.png" [popover]="myPopover"></a>
-
-        <popover-content #myPopover placement="bottom" [closeOnClickOutside]="true">
-          <img class="imgUserWindow" src="../../../assets/userIcon.png">
-          <hr class="breakLine">
-          <p class="userInformation">{{user.fullname}}</p>
-          <hr class="breakLine">
-          <p class="userInformation">{{user.email}}</p>
-          <hr>
-          <button type="button" class="buttonLogout" (click)="logout()">Logout</button>
-        </popover-content>
+        <a *ngIf="user"><img class="imgUser" src="../../../assets/userIcon.png" [popover]="myPopover">
+          <popover-content #myPopover placement="bottom" [closeOnClickOutside]="true">
+            <img class="imgUserWindow" src="../../../assets/userIcon.png">  
+            <hr class="breakLine">
+            <p class="userInformation">{{user.fullname}}</p>
+            <hr class="breakLine">
+            <p class="userInformation">{{user.email}}</p>
+            <hr class="hr-sign-out-button">
+            <div class="sign-out-button-container">
+              <button type="button" class="btn btn-outline-primary" (click)="logout()">Sign Out</button>
+            </div>
+          </popover-content>
+        </a>
       </nav>
     </div>
   </div>

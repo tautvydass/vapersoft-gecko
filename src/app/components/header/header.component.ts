@@ -42,4 +42,10 @@ export class HeaderComponent implements OnInit {
   goToCreateNewGroupTrip() {
     this.router.navigate(['main/create']);
   }
+
+  goToMain(): void {
+    if (this.userService.isLoggedIn()) {
+      this.router.navigate(['main']);
+    }
+  }
 }

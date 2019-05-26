@@ -82,7 +82,7 @@
         Members
       </div>
       <div class="flex-element">
-        <button class="add-member-button" (click)="addMember()">Add Member</button>
+        <button class="btn btn-outline-secondary" (click)="addMember()">Add Member</button>
       </div>
     </div>
 
@@ -114,6 +114,7 @@
           id="typeahead-focus"
           type="text"
           class="form-control advisor-select-container"
+          placeholder="select advisor"
           [(ngModel)]="advisorModel"
           [ngbTypeahead]="searchAdvisor"
           [inputFormatter]="advisorFormatter"
@@ -127,7 +128,7 @@
       </div>
 
       <div class="flex-element">
-        <button class="button button-primary" type="button" [disabled]="!validForm()" (click)="submit()">Submit</button>
+        <button class="btn btn-outline-primary" type="button" [disabled]="!validForm()" (click)="submit()">Submit</button>
       </div>
 
     </div>
