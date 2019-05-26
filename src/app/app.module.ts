@@ -51,7 +51,7 @@ import { OfficeService } from './services/office/office.service';
     AppRoutingModule,
     StorageServiceModule,
     HttpClientModule,
-    PopoverModule
+    PopoverModule,
     NgbModule,
     FormsModule,
     UiSwitchModule
