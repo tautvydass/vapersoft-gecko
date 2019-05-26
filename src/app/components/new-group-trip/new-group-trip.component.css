@@ -21,8 +21,15 @@
     margin-bottom: 1em;
 }
 
-.date-picker-container {
+.date-container {
     margin-right: 1.5em;
+    display: inline-block;
+    margin-top: 0.5em;
+}
+
+.location-container {
+    margin-right: 0.5em;
+    width: 25em;
     display: inline-block;
     margin-top: 0.5em;
 }
@@ -53,8 +60,8 @@
     display: flex;
 }
 
-.width-80 {
-    width: 80%;
+.width-70 {
+    width: 70%;
 }
 
 .max-width {
@@ -65,3 +72,48 @@
     margin: 0em;
     margin-bottom: 0.5em;
 }
+
+.flex-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 0.5em;
+}
+
+.flex-element {
+    margin-right: 0.5em;
+}
+
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  .custom-day.range, .custom-day:hover {
+    background-color: #4d724d;
+    color: white;
+  }
+  .custom-day.faded {
+    background-color: #c8dbc3;
+    color: black;
+  }
+
+  .office-select-container {
+    width: 29.5em;
+  }
+
+  .advisor-select-container {
+    width: 15em;
+    margin: 0 !important;
+  }
+
+  .houseroom-info-container {
+      height: 2em;
+  }

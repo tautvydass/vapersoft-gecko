@@ -5,6 +5,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, Observable, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'trip-member',
@@ -22,13 +23,16 @@ export class TripMemberComponent implements OnInit {
   @Output()
   onSelected: EventEmitter<User> = new EventEmitter();
 
-  model: any;
+  @Output()
+  onDeselected: EventEmitter<User> = new EventEmitter();
+
+  userModel: User;
 
   @ViewChild('instance') instance: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     
@@ -44,13 +48,30 @@ export class TripMemberComponent implements OnInit {
     const inputFocus$ = this.focus$;
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-      map(term => (term === '' ? this.viewModel.users : this.viewModel.users.filter(user => user.fullname.toLowerCase().indexOf(term.toLowerCase()) > -1)).map(user => user.fullname).slice(0, 10))
+      map(term => (term === '' ? this.viewModel.users : this.viewModel.users
+      .filter(user => user.fullname.toLowerCase().indexOf(term.toLowerCase()) > -1 || user.email.toLowerCase().indexOf(term.toLowerCase())))
+      .slice(0, 10))
     );
   }
 
+  userFormatter = (user: User) => user.fullname;
+
   onUserSelected(selected: any): void {
-    this.viewModel.selectedUser = this.viewModel.users.find(user => user.fullname === selected.item);
-    this.onSelected.emit(this.viewModel.selectedUser);
+    if (!isNullOrUndefined(this.viewModel.selectedUser)) {
+      this.onDeselected.emit(this.viewModel.selectedUser);
+    }
+    this.viewModel.selectedUser = selected.item;
+    this.onSelected.emit(selected.item);
+  }
+
+  onUserBlur(): void {
+    if ((typeof this.userModel) === "string") {
+      this.userModel = null;
+      if (!isNullOrUndefined(this.viewModel.selectedUser)) {
+        this.onDeselected.emit(this.viewModel.selectedUser);
+        this.viewModel.selectedUser = null;
+      }
+    }
   }
 
   getCheckboxId(): number {

@@ -1,4 +1,4 @@
-<div [ngSwitch]="getStatus()">
+<div [ngSwitch]="status">
   <div *ngSwitchCase="'PENDING'" class="pending">
     <span class="dot dot-pending"></span>
     <div class="status-text">{{getDisplayStatus()}}</div>

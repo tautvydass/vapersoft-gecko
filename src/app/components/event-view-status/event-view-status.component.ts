@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Status } from '../../models/enums/status';
 
 @Component({
   selector: 'event-view-status',
@@ -8,11 +7,15 @@ import { Status } from '../../models/enums/status';
 })
 export class EventViewStatusComponent implements OnInit {
 
-  @Input() status: Status;
+  @Input() status: string;
   @Input() advisorFullname: string;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getDisplayStatus(): string {
+    return this.status.toLowerCase();
   }
 }

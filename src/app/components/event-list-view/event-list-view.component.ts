@@ -25,7 +25,7 @@ export class EventListViewComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.groupTripService.getEvents().subscribe(groupTrips => {
+    this.groupTripService.getGroupTrips().subscribe(groupTrips => {
       this.groupTrips = groupTrips;
     }, error => {
       // TODO: handle error

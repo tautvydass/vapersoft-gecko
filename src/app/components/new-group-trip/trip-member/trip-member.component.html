@@ -1,17 +1,35 @@
 <div class="member-container">
   <div class="info-container">
     <div class="info-container-element">
+
+      <ng-template #userResultTemplate let-r="result" let-t="term">
+        <ngb-highlight [result]="r.fullname" [term]="t"></ngb-highlight>
+      </ng-template>
+
       <input
         id="typeahead-focus"
         type="text"
         class="form-control member-select"
-        [(ngModel)]="model"
+        [(ngModel)]="userModel"
         [ngbTypeahead]="search"
+        [inputFormatter]="userFormatter"
         (selectItem)="onUserSelected($event)"
         (focus)="focus$.next($event.target.value)"
         (click)="click$.next($event.target.value)"
+        (blur)="onUserBlur()"
+        [resultTemplate]="userResultTemplate"
         #instance="ngbTypeahead"
       />
+    </div>
+
+    <div class="info-container-element" *ngIf="viewModel.selectedUser">
+      <div *ngIf="viewModel.isAvailable === null">
+        <i>checking availability...</i>
+      </div>
+      <div *ngIf="viewModel.isAvailable !== null">
+        <div *ngIf="viewModel.isAvailable" class="user-available"><i>available</i></div>
+        <div *ngIf="!viewModel.isAvailable" class="user-unavailable"><i>unavailable</i></div>
+      </div>
     </div>
     
     <div class="info-container-element" *ngIf="viewModel.selectedUser">
@@ -23,6 +41,7 @@
     <div class="info-container-element" *ngIf="viewModel.selectedUser">
       advanced
     </div>
+    
   </div>
 
   <div class="float-right">

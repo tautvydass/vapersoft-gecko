@@ -43,3 +43,11 @@ input {
 .advanced-switch {
     margin-top: 0.4em;
 }
+
+.user-available {
+    color: #4d724d;
+}
+
+.user-unavailable {
+    color: #e67a65;
+}
