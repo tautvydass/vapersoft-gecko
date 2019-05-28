@@ -22,9 +22,8 @@
 }
 
 .date-container {
-    margin-right: 1.5em;
     display: inline-block;
-    margin-top: 0.5em;
+    margin-left: 1em;
 }
 
 .location-container {
@@ -92,28 +91,71 @@
     display: inline-block;
     height: 2rem;
     width: 2rem;
-  }
-  .custom-day.focused {
+}
+
+.custom-day.focused {
     background-color: #e6e6e6;
-  }
-  .custom-day.range, .custom-day:hover {
+}
+
+.custom-day.range, .custom-day:hover {
     background-color: #4d724d;
     color: white;
-  }
-  .custom-day.faded {
+}
+
+.custom-day.faded {
     background-color: #c8dbc3;
     color: black;
-  }
+}
 
-  .office-select-container {
+.office-select-container {
     width: 29.5em;
-  }
+}
 
-  .advisor-select-container {
+.advisor-select-container {
     width: 15em;
     margin: 0 !important;
-  }
+}
 
-  .houseroom-info-container {
-      height: 2em;
-  }
+.houseroom-info-container {
+    height: 2em;
+}
+
+.info-input-container {
+    float: right;
+}
+
+.flex-element {
+    display: flex;
+}
+
+.trip-info-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.trip-info-input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.member-header-container {
+    bottom: 0;
+    position: absolute;
+}
+
+.primary-text {
+    color: #4d724d;
+}
+
+.trip-description-header {
+    margin-bottom: 0.5em;
+    font-family: 'OpenSans';
+}
+
+.trip-description-container {
+    margin-bottom: 1em !important;
+}

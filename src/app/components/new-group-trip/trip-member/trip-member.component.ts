@@ -6,6 +6,8 @@ import { Subject, Observable, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { UserService } from 'src/app/services/user/user.service';
+import { Houseroom } from 'src/app/models/houseroom';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'trip-member',
@@ -26,26 +28,54 @@ export class TripMemberComponent implements OnInit {
   @Output()
   onDeselected: EventEmitter<User> = new EventEmitter();
 
-  userModel: User;
+  @Output()
+  onHouseroomSelected: EventEmitter<Houseroom> = new EventEmitter();
 
-  @ViewChild('instance') instance: NgbTypeahead;
-  focus$ = new Subject<string>();
-  click$ = new Subject<string>();
+  @Output()
+  onHouseroomDeselected: EventEmitter<Houseroom> = new EventEmitter();
+
+  userModel: User;
+  houseroomModel: Houseroom;
+
+  @ViewChild('userInstance') userInstance: NgbTypeahead;
+  userFocus$ = new Subject<string>();
+  userClick$ = new Subject<string>();
+
+  @ViewChild('houseroomInstance') houseroomInstance: NgbTypeahead;
+  houseroomFocus$ = new Subject<string>();
+  houseroomClick$ = new Subject<string>();
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    
+    this.viewModel.onSelectedHouseroomChanged.subscribe(houseroom => {
+      this.viewModel.selectedHouseroom = houseroom;
+      this.houseroomModel = houseroom;
+    });
   }
 
   remove(): void {
     this.onRemove.emit(this.viewModel);
   }
 
-  search = (text$: Observable<string>) => {
+  getCheckboxId(): number {
+    return this.viewModel.index;
+  }
+
+  isHouseroomDisabled(): boolean {
+    return isNullOrUndefined(this.houseroomModel) && (isNullOrUndefined(this.viewModel.houserooms) || this.viewModel.houserooms.length === 0);
+  }
+
+  getHouseroomPlaceholder(): string {
+    return this.isHouseroomDisabled() ? "apartment not available" : "select apartment";
+  }
+
+  // User Select
+
+  userSearch = (text$: Observable<string>) => {
     const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
-    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
-    const inputFocus$ = this.focus$;
+    const clicksWithClosedPopup$ = this.userClick$.pipe(filter(() => !this.userInstance.isPopupOpen()));
+    const inputFocus$ = this.userFocus$;
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map(term => (term === '' ? this.viewModel.users : this.viewModel.users
@@ -56,7 +86,7 @@ export class TripMemberComponent implements OnInit {
 
   userFormatter = (user: User) => user.fullname;
 
-  onUserSelected(selected: any): void {
+  onUserSelect(selected: any): void {
     if (!isNullOrUndefined(this.viewModel.selectedUser)) {
       this.onDeselected.emit(this.viewModel.selectedUser);
     }
@@ -74,8 +104,38 @@ export class TripMemberComponent implements OnInit {
     }
   }
 
-  getCheckboxId(): number {
-    return this.viewModel.index;
+  // Houseroom Select
+
+  houseroomSearch = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.houseroomClick$.pipe(filter(() => !this.houseroomInstance.isPopupOpen()));
+    const inputFocus$ = this.houseroomFocus$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(term => (term === '' ? this.viewModel.houserooms : this.viewModel.houserooms
+      .filter(houseroom => houseroom.name.toLowerCase().indexOf(term.toLowerCase()) > -1))
+      .slice(0, 10))
+    );
+  }
+
+  houseroomFormatter = (houseroom: Houseroom) => houseroom.name;
+
+  onHouseroomSelect(selected: any): void {
+    if (!isNullOrUndefined(this.viewModel.selectedHouseroom)) {
+      this.onHouseroomDeselected.emit(this.viewModel.selectedHouseroom);
+    }
+    this.viewModel.selectedHouseroom = selected.item;
+    this.onHouseroomSelected.emit(selected.item);
+  }
+
+  onHouseroomBlur(): void {
+    if ((typeof this.houseroomModel) === "string") {
+      this.houseroomModel = null;
+      if (!isNullOrUndefined(this.viewModel.selectedHouseroom)) {
+        this.onHouseroomDeselected.emit(this.viewModel.selectedHouseroom);
+        this.viewModel.selectedHouseroom = null;
+      }
+    }
   }
 
 }

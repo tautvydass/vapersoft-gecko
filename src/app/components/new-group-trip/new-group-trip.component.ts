@@ -7,7 +7,7 @@ import { isNullOrUndefined } from 'util';
 import { OfficeService } from 'src/app/services/office/office.service';
 import { Observable, Subject, merge } from 'rxjs';
 import { NgbTypeahead, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, min } from 'rxjs/operators';
 import { Houseroom } from 'src/app/models/houseroom';
 import { Role } from 'src/app/models/enums/role';
 import { GroupTrip } from 'src/app/models/group-trip';
@@ -16,6 +16,7 @@ import { toDate } from '@angular/common/src/i18n/format_date';
 import { Trip } from 'src/app/models/trip';
 import { GroupTripService } from 'src/app/services/group-trip/group-trip.service';
 import { Router } from '@angular/router';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'new-group-trip',
@@ -29,6 +30,8 @@ export class NewGroupTripComponent implements OnInit {
   loadingHouserooms: boolean = false;
   loadingUserAvailability: boolean = false;
   loadingSubmit: boolean = false;
+
+  title: string;
 
   officeToModel: Office;
   officeFromModel: Office;
@@ -48,10 +51,11 @@ export class NewGroupTripComponent implements OnInit {
 
   memberCount: number = 0;
 
-  selectedOfficeTo: Office;
+  selectedOfficeTo: Office; 
   selectedOfficeFrom: Office;
   selectedAdvisor: User;
 
+  houseroomCount: number;
   availableHouserooms: Houseroom[];
 
   currentUser: User;
@@ -101,6 +105,10 @@ export class NewGroupTripComponent implements OnInit {
 
     this.userService.getUser().subscribe(user => {
       this.currentUser = user;
+      if (this.currentUser.role.toString() === Role[Role.ADVISOR]) {
+        this.advisorModel = user;
+        this.selectedAdvisor = user;
+      }
     });
   }
 
@@ -118,11 +126,21 @@ export class NewGroupTripComponent implements OnInit {
     var member: MemberViewModel = {
       index: this.memberCount++,
       users: this.availableUsers,
+      houserooms: this.availableHouserooms,
       isAvailable: null,
       selectedUser: null,
-      containsDetails: false
+      selectedHouseroom: null,
+      containsDetails: false,
+      onSelectedHouseroomChanged: new EventEmitter(),
+      checkingAvailability: false
     };
     this.members.push(member);
+    
+    setTimeout(() => {
+      if (!isNullOrUndefined(this.availableHouserooms) && this.availableHouserooms.length > 0) {
+        member.onSelectedHouseroomChanged.emit(this.availableHouserooms.pop());
+      }
+    }, 50);
   }
 
   addAndUpdateUsers(user: User): void {
@@ -136,8 +154,14 @@ export class NewGroupTripComponent implements OnInit {
 
   onUserSelected(user: User): void {
     this.availableUsers = this.availableUsers.filter(u => u.id !== user.id);
-    this.checkUserAvailability(this.members.find(member => member.selectedUser.id === user.id));
+    if (this.canCheckUserAvailability()) {
+      this.checkUserAvailability(this.members.find(member => member.selectedUser.id === user.id));
+    }
     this.updateUsers();
+  }
+
+  canCheckUserAvailability(): boolean {
+    return !isNullOrUndefined(this.toDate);
   }
 
   removeMember(memberToRemove: MemberViewModel): void {
@@ -146,6 +170,19 @@ export class NewGroupTripComponent implements OnInit {
       this.availableUsers.push(memberToRemove.selectedUser);
       this.updateUsers();
     }
+    if (!isNullOrUndefined(memberToRemove.selectedHouseroom)) {
+      this.onHouseroomDeselect(memberToRemove.selectedHouseroom);
+    }
+  }
+
+  onHouseroomSelect(houseroom: Houseroom): void {
+    this.availableHouserooms = this.availableHouserooms.filter(h => h.id !== houseroom.id);
+    this.members.forEach(member => member.houserooms = this.availableHouserooms);
+  }
+
+  onHouseroomDeselect(houseroom: Houseroom): void {
+    this.availableHouserooms.push(houseroom);
+    this.members.forEach(member => member.houserooms = this.availableHouserooms);
   }
 
   updateAvailableHouserooms(): void {
@@ -153,12 +190,20 @@ export class NewGroupTripComponent implements OnInit {
       this.loadingHouserooms = true;
       this.officeService.getAvailableHouserooms(this.selectedOfficeTo.id, this.constructDate(this.fromDate), this.constructDate(this.toDate)).subscribe(houserooms => {
         this.availableHouserooms = houserooms;
-        console.log(houserooms);
       }, error => {
         this.availableHouserooms = [];
       }, () => {
         this.loadingHouserooms = false;
-      })
+        this.houseroomCount = this.availableHouserooms.length;
+        const count = Math.min(this.houseroomCount, this.members.length);
+        for(var i = 0; i < count; i++) {
+          this.members[i].onSelectedHouseroomChanged.emit(this.availableHouserooms.pop());
+        }
+        for(var i = count; i < this.members.length; i++) {
+          this.members[i].onSelectedHouseroomChanged.emit(null);
+        }
+        this.members.forEach(member => member.houserooms = this.availableHouserooms);
+      });
     }
   }
 
@@ -169,6 +214,7 @@ export class NewGroupTripComponent implements OnInit {
   submit(): void {
     var groupTrip: GroupTrip = {
       id: null,
+      title: this.title,
       officeFrom: this.selectedOfficeFrom,
       officeTo: this.selectedOfficeTo,
       dateFrom: this.constructDate(this.fromDate),
@@ -178,15 +224,18 @@ export class NewGroupTripComponent implements OnInit {
       advisor: this.selectedAdvisor,
       comments: []
     };
+    console.log(groupTrip);
     this.loadingSubmit = true;
 
+    /*
     this.groupTripService.createGroupTrip(groupTrip).subscribe(gt => {
       this.router.navigate(['/']);
     }, error => {
       console.error(error);
     }, () => {
       this.loadingSubmit = false;
-    })
+    });
+    */
   }
 
   createTrip(member: MemberViewModel): Trip {
@@ -194,20 +243,25 @@ export class NewGroupTripComponent implements OnInit {
       id: null,
       user: member.selectedUser,
       documents: [],
-      houserooms: null,
+      houserooms: isNullOrUndefined(member.selectedHouseroom) ? [] : [member.selectedHouseroom],
       tripInfo: null
     };
   }
 
   checkUserAvailability(memberViewModel: MemberViewModel): void {
     memberViewModel.isAvailable = null;
+    if (isNullOrUndefined(memberViewModel.selectedUser)) {
+      return;
+    }
     this.loadingUserAvailability = true;
+    memberViewModel.checkingAvailability = true;
     this.userService.checkUserAvailability(memberViewModel.selectedUser, this.constructDate(this.fromDate), this.constructDate(this.toDate)).subscribe(unavailabilityPeriods => {
       memberViewModel.isAvailable = unavailabilityPeriods.length === 0;
     }, error => {
       console.error(error);
     }, () => {
       this.loadingUserAvailability = false;
+      memberViewModel.checkingAvailability = false;
     });
   }
 
@@ -307,6 +361,11 @@ export class NewGroupTripComponent implements OnInit {
       if (!isNullOrUndefined(this.selectedOfficeTo)) {
         this.availableOffices.push(this.selectedOfficeTo);
       }
+      this.availableHouserooms = [];
+      this.members.forEach(member => {
+        member.onSelectedHouseroomChanged.emit(null);
+        member.houserooms = [];
+      });
       this.officeToModel = null;
       this.selectedOfficeTo = null;
     }

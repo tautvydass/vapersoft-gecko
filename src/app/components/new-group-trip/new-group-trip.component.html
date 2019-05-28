@@ -8,82 +8,102 @@
       </div>
     </div>
 
-    <hr>
-
     <div class="content-section">
-      
-      <ng-template #dateTemplate let-date let-focused="focused">
-        <span class="custom-day"
-              [class.focused]="focused"
-              [class.range]="isRange(date)"
-              [class.faded]="isHovered(date) || isInside(date)"
-              (mouseenter)="hoveredDate = date"
-              (mouseleave)="hoveredDate = null">
-          {{ date.day }}
-        </span>
-      </ng-template>
+      <div class="trip-info-container">
+        <div class="trip-info-input-container">
+          <ng-template #officeResultTemplate let-r="result" let-t="term">
+            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>, <ngb-highlight [result]="r.address" [term]="t"></ngb-highlight>
+          </ng-template>
 
-      <div class="date-container">
-        <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="dateTemplate" outsideDays="hidden">
-        </ngb-datepicker>
-      </div>
-
-    </div>
-
-    <div class="content-section">
-      <ng-template #officeResultTemplate let-r="result" let-t="term">
-        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>, <ngb-highlight [result]="r.address" [term]="t"></ngb-highlight>
-      </ng-template>
-
-      <input
-        id="typeahead-focus"
-        type="text"
-        class="form-control office-select-container"
-        placeholder="select an office to travel from"
-        [(ngModel)]="officeFromModel"
-        [ngbTypeahead]="searchOfficeFrom"
-        [inputFormatter]="officeFormatter"
-        (selectItem)="onOfficeFromSelected($event)"
-        (focus)="officeFromFocus$.next($event.target.value)"
-        (click)="officeFromClick$.next($event.target.value)"
-        (blur)="onOfficeFromBlur()"
-        [resultTemplate]="officeResultTemplate"
-        #instanceOfficeFrom="ngbTypeahead"
-      />
-
-      <input
-        id="typeahead-focus"
-        type="text"
-        class="form-control office-select-container"
-        placeholder="select an office to travel to"
-        [(ngModel)]="officeToModel"
-        [ngbTypeahead]="searchOfficeTo"
-        [inputFormatter]="officeFormatter"
-        (selectItem)="onOfficeToSelected($event)"
-        (focus)="officeToFocus$.next($event.target.value)"
-        (click)="officeToClick$.next($event.target.value)"
-        (blur)="onOfficeToBlur()"
-        [resultTemplate]="officeResultTemplate"
-        #instanceOfficeTo="ngbTypeahead"
-      />
-
-      <div class="houseroom-info-container">
-        <div *ngIf="availableHouserooms">
-          <div *ngIf="availableHouserooms.length === 0">
-            <i>No office appartaments are available at selected period.</i>
+          <div class="max-width trip-description-container">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="What is this trip about?"
+              [(ngModel)]="title"
+            />
           </div>
+
+          <div class="trip-description-header">
+            Offices
+          </div>
+
+          <div class="max-width">
+            <input
+              id="typeahead-focus"
+              type="text"
+              class="form-control"
+              placeholder="select an office to travel from"
+              [(ngModel)]="officeFromModel"
+              [ngbTypeahead]="searchOfficeFrom"
+              [inputFormatter]="officeFormatter"
+              (selectItem)="onOfficeFromSelected($event)"
+              (focus)="officeFromFocus$.next($event.target.value)"
+              (click)="officeFromClick$.next($event.target.value)"
+              (blur)="onOfficeFromBlur()"
+              [resultTemplate]="officeResultTemplate"
+              #instanceOfficeFrom="ngbTypeahead"
+            />
+          </div>
+
+          <div class="max-width">
+            <input
+              id="typeahead-focus"
+              type="text"
+              class="form-control"
+              placeholder="select an office to travel to"
+              [(ngModel)]="officeToModel"
+              [ngbTypeahead]="searchOfficeTo"
+              [inputFormatter]="officeFormatter"
+              (selectItem)="onOfficeToSelected($event)"
+              (focus)="officeToFocus$.next($event.target.value)"
+              (click)="officeToClick$.next($event.target.value)"
+              (blur)="onOfficeToBlur()"
+              [resultTemplate]="officeResultTemplate"
+              #instanceOfficeTo="ngbTypeahead"
+            />
+          </div>
+    
+          <div class="houseroom-info-container">
+            <div *ngIf="officeToModel && toDate">
+              <div *ngIf="houseroomCount === 0">
+                <i>No office appartaments are available at selected period.</i>
+              </div>
+              <div *ngIf="houseroomCount === 1" class="primary-text">
+                <i>There is <b>{{houseroomCount}}</b> office appartment room available.</i>
+              </div>
+              <div *ngIf="houseroomCount > 1" class="primary-text">
+                <i>There are <b>{{houseroomCount}}</b> office appartment rooms available.</i>
+              </div>
+            </div>
+          </div>
+
+          <div class="member-header-container">
+            <button class="btn btn-outline-secondary" (click)="addMember()">Add Member</button>
+          </div>
+
         </div>
+
+        <div class="flex-element info-input-container">
+          <ng-template #dateTemplate let-date let-focused="focused">
+              <span class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null">
+                {{ date.day }}
+              </span>
+            </ng-template>
+      
+            <div class="date-container">
+              <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="dateTemplate" outsideDays="hidden">
+              </ngb-datepicker>
+            </div>
+        </div>
+
       </div>
 
-    </div>
-
-    <div class="flex-container">
-      <div class="flex-element sub-title-container">
-        Members
-      </div>
-      <div class="flex-element">
-        <button class="btn btn-outline-secondary" (click)="addMember()">Add Member</button>
-      </div>
     </div>
 
     <div class="content-section">
@@ -92,7 +112,13 @@
       </div>
       <div *ngIf="members" class="max-width">
         <div *ngFor="let member of members">
-          <trip-member [viewModel]="member" (onRemove)="removeMember($event)" (onSelected)="onUserSelected($event)" (onDeselected)="addAndUpdateUsers($event)"></trip-member>
+          <trip-member
+            [viewModel]="member" 
+            (onRemove)="removeMember($event)" 
+            (onSelected)="onUserSelected($event)" 
+            (onDeselected)="addAndUpdateUsers($event)"
+            (onHouseroomSelected)="onHouseroomSelect($event)" 
+            (onHouseroomDeselected)="onHouseroomDeselect($event)"></trip-member>
         </div>
       </div>
     </div>
@@ -134,4 +160,5 @@
     </div>
     
   </div>
+  <div class="space-after-container"></div>
 </div>

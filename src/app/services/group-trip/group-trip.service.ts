@@ -22,14 +22,16 @@ export class GroupTripService {
           observer.next(GroupTrips);
           observer.complete();
         }, error => {
-          if (error.status === 404) {
-            observer.next(null);
-            observer.complete();
-          } else {
-            observer.next(error);
+          if (error.status === 401) {
+            observer.next(error.message);
             this.userService.logout();
-            observer.complete();
           }
+          else if (error.status === 404) {
+            observer.next([]);
+          } else {
+            observer.next(error.message);
+          }
+          observer.complete();
         });
     });
   }
@@ -42,14 +44,16 @@ export class GroupTripService {
             observer.next(groupTrip);
             observer.complete();
           }, error => {
-            if (error.status === 404) {
-              observer.next(null);
-              observer.complete();
-            } else {
-              observer.next(error);
+            if (error.status === 401) {
+              observer.next(error.message);
               this.userService.logout();
-              observer.complete();
             }
+            else if (error.status === 404) {
+              observer.next(null);
+            } else {
+              observer.next(error.message);
+            }
+            observer.complete();
           });
     });
   }

@@ -10,28 +10,54 @@
         id="typeahead-focus"
         type="text"
         class="form-control member-select"
+        placeholder="select member"
         [(ngModel)]="userModel"
-        [ngbTypeahead]="search"
+        [ngbTypeahead]="userSearch"
         [inputFormatter]="userFormatter"
-        (selectItem)="onUserSelected($event)"
-        (focus)="focus$.next($event.target.value)"
-        (click)="click$.next($event.target.value)"
+        (selectItem)="onUserSelect($event)"
+        (focus)="userFocus$.next($event.target.value)"
+        (click)="userClick$.next($event.target.value)"
         (blur)="onUserBlur()"
         [resultTemplate]="userResultTemplate"
-        #instance="ngbTypeahead"
+        #userInstance="ngbTypeahead"
       />
     </div>
 
+    <div class="info-container-element">
+
+        <ng-template #houseroomResultTemplate let-r="result" let-t="term">
+          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+        </ng-template>
+  
+        <input
+          id="typeahead-focus"
+          type="text"
+          class="form-control member-select"
+          placeholder="{{getHouseroomPlaceholder()}}"
+          [(ngModel)]="houseroomModel"
+          [ngbTypeahead]="houseroomSearch"
+          [inputFormatter]="houseroomFormatter"
+          (selectItem)="onHouseroomSelect($event)"
+          (focus)="houseroomFocus$.next($event.target.value)"
+          (click)="houseroomClick$.next($event.target.value)"
+          (blur)="onHouseroomBlur()"
+          [resultTemplate]="houseroomResultTemplate"
+          [disabled]="isHouseroomDisabled()"
+          #houseroomInstance="ngbTypeahead"
+        />
+      </div>
+
     <div class="info-container-element" *ngIf="viewModel.selectedUser">
-      <div *ngIf="viewModel.isAvailable === null">
+      <div *ngIf="viewModel.checkingAvailability">
         <i>checking availability...</i>
       </div>
-      <div *ngIf="viewModel.isAvailable !== null">
-        <div *ngIf="viewModel.isAvailable" class="user-available"><i>available</i></div>
-        <div *ngIf="!viewModel.isAvailable" class="user-unavailable"><i>unavailable</i></div>
+      <div *ngIf="!viewModel.checkingAvailability && viewModel.isAvailable !== null">
+        <div *ngIf="viewModel.isAvailable" class="user-available">available</div>
+        <div *ngIf="!viewModel.isAvailable" class="user-unavailable">unavailable</div>
       </div>
     </div>
     
+    <!--
     <div class="info-container-element" *ngIf="viewModel.selectedUser">
       <div class="advanced-switch">
         <ui-switch [(ngModel)]="viewModel.containsDetails" size="small" color="#4d724d"></ui-switch>
@@ -41,6 +67,7 @@
     <div class="info-container-element" *ngIf="viewModel.selectedUser">
       advanced
     </div>
+    -->
     
   </div>
 

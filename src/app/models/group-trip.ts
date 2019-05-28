@@ -6,6 +6,7 @@ import { IComment } from './comment';
 
 export interface GroupTrip {
     id: number;
+    title: string;
     officeFrom: Office;
     officeTo: Office;
     dateFrom: string;
