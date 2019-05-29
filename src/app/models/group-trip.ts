@@ -1,6 +1,5 @@
 import { Office } from './office';
 import { Trip } from './trip';
-import { Status } from './enums/status';
 import { User } from './user';
 import { IComment } from './comment';
 
@@ -15,4 +14,5 @@ export interface GroupTrip {
     userTrips: Trip[];
     advisor: User;
     comments: IComment[];
+    date: number;
 }

@@ -5,7 +5,7 @@
       <button class="title text-light" (click)="goToMain()">Gecko</button>
       <img src="assets/images/gecko-icon.png" class="icon"/>
     </div>
-    <div class="navHolder" *ngIf="loggedIn">
+    <div class="navHolder" *ngIf="loggedIn && user">
       <nav class="my-2 my-md-0 mr-md-3">
         <!-- TODO: uncomment this once these references have meaning and are functional
         <a class="p-2 text-light">Trips</a>
@@ -15,8 +15,8 @@
         <a class="p-2 text-light">Help</a>
         -->
         <button class="btn btn-outline-secondary2" (click)="goToCreateNewGroupTrip()">Create</button>
-        <a *ngIf="user" class="p-2 text-light">{{user.fullname}}</a>
-        <a *ngIf="user"><img class="imgUser" src="../../../assets/userIcon.png" [popover]="myPopover">
+        <a class="p-2 text-light">{{user.fullname}}</a>
+        <a><img class="imgUser" src="../../../assets/userIcon.png" [popover]="myPopover">
           <popover-content #myPopover placement="bottom" [closeOnClickOutside]="true">
             <img class="imgUserWindow" src="../../../assets/userIcon.png">  
             <hr class="breakLine">

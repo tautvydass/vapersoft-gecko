@@ -1,4 +1,11 @@
 <div class="container">
+
+  <div *ngIf="groupTripJustCreated" class="alert-container">
+    <ngb-alert type="success" (close)="closeAlert()">
+      <strong>Success!</strong> Group trip has been created and sent for approval.
+    </ngb-alert>
+  </div>
+
   <div class="error-container" *ngIf="emptyEvents() && !loading">
     No trips to show
   </div>

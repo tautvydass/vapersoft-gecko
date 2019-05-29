@@ -123,7 +123,11 @@
       </div>
     </div>
 
-    <hr>
+    <hr class="margin-right-2">
+
+    <ngb-alert type="danger" (close)="closeErrorAlert()" class="margin-right-2" *ngIf="showErrorAlert">
+      <strong>Error!</strong> {{errorMessage}}
+    </ngb-alert>
 
     <div class="flex-container">
 

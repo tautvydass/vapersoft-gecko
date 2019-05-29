@@ -29,6 +29,15 @@ export class UserService {
     private httpClient: HttpClient,
     private globalsService: GlobalsService) { }
 
+  getCachedUser(): Observable<User> {
+    let currentUser: User = this.localStorageService.getCurrentUser();
+    if (currentUser) {
+      return of(currentUser);
+    } else {
+      return this.getUser();
+    }
+  }
+
   getUser(): Observable<User> {
     return Observable.create(observer => {
       this.httpClient.get<User>(this.hostService.getHostServerUrl() + '/v1/user')

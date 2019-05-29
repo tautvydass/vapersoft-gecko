@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IComment } from '../../models/comment';
+import { User } from 'src/app/models/user';
+import { GroupTripService } from 'src/app/services/group-trip/group-trip.service';
+import { CommentViewModel } from 'src/app/view-models/comment-view-model';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'comment-list-view',
@@ -8,22 +12,43 @@ import { IComment } from '../../models/comment';
 })
 export class CommentListViewComponent implements OnInit {
 
-  @Input() comments: IComment[];
+  @Input()
+  viewModel: CommentViewModel;
 
-  constructor() { }
+  loading: boolean = false;
+
+  user: User;
+
+  constructor(
+    private groupTripService: GroupTripService,
+    private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.getCachedUser().subscribe(result => this.user = result);
   }
 
-  onSubmitComment(value: string) {
+  addComment(value: string) {
     if (value && value !== '') {
+      this.loading = true;
       const comment: IComment = {
-        id: 1,
-        fullname: 'Current Web User',
+        id: null,
+        user: this.user,
         text: value,
-        timestamp: '2019-04-01'
+        timestamp: null
       };
-      this.comments.unshift(comment);
+      this.groupTripService.addComment(this.viewModel.groupTripId, comment).subscribe(result => {
+        if ((typeof result) === "string") {
+          // TODO: handle error
+          this.loading = false;
+          return;
+        } else {
+          this.viewModel.comments.unshift(result);
+        }
+      }, error => {
+        // TODO: handle error
+      }, () => {
+        this.loading = false;
+      });
     }
   }
 

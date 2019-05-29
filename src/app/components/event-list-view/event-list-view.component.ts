@@ -19,6 +19,8 @@ export class EventListViewComponent implements OnInit {
 
   user: User;
 
+  groupTripJustCreated: boolean = false;
+
   constructor(
     private groupTripService: GroupTripService,
     private userService: UserService,
@@ -26,15 +28,24 @@ export class EventListViewComponent implements OnInit {
 
   ngOnInit() {
     this.groupTripService.getGroupTrips().subscribe(groupTrips => {
-      this.groupTrips = groupTrips;
+      this.groupTrips = groupTrips.sort((gt1, gt2) => this.sortByDate(gt1, gt2));
     }, error => {
       // TODO: handle error
     }, () => {
       this.loading = false;
-    })
+    });
+    this.groupTripJustCreated = this.groupTripService.wasGroupTripCreated();
+  }
+
+  sortByDate(groupTrip1: GroupTrip, groupTrip2: GroupTrip): number {
+    return groupTrip1.date - groupTrip2.date;
   }
 
   emptyEvents(): boolean {
     return isNullOrUndefined(this.groupTrips) || this.groupTrips.length === 0;
+  }
+
+  closeAlert(): void {
+    this.groupTripJustCreated = false;
   }
 }

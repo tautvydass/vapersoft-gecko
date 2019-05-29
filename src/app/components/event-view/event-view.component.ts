@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GroupTrip } from '../../models/group-trip';
-import { Status } from '../../models/enums/status';
 import { IComment } from '../../models/comment';
+import { CommentViewModel } from 'src/app/view-models/comment-view-model';
 
 @Component({
   selector: 'event-view',
@@ -10,15 +10,22 @@ import { IComment } from '../../models/comment';
 })
 export class EventViewComponent implements OnInit {
 
-  @Input() groupTrip: GroupTrip;
+  @Input()
+  groupTrip: GroupTrip;
 
-  expanded: boolean = false;
+  expanded: boolean = true;
   showComments: boolean = false;
   preshowComments: boolean = false;
+
+  commentViewModel: CommentViewModel = null;
 
   constructor() { }
 
   ngOnInit() {
+    this.commentViewModel = {
+      groupTripId: this.groupTrip.id,
+      comments: this.groupTrip.comments
+    };
   }
 
   toggleExpanded() {

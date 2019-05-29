@@ -1,1 +1,19 @@
-TO BE IMPLEMETED: event-details
+<p>
+    Travelling from <strong>{{groupTrip.officeFrom.name}}</strong>, <strong>{{groupTrip.officeFrom.address}}</strong> 
+    to <strong>{{groupTrip.officeTo.name}}</strong>, <strong>{{groupTrip.officeTo.address}}</strong>, 
+    organised by <strong>{{groupTrip.advisor.fullname}}</strong>
+</p>
+<div *ngIf="trip">
+    <div *ngIf="trip.houserooms && trip.houserooms.length !== 0">
+        Office apartment reserved, <strong>{{trip.houserooms[0].name}}</strong>
+    </div>
+    <div *ngIf="!trip.houserooms || trip.houserooms.length === 0">
+        No office apartment reserved.
+    </div>
+    <div *ngIf="trip.documents && trip.documents.length !== 0">
+        // TODO: documents are available
+    </div>
+    <div *ngIf="!trip.documents || trip.documents.length === 0">
+        No documents are available for this trip.
+    </div>
+</div>

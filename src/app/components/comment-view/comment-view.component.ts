@@ -8,7 +8,8 @@ import { IComment } from '../../models/comment';
 })
 export class CommentViewComponent implements OnInit {
 
-  @Input() comment: IComment;
+  @Input()
+  comment: IComment;
 
   constructor() { }
 

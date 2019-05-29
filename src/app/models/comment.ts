@@ -1,6 +1,8 @@
+import { User } from './user';
+
 export interface IComment {
     id: number;
-    fullname: string; // TODO: change this to user
+    user: User;
     text: string;
     timestamp: string;
 }

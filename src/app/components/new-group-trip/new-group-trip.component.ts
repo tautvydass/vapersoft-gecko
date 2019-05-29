@@ -64,6 +64,9 @@ export class NewGroupTripComponent implements OnInit {
   fromDate: NgbDate;
   toDate: NgbDate;
 
+  showErrorAlert: boolean = false;
+  errorMessage: string = null;
+
   @ViewChild('instanceOfficeTo') instanceOfficeTo: NgbTypeahead;
   officeToFocus$ = new Subject<string>();
   officeToClick$ = new Subject<string>();
@@ -212,6 +215,10 @@ export class NewGroupTripComponent implements OnInit {
   }
 
   submit(): void {
+    if (!this.validateForm()) {
+      this.showErrorAlert = true;
+      return;
+    }
     var groupTrip: GroupTrip = {
       id: null,
       title: this.title,
@@ -222,20 +229,45 @@ export class NewGroupTripComponent implements OnInit {
       status: Status[Status.PENDING].toString(),
       userTrips: this.members.map(member => this.createTrip(member)),
       advisor: this.selectedAdvisor,
-      comments: []
+      comments: [],
+      date: null
     };
-    console.log(groupTrip);
+    console.log(JSON.stringify(groupTrip));
     this.loadingSubmit = true;
-
-    /*
     this.groupTripService.createGroupTrip(groupTrip).subscribe(gt => {
+      // TODO: show success alert
       this.router.navigate(['/']);
     }, error => {
       console.error(error);
     }, () => {
       this.loadingSubmit = false;
     });
-    */
+  }
+
+  validateForm(): boolean {
+    if (!this.title) {
+      this.errorMessage = "Please fill in the title.";
+      return false;
+    }
+    if (!this.selectedOfficeFrom || !this.selectedOfficeTo) {
+      this.errorMessage = "Please select offices.";
+      return false;
+    }
+    if (!this.toDate || !this.fromDate) {
+      this.errorMessage = "Please select travel date.";
+      return false;
+    }
+    var validMembers: MemberViewModel[] = this.members.filter(member => member.selectedUser !== null);
+    if (validMembers.length < 1) {
+      this.errorMessage = "Please select at least one member.";
+      return false;
+    }
+    if (validMembers.filter(member => !member.isAvailable).length > 0) {
+      this.errorMessage = "Not all members are available.";
+      return false;
+    }
+
+    return true;
   }
 
   createTrip(member: MemberViewModel): Trip {
@@ -263,6 +295,10 @@ export class NewGroupTripComponent implements OnInit {
       this.loadingUserAvailability = false;
       memberViewModel.checkingAvailability = false;
     });
+  }
+
+  closeErrorAlert(): void {
+    this.showErrorAlert = false;
   }
 
   // Date selection

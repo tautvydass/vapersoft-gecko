@@ -122,3 +122,7 @@ select {
 .space-after-container {
     margin-bottom: 6em;
 }
+
+.ngb-dp-weekday, .btn-link {
+    color: #4d724d !important;
+}
