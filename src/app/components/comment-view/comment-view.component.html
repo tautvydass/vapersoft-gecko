@@ -1,4 +1,11 @@
 <div class="comment">
-  <div class = "comment-section name">{{comment.user.fullname}}</div>
-  <div class = "comment-section">{{comment.text}}</div>
+  <div class="comment-header">
+    <div class="name">
+      {{comment.user.fullname}}
+    </div>
+    <div>
+      {{comment.timestamp}}
+    </div>
+  </div>
+  <div>{{comment.text}}</div>
 </div>

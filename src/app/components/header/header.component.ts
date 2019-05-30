@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user';
 import { Role } from 'src/app/models/enums/role';
 import { Router } from '@angular/router';
+import { RefreshService } from 'src/app/services/refresh/refresh.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router) { }
+    private router: Router,
+    private refreshService: RefreshService) { }
 
   ngOnInit() {
     this.userService.onLogin.subscribe(user => {
@@ -45,6 +47,7 @@ export class HeaderComponent implements OnInit {
 
   goToMain(): void {
     if (this.userService.isLoggedIn()) {
+      this.refreshService.onRefreshRequested.emit();
       this.router.navigate(['main']);
     }
   }

@@ -1,13 +1,15 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MemberViewModel } from 'src/app/view-models/member-view-model';
 import { User } from 'src/app/models/user';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, Observable, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { UserService } from 'src/app/services/user/user.service';
 import { Houseroom } from 'src/app/models/houseroom';
 import { isNull } from '@angular/compiler/src/output/output_ast';
+import { AddDocumentModalComponent } from '../../modals/add-document-modal/add-document-modal.component';
+import { DocumentViewModel } from 'src/app/view-models/document-view-model';
 
 @Component({
   selector: 'trip-member',
@@ -45,7 +47,9 @@ export class TripMemberComponent implements OnInit {
   houseroomFocus$ = new Subject<string>();
   houseroomClick$ = new Subject<string>();
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.viewModel.onSelectedHouseroomChanged.subscribe(houseroom => {
@@ -68,6 +72,25 @@ export class TripMemberComponent implements OnInit {
 
   getHouseroomPlaceholder(): string {
     return this.isHouseroomDisabled() ? "apartment not available" : "select apartment";
+  }
+
+  launchDocumentModal(): void {
+    const viewModel: DocumentViewModel = {
+      onDocumentAdded: new EventEmitter(),
+      onDocumentRemoved: new EventEmitter()
+    };
+    viewModel.onDocumentAdded.subscribe(doc => this.addDocument(doc));
+    viewModel.onDocumentRemoved.subscribe(doc => this.removeDocument(doc));
+    const modalRef = this.modalService.open(AddDocumentModalComponent);
+    modalRef.componentInstance.viewModel = viewModel;
+  }
+
+  addDocument(document: Document): void {
+
+  }
+
+  removeDocument(document: Document): void {
+    
   }
 
   // User Select

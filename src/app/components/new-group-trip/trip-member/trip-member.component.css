@@ -21,7 +21,6 @@
 }
 
 .info-container {
-    width: 80%;
     display: flex;
     flex-direction: row;
     justify-content: left;
@@ -50,4 +49,8 @@ input {
 
 .user-unavailable {
     color: #e67a65;
+}
+
+.btn {
+    margin-left: 0.5em;
 }

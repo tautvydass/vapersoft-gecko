@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
+import { RefreshService } from 'src/app/services/refresh/refresh.service';
 
 @Component({
   selector: 'event-list-view',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class EventListViewComponent implements OnInit {
 
-  loading: boolean = true;
+  loading: boolean = false;
 
   groupTrips: GroupTrip[];
 
@@ -24,9 +25,17 @@ export class EventListViewComponent implements OnInit {
   constructor(
     private groupTripService: GroupTripService,
     private userService: UserService,
-    private router: Router) { }
+    private router: Router,
+    private refreshService: RefreshService) { }
 
   ngOnInit() {
+    this.refreshService.onRefreshRequested.subscribe(() => this.refresh());
+    this.refresh();
+    this.groupTripJustCreated = this.groupTripService.wasGroupTripCreated();
+  }
+
+  refresh(): void {
+    this.loading = true;
     this.groupTripService.getGroupTrips().subscribe(groupTrips => {
       this.groupTrips = groupTrips.sort((gt1, gt2) => this.sortByDate(gt1, gt2));
     }, error => {
@@ -34,7 +43,6 @@ export class EventListViewComponent implements OnInit {
     }, () => {
       this.loading = false;
     });
-    this.groupTripJustCreated = this.groupTripService.wasGroupTripCreated();
   }
 
   sortByDate(groupTrip1: GroupTrip, groupTrip2: GroupTrip): number {

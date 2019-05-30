@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { GroupTrip } from '../../models/group-trip';
 import { IComment } from '../../models/comment';
 import { CommentViewModel } from 'src/app/view-models/comment-view-model';
+import { DateFormatterService } from 'src/app/services/date-formatter.service';
 
 @Component({
   selector: 'event-view',
@@ -19,13 +20,19 @@ export class EventViewComponent implements OnInit {
 
   commentViewModel: CommentViewModel = null;
 
-  constructor() { }
+  dateFrom: string;
+  dateTo: string;
+
+  constructor(private dateFormatter: DateFormatterService) { }
 
   ngOnInit() {
     this.commentViewModel = {
       groupTripId: this.groupTrip.id,
-      comments: this.groupTrip.comments
+      comments: this.groupTrip.comments.reverse()
     };
+
+    this.dateFrom = this.dateFormatter.formatDate(this.groupTrip.dateFrom);
+    this.dateTo = this.dateFormatter.formatDate(this.groupTrip.dateTo);
   }
 
   toggleExpanded() {

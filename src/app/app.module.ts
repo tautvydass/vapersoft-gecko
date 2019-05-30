@@ -28,6 +28,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NewGroupTripComponent } from './components/new-group-trip/new-group-trip.component';
 import { TripMemberComponent } from './components/new-group-trip/trip-member/trip-member.component';
 import { OfficeService } from './services/office/office.service';
+import { AddDocumentModalComponent } from './components/modals/add-document-modal/add-document-modal.component';
+import { RefreshService } from './services/refresh/refresh.service';
+import { DateFormatterService } from './services/date-formatter.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import { OfficeService } from './services/office/office.service';
     LoginViewComponent,
     SpinnerComponent,
     NewGroupTripComponent,
-    TripMemberComponent
+    TripMemberComponent,
+    AddDocumentModalComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,7 @@ import { OfficeService } from './services/office/office.service';
     PopoverModule,
     NgbModule,
     FormsModule,
-    UiSwitchModule
+    UiSwitchModule,
   ],
   providers: [
     UserService,
@@ -66,8 +70,13 @@ import { OfficeService } from './services/office/office.service';
       useClass: HeaderInterceptor,
       multi: true
     },
-    OfficeService
+    OfficeService,
+    RefreshService,
+    DateFormatterService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AddDocumentModalComponent
+  ]
 })
 export class AppModule { }
