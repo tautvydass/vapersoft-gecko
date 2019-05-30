@@ -1,20 +1,20 @@
-<div class="content-box" (click)="toggleExpanded()">
+<div class="content-box">
   <div class="event-view-line space">
     <div class="event-view-title">
-      {{groupTrip.title}}, {{groupTrip.officeTo.name}}
+      {{viewModel.groupTrip.title}} @ {{viewModel.groupTrip.officeTo.name}}
     </div>
     <div class="float-right">
-      <strong>{{dateFrom}}</strong> to <strong>{{dateTo}}</strong>
+      {{dateFrom}} to {{dateTo}}
     </div>
   </div>
   <div class="event-view-line">
-    <event-view-status [status]="groupTrip.status" [advisorFullname]="groupTrip.advisor.fullname"></event-view-status>
+    <event-view-status [status]="viewModel.groupTrip.status" [advisorFullname]="viewModel.groupTrip.advisor.fullname"></event-view-status>
   </div>
   <div class="event-view-line" *ngIf="expanded">
-    <event-details [groupTrip]="groupTrip"></event-details>
+    <event-details [viewModel]="viewModel" class="max-width"></event-details>
   </div>
   <div class="event-view-line">
-    <button class="clickable-text" (click)="$event.preventDefault(); $event.stopPropagation(); toggleComments()">{{groupTrip.comments ? groupTrip.comments.length : 0}} comments</button>
+    <button class="clickable-text" (click)="$event.preventDefault(); $event.stopPropagation(); toggleComments()">{{viewModel.groupTrip.comments ? viewModel.groupTrip.comments.length : 0}} comments</button>
   </div>
   <div class="event-view-line" *ngIf="showComments">
     <comment-list-view [viewModel]="commentViewModel" class="max-width"></comment-list-view>

@@ -276,7 +276,9 @@ export class NewGroupTripComponent implements OnInit {
       user: member.selectedUser,
       documents: [],
       houserooms: isNullOrUndefined(member.selectedHouseroom) ? [] : [member.selectedHouseroom],
-      tripInfo: null
+      tripInfo: null,
+      confirmed: false,
+      requestedCancel: false
     };
   }
 

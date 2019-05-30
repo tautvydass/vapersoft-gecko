@@ -1,19 +1,29 @@
 <p>
-    Travelling from <strong>{{groupTrip.officeFrom.name}}</strong>, <strong>{{groupTrip.officeFrom.address}}</strong> 
-    to <strong>{{groupTrip.officeTo.name}}</strong>, <strong>{{groupTrip.officeTo.address}}</strong>, 
-    organised by <strong>{{groupTrip.advisor.fullname}}</strong>
+    Travelling from <strong>{{viewModel.groupTrip.officeFrom.name}}</strong>, <strong>{{viewModel.groupTrip.officeFrom.address}}</strong> 
+    to <strong>{{viewModel.groupTrip.officeTo.name}}</strong>, <strong>{{viewModel.groupTrip.officeTo.address}}</strong>, 
+    organised by <strong>{{viewModel.groupTrip.advisor.fullname}}</strong>
 </p>
-<div *ngIf="trip">
-    <div *ngIf="trip.houserooms && trip.houserooms.length !== 0">
-        Office apartment reserved, <strong>{{trip.houserooms[0].name}}</strong>
+<p>
+    Travelling along with <i>{{members}}</i>
+</p>
+<div class="details-container">
+    <div class="details-text-container">
+        <div *ngIf="viewModel.myTrip.houserooms && viewModel.myTrip.houserooms.length !== 0">
+            Office apartment reserved, <strong>{{viewModel.myTrip.houserooms[0].name}}</strong>
+        </div>
+        <div *ngIf="!viewModel.myTrip.houserooms || viewModel.myTrip.houserooms.length === 0">
+            No office apartment reserved.
+        </div>
+        <div *ngIf="viewModel.myTrip.documents && viewModel.myTrip.documents.length !== 0">
+            // TODO: documents are available
+        </div>
+        <div *ngIf="!viewModel.myTrip.documents || viewModel.myTrip.documents.length === 0">
+            No documents are available for this trip.
+        </div>
     </div>
-    <div *ngIf="!trip.houserooms || trip.houserooms.length === 0">
-        No office apartment reserved.
-    </div>
-    <div *ngIf="trip.documents && trip.documents.length !== 0">
-        // TODO: documents are available
-    </div>
-    <div *ngIf="!trip.documents || trip.documents.length === 0">
-        No documents are available for this trip.
+    <div class="button-container">
+        <button *ngIf="!viewModel.myTrip.confirmed && !viewModel.myTrip.requestedCancel" class="btn btn-outline-primary button-container-element" (click)="confirm()" [disabled]="loading">Confirm</button>
+        <button class="btn btn-outline-secondary button-container-element" (click)="requestCancel()" [disabled]="loading">{{cancelRequestButtonName}}</button>
+        <div *ngIf="loading" class="spinner-container button-container-element"><spinner></spinner></div>
     </div>
 </div>

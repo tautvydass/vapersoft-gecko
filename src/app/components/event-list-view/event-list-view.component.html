@@ -6,6 +6,12 @@
     </ngb-alert>
   </div>
 
+  <div *ngIf="unconfirmedGroupTripCount > 0" class="alert-container">
+    <ngb-alert type="info" (close)="closeInfoAlert()">
+      There {{unconfirmedGroupTripCount === 1 ? 'is' : 'are'}} <strong>{{unconfirmedGroupTripCount}}</strong> {{unconfirmedGroupTripCount === 1 ? 'trip' : 'trips'}} pending your confirmation.
+    </ngb-alert>
+  </div>
+
   <div class="error-container" *ngIf="emptyEvents() && !loading">
     No trips to show
   </div>
@@ -13,8 +19,8 @@
     <spinner></spinner>
   </div>
   <div *ngIf="!emptyEvents()">
-    <div *ngFor="let groupTrip of groupTrips">
-      <event-view [groupTrip]="groupTrip"></event-view>
+    <div *ngFor="let viewModel of viewModels">
+      <event-view [viewModel]="viewModel"></event-view>
     </div>
   </div>
 </div>

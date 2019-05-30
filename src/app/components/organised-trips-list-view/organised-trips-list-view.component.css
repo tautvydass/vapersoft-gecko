@@ -1,0 +1,17 @@
+.container {
+    margin-bottom: 1em;
+}
+
+.push {
+    height: 2em;
+}
+
+.error-container {
+    margin-top: 5%;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.alert-container {
+    margin: 1em;
+}

@@ -6,6 +6,7 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+    <button *ngIf="viewModel.useSecondaryButton" type="button" class="btn btn-outline-secondary" (click)="secondaryButtonClick()" [innerHTML]="viewModel.secondaryButtonName"></button>
     <button type="button" class="btn btn-outline-primary" (click)="primaryButtonClick()" [innerHTML]="viewModel.buttonName"></button>
   </div>
 

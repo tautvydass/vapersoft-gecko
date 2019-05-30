@@ -23,4 +23,9 @@ export class ConfirmationModalComponent {
     this.activeModal.close('Close click');
   }
 
+  secondaryButtonClick(): void {
+    this.viewModel.onSecondary.emit();
+    this.activeModal.close('Close click');
+  }
+
 }

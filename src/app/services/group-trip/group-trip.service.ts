@@ -120,6 +120,46 @@ export class GroupTripService {
     });
   }
 
+  updateGroupTrip(groupTrip: GroupTrip): Observable<GroupTrip> {
+    return Observable.create(observer => {
+      this.httpClient.put<GroupTrip>(
+        this.hostService.getHostServerUrl() + '/v1/group-trip', groupTrip)
+          .subscribe(gt => {
+            observer.next(gt);
+            this.groupTripCreated = true;
+          }, error => {
+            if (error.status === 401) {
+              this.userService.logout();
+            } else if (error.status === 409) {
+              // TODO: handle other errors
+            } 
+            observer.next(error);
+          }, () => {
+            observer.complete();
+          });
+    });
+  }
+
+  forceUpdateGroupTrip(groupTrip: GroupTrip): Observable<GroupTrip> {
+    return Observable.create(observer => {
+      this.httpClient.put<GroupTrip>(
+        this.hostService.getHostServerUrl() + '/v1/group-trip:force', groupTrip)
+          .subscribe(gt => {
+            observer.next(gt);
+            this.groupTripCreated = true;
+          }, error => {
+            if (error.status === 401) {
+              this.userService.logout();
+            } else if (error.status === 409) {
+              // TODO: handle other errors
+            } 
+            observer.next(error);
+          }, () => {
+            observer.complete();
+          });
+    });
+  }
+
   addComment(id: number, comment: IComment): Observable<IComment> {
     return Observable.create(observer => {
       this.httpClient.post<IComment>(

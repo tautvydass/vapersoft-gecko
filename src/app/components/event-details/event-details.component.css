@@ -1,0 +1,25 @@
+.details-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.details-text-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container {
+    width: 100%;
+}
+
+.button-container-element {
+    float: right;
+    margin-left: 0.5em;
+}
+
+.spinner-container {
+    margin-right: 0.5em;
+}

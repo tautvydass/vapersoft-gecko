@@ -3,6 +3,9 @@ import { GroupTrip } from '../../models/group-trip';
 import { IComment } from '../../models/comment';
 import { CommentViewModel } from 'src/app/view-models/comment-view-model';
 import { DateFormatterService } from 'src/app/services/date-formatter.service';
+import { GroupTripService } from 'src/app/services/group-trip/group-trip.service';
+import { TripService } from 'src/app/services/trip/trip.service';
+import { GroupTripViewModel } from 'src/app/view-models/group-trip-view-model';
 
 @Component({
   selector: 'event-view',
@@ -12,7 +15,7 @@ import { DateFormatterService } from 'src/app/services/date-formatter.service';
 export class EventViewComponent implements OnInit {
 
   @Input()
-  groupTrip: GroupTrip;
+  viewModel: GroupTripViewModel;
 
   expanded: boolean = true;
   showComments: boolean = false;
@@ -23,16 +26,17 @@ export class EventViewComponent implements OnInit {
   dateFrom: string;
   dateTo: string;
 
-  constructor(private dateFormatter: DateFormatterService) { }
+  constructor(
+    private dateFormatter: DateFormatterService) { }
 
   ngOnInit() {
     this.commentViewModel = {
-      groupTripId: this.groupTrip.id,
-      comments: this.groupTrip.comments.reverse()
+      groupTripId: this.viewModel.groupTrip.id,
+      comments: this.viewModel.groupTrip.comments.reverse()
     };
 
-    this.dateFrom = this.dateFormatter.formatDate(this.groupTrip.dateFrom);
-    this.dateTo = this.dateFormatter.formatDate(this.groupTrip.dateTo);
+    this.dateFrom = this.dateFormatter.formatDate(this.viewModel.groupTrip.dateFrom);
+    this.dateTo = this.dateFormatter.formatDate(this.viewModel.groupTrip.dateTo);
   }
 
   toggleExpanded() {
@@ -61,14 +65,14 @@ export class EventViewComponent implements OnInit {
   }
 
   getCommentCount(): number {
-    return this.groupTrip.comments ? this.groupTrip.comments.length : 0;
+    return this.viewModel.groupTrip.comments ? this.viewModel.groupTrip.comments.length : 0;
   }
 
   getStatus(): string {
-    return this.groupTrip.status;
+    return this.viewModel.groupTrip.status;
   }
 
   getAdvisorFullname(): string {
-    return this.groupTrip.advisor.fullname;
+    return this.viewModel.groupTrip.advisor.fullname;
   }
 }

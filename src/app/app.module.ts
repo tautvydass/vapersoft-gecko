@@ -36,6 +36,10 @@ import { RegisterEmployeeComponent } from './components/register-employee/regist
 import { RemoveEmployeeComponent } from './components/remove-employee/remove-employee.component';
 import { ConfirmationModalComponent } from './components/modals/confirmation-modal/confirmation-modal.component';
 import { OrganisedTripsListViewComponent } from './components/organised-trips-list-view/organised-trips-list-view.component';
+import { NewOfficeComponent } from './components/new-office/new-office.component';
+import { OrganisedGroupTripViewComponent } from './components/organised-group-trip-view/organised-group-trip-view.component';
+import { TripService } from './services/trip/trip.service';
+import { EditGroupTripComponent } from './components/edit-group-trip/edit-group-trip.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,10 @@ import { OrganisedTripsListViewComponent } from './components/organised-trips-li
     RegisterEmployeeComponent,
     RemoveEmployeeComponent,
     ConfirmationModalComponent,
-    OrganisedTripsListViewComponent
+    OrganisedTripsListViewComponent,
+    NewOfficeComponent,
+    OrganisedGroupTripViewComponent,
+    EditGroupTripComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +89,8 @@ import { OrganisedTripsListViewComponent } from './components/organised-trips-li
     },
     OfficeService,
     RefreshService,
-    DateFormatterService
+    DateFormatterService,
+    TripService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

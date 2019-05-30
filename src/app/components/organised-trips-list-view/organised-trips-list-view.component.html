@@ -1,3 +1,20 @@
-<p>
-  organised-trips-list-view works!
-</p>
+<div class="container">
+
+  <div *ngIf="approvableGroupTripCount > 0" class="alert-container">
+    <ngb-alert type="info" (close)="closeInfoAlert()">
+      There {{approvableGroupTripCount === 1 ? 'is' : 'are'}} <strong>{{approvableGroupTripCount}}</strong> {{approvableGroupTripCount === 1 ? 'trip' : 'trips'}} pending your approval.
+    </ngb-alert>
+  </div>
+
+  <div class="error-container" *ngIf="(!groupTrips || groupTrips.length === 0) && !loading">
+    No organised trips found
+  </div>
+  <div class="error-container" *ngIf="loading">
+    <spinner></spinner>
+  </div>
+  <div *ngIf="viewModels && viewModels.length > 0">
+    <div *ngFor="let viewModel of viewModels">
+      <organised-group-trip-view [viewModel]="viewModel"></organised-group-trip-view>
+    </div>
+  </div>
+</div>

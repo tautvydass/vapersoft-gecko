@@ -9,4 +9,6 @@ export interface Trip {
     documents: TripDocument[];
     houserooms: Houseroom[];
     tripInfo: GroupTrip;
+    confirmed: boolean;
+    requestedCancel: boolean;
 }

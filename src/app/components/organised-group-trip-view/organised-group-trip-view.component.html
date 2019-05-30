@@ -1,0 +1,35 @@
+<div class="content-box">
+  <div class="event-view-line space">
+    <div class="event-view-title">
+      {{viewModel.groupTrip.title}} @ {{viewModel.groupTrip.officeTo.name}}
+    </div>
+    <div class="float-right">
+      {{dateFrom}} to {{dateTo}}
+    </div>
+  </div>
+
+  <div class="event-view-line">
+    <event-view-status [status]="viewModel.groupTrip.status" [advisorFullname]="viewModel.groupTrip.advisor.fullname"></event-view-status>
+  </div>
+
+  <div class="event-view-line">
+    <p>Travelling from <strong>{{viewModel.groupTrip.officeFrom.name}}</strong>, <strong>{{viewModel.groupTrip.officeFrom.address}}</strong> to <strong>{{viewModel.groupTrip.officeTo.name}}</strong>, <strong>{{viewModel.groupTrip.officeTo.address}}</strong>, organised by <strong>{{viewModel.groupTrip.advisor.fullname}}</strong></p>
+  </div>
+
+  <div class="details-container">
+    <div class="details-text-container">
+      <div>
+        Members: <i>{{members}}</i>
+      </div>
+      <div *ngIf="!viewModel.approvable">
+        Waiting for all member confirmation.
+      </div>
+    </div>
+    <div class="button-container">
+      <button *ngIf="viewModel.approvable" class="btn btn-outline-primary button-container-element" (click)="approve()" [disabled]="loading">Approve</button>
+      <button class="btn btn-outline-secondary button-container-element" (click)="edit()" [disabled]="loading">Edit</button>
+      <div *ngIf="loading" class="button-container-element spinner-container"><spinner></spinner></div>
+    </div>
+  </div>
+
+</div>

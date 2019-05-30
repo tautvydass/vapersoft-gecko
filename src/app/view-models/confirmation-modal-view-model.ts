@@ -5,4 +5,7 @@ export interface ConfirmationModalViewModel {
     body: string;
     buttonName: string;
     onSubmit: EventEmitter<any>;
+    useSecondaryButton: boolean;
+    secondaryButtonName: string;
+    onSecondary: EventEmitter<any>;
 }

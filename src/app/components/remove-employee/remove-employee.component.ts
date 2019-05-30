@@ -70,7 +70,10 @@ export class RemoveEmployeeComponent implements OnInit {
       title: '<strong>Confirmation</strong>',
       body: `Are you sure you want to remove employee <strong>` + this.selectedUser.fullname + `</strong>? This action <strong>cannot</strong> be undone.`,
       buttonName: `Delete`,
-      onSubmit: new EventEmitter()
+      onSubmit: new EventEmitter(),
+      useSecondaryButton: false,
+      onSecondary: null,
+      secondaryButtonName: null
     };
     viewModel.onSubmit.subscribe(() => this.confirmUserRemoval());
     const modalRef = this.modalService.open(ConfirmationModalComponent);
