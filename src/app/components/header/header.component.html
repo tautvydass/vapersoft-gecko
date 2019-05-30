@@ -2,7 +2,7 @@
 <nav class="navbar">
   <div class="container">
     <div class="logo">
-      <button class="title text-light" (click)="goToMain()">Gecko</button>
+      <button class="title text-light custom-button" (click)="goToMain()">Gecko</button>
       <img src="assets/images/gecko-icon.png" class="icon"/>
     </div>
     <div class="navHolder" *ngIf="loggedIn && user">
@@ -14,6 +14,9 @@
         <a class="p-2 text-light">Apartments</a>
         <a class="p-2 text-light">Help</a>
         -->
+        <button class="text-light custom-button" (click)="goToMain()">Trips</button>
+        <button class="text-light custom-button" *ngIf="isAdvisor" (click)="goToOrganisedTrips()">Organised Trips</button>
+        <button class="text-light custom-button" *ngIf="isAdmin" (click)="goToAdmin()">Manage</button>
         <button class="btn btn-outline-secondary2" (click)="goToCreateNewGroupTrip()">Create</button>
         <a class="p-2 text-light">{{user.fullname}}</a>
         <a><img class="imgUser" src="../../../assets/userIcon.png" [popover]="myPopover">

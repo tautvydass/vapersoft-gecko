@@ -15,6 +15,9 @@ export class HeaderComponent implements OnInit {
   user: User;
   loggedIn: boolean = true;
 
+  isAdmin: boolean = false;
+  isAdvisor: boolean = false;
+
   constructor(
     private userService: UserService,
     private router: Router,
@@ -24,16 +27,21 @@ export class HeaderComponent implements OnInit {
     this.userService.onLogin.subscribe(user => {
       this.user = user;
       this.loggedIn = true;
+      this.isAdmin = (user.role.toString() === Role[Role.ADMIN]);
+      this.isAdvisor = (user.role.toString() !== Role[Role.DEFAULT]);
     });
 
     this.userService.onLogout.subscribe(any => {
       this.user = null;
       this.loggedIn = false;
+      this.isAdmin = false;
     });
     
     this.userService.getUser().subscribe(user => {
       this.user = user;
       this.loggedIn = true;
+      this.isAdmin = (user.role.toString() === Role[Role.ADMIN]);
+      this.isAdvisor = (user.role.toString() !== Role[Role.DEFAULT]);
     });
   }
 
@@ -50,5 +58,13 @@ export class HeaderComponent implements OnInit {
       this.refreshService.onRefreshRequested.emit();
       this.router.navigate(['main']);
     }
+  }
+
+  goToAdmin(): void {
+    this.router.navigate(['/main/manage']);
+  }
+
+  goToOrganisedTrips(): void {
+    this.router.navigate(['/main/organised']);
   }
 }

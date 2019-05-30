@@ -1,0 +1,12 @@
+<div class="modal-content">
+
+  <div class="modal-header" [innerHTML]="viewModel.title"></div>
+
+  <div class="modal-body" [innerHTML]="viewModel.body"></div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn btn-outline-primary" (click)="primaryButtonClick()" [innerHTML]="viewModel.buttonName"></button>
+  </div>
+
+</div>

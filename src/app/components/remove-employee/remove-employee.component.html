@@ -1,0 +1,38 @@
+<div class="content-box">
+  <div class="header-container">
+    <div class="content-box-header">Remove employee</div>
+    <div class="spinner-container" *ngIf="loading"><spinner></spinner></div>
+  </div>
+
+  <ngb-alert type="danger" (close)="closeErrorAlert()" class="margin-right-2" *ngIf="showErrorAlert">
+    <strong>Error!</strong> You can't remove yourself.
+  </ngb-alert>
+
+  <div class="linear-content">
+    <div class="max-width">
+      <ng-template #userResultTemplate let-r="result" let-t="term">
+        <ngb-highlight [result]="r.fullname" [term]="t"></ngb-highlight>
+      </ng-template>
+
+      <input
+        id="typeahead-focus"
+        type="text"
+        class="form-control member-select"
+        placeholder="select an employee you want to remove"
+        [(ngModel)]="userModel"
+        [ngbTypeahead]="userSearch"
+        [inputFormatter]="userFormatter"
+        (selectItem)="onUserSelect($event)"
+        (focus)="userFocus$.next($event.target.value)"
+        (click)="userClick$.next($event.target.value)"
+        (blur)="onUserBlur()"
+        [resultTemplate]="userResultTemplate"
+        #userInstance="ngbTypeahead"
+        [disabled]="loading"
+      />
+    </div>
+    <div>
+      <button class="btn btn-outline-dark" (click)="launchConfirmationModal()" [disabled]="loading || !selectedUser">Remove</button>
+    </div>
+  </div>
+</div>

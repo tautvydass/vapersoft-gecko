@@ -1,0 +1,25 @@
+.content-box {
+    padding: 1em;
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.spinner-container {
+    margin-left: 0.5em;
+}
+
+.linear-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.max-width {
+    width: 100%;
+    margin-right: 0.5em;
+}

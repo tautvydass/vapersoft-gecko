@@ -60,8 +60,28 @@ export class UserService {
           observer.next(users);
           observer.complete();
         }, error => {
-          observer.next(error);
-          this.logout();
+          switch(error.status) {
+            case 401: this.logout();
+            default: error.message = this.ERROR_INTERNAL_SERVER;
+          }
+          observer.next(error.message);
+          observer.complete();
+        });
+    });
+  }
+
+  deleteUser(user: User): Observable<any> {
+    return Observable.create(observer => {
+      this.httpClient.delete<any>(this.hostService.getHostServerUrl() + '/v1/user/' + user.id.toString())
+        .subscribe(result => {
+          observer.next(result);
+          observer.complete();
+        }, error => {
+          switch(error.status) {
+            case 401: this.logout();
+            default: error.message = this.ERROR_INTERNAL_SERVER;
+          }
+          observer.next(error.message);
           observer.complete();
         });
     });
@@ -87,7 +107,7 @@ export class UserService {
             case 404: error.message = this.ERROR_INVALID_CREDENTIALS; break;
             default: error.message = this.ERROR_INTERNAL_SERVER;
           }
-          observer.error(error);
+          observer.error(error.message);
           observer.complete();
         });
     });

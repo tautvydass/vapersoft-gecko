@@ -31,6 +31,11 @@ import { OfficeService } from './services/office/office.service';
 import { AddDocumentModalComponent } from './components/modals/add-document-modal/add-document-modal.component';
 import { RefreshService } from './services/refresh/refresh.service';
 import { DateFormatterService } from './services/date-formatter.service';
+import { ManageViewComponent } from './components/manage-view/manage-view.component';
+import { RegisterEmployeeComponent } from './components/register-employee/register-employee.component';
+import { RemoveEmployeeComponent } from './components/remove-employee/remove-employee.component';
+import { ConfirmationModalComponent } from './components/modals/confirmation-modal/confirmation-modal.component';
+import { OrganisedTripsListViewComponent } from './components/organised-trips-list-view/organised-trips-list-view.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +51,12 @@ import { DateFormatterService } from './services/date-formatter.service';
     SpinnerComponent,
     NewGroupTripComponent,
     TripMemberComponent,
-    AddDocumentModalComponent
+    AddDocumentModalComponent,
+    ManageViewComponent,
+    RegisterEmployeeComponent,
+    RemoveEmployeeComponent,
+    ConfirmationModalComponent,
+    OrganisedTripsListViewComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +86,8 @@ import { DateFormatterService } from './services/date-formatter.service';
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    AddDocumentModalComponent
+    AddDocumentModalComponent,
+    ConfirmationModalComponent
   ]
 })
 export class AppModule { }

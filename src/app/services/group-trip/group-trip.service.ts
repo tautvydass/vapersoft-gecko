@@ -51,6 +51,31 @@ export class GroupTripService {
     });
   }
 
+  getOrganisedGroupTrips(): Observable<GroupTrip[]> {
+    return Observable.create(observer => {
+      this.httpClient.get<GroupTrip[]>(this.hostService.getHostServerUrl() + '/v1/group-trip/organised')
+        .subscribe(groupTrips => {
+          groupTrips.forEach(groupTrip => {
+            var values: number[] = groupTrip.dateFrom.split("-").map(value => +value);
+            groupTrip.date = values[0] * 365 + values[1] * 30 + values[2];
+          });
+          observer.next(groupTrips);
+          observer.complete();
+        }, error => {
+          if (error.status === 401) {
+            observer.next(error.message);
+            this.userService.logout();
+          }
+          else if (error.status === 404) {
+            observer.next([]);
+          } else {
+            observer.next(error.message);
+          }
+          observer.complete();
+        });
+    });
+  }
+
   getGroupTrip(id: number): Observable<GroupTrip> {
     return Observable.create(observer => {
       this.httpClient.get<GroupTrip>(

@@ -1,4 +1,5 @@
 export enum Role {
     DEFAULT,
-    ADVISOR
+    ADVISOR,
+    ADMIN
 }

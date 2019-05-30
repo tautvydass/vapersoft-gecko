@@ -90,7 +90,7 @@ export class NewGroupTripComponent implements OnInit {
     this.userService.getUsers().subscribe(users => {
       this.users = users;
       this.availableUsers = users;
-      this.advisors = users.filter(user => user.role.toString() === Role[Role.ADVISOR]);
+      this.advisors = users.filter(user => user.role.toString() !== Role[Role.DEFAULT]);
     }, error => {
       console.error(error.message);
     }, () => {
@@ -108,7 +108,7 @@ export class NewGroupTripComponent implements OnInit {
 
     this.userService.getUser().subscribe(user => {
       this.currentUser = user;
-      if (this.currentUser.role.toString() === Role[Role.ADVISOR]) {
+      if (this.currentUser.role.toString() !== Role[Role.DEFAULT]) {
         this.advisorModel = user;
         this.selectedAdvisor = user;
       }

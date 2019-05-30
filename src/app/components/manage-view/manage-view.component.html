@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="spinner-container" *ngIf="loadingAdmin">
+    <spinner></spinner>
+  </div>
+  <div *ngIf="!loadingAdmin">
+    <register-employee></register-employee>
+    
+    <div *ngIf="userWasJustRemoved" class="alert-container">
+        <ngb-alert type="success" (close)="closeUserRemovedAlert()">
+          <strong>Success!</strong> Employee <strong>{{removedUserFullname}}</strong> was removed.
+        </ngb-alert>
+      </div>
+    <remove-employee (onUserRemoved)="onUserRemoved($event)"></remove-employee>
+  </div>
+</div>

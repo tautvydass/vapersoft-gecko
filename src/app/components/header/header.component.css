@@ -14,6 +14,9 @@
     font-size: 1.5em;
     font-family: "OpenSans";
     margin-left: 1em;
+}
+
+.custom-button {
     background-color: transparent;
     border: none;
 }
