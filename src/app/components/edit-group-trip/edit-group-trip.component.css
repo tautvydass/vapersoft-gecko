@@ -1,0 +1,165 @@
+.content-box {
+    padding-left: 1.5em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.title-container {
+    font-size: 1.5em;
+    font-family: 'OpenSans';
+    margin-top: 0.5em;
+    display: inline-block;
+}
+
+.sub-title-container {
+    font-size: 1.25em;
+    color: #4d724d;
+}
+
+.content-section {
+    margin-bottom: 1em;
+}
+
+.date-container {
+    display: inline-block;
+    margin-left: 1em;
+}
+
+.location-container {
+    margin-right: 0.5em;
+    width: 25em;
+    display: inline-block;
+    margin-top: 0.5em;
+}
+
+.date-picker-title-container {
+    margin-bottom: 0.4em;
+}
+
+.spinner-container {
+    margin-left: 1em;
+    display: inline-block;
+}
+
+.add-member-container {
+    margin-top: 0.5em;
+    display: inline-block;
+}
+
+.submit-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.submit-container-element {
+    display: flex;
+}
+
+.width-70 {
+    width: 70%;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.member-divider {
+    margin: 0em;
+    margin-bottom: 0.5em;
+}
+
+.flex-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 0.5em;
+}
+
+.flex-element {
+    margin-right: 0.5em;
+}
+
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+}
+
+.custom-day.focused {
+    background-color: #e6e6e6;
+}
+
+.custom-day.range, .custom-day:hover {
+    background-color: #4d724d;
+    color: white;
+}
+
+.custom-day.faded {
+    background-color: #c8dbc3;
+    color: black;
+}
+
+.office-select-container {
+    width: 29.5em;
+}
+
+.advisor-select-container {
+    width: 15em;
+    margin: 0 !important;
+}
+
+.houseroom-info-container {
+    height: 2em;
+}
+
+.info-input-container {
+    float: right;
+}
+
+.flex-element {
+    display: flex;
+}
+
+.trip-info-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.trip-info-input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.member-header-container {
+    bottom: 0;
+    position: absolute;
+}
+
+.primary-text {
+    color: #4d724d;
+}
+
+.trip-description-header {
+    margin-bottom: 0.5em;
+    font-family: 'OpenSans';
+}
+
+.trip-description-container {
+    margin-bottom: 1em !important;
+}
+
+.margin-right-2 {
+    margin-right: 0.5em;
+}
