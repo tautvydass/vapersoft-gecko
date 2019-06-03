@@ -14,5 +14,9 @@ export interface GroupTrip {
     userTrips: Trip[];
     advisor: User;
     comments: IComment[];
-    date: number;
+    dateFromNumber: number;
+    dateToNumber: number;
+    transportRequired: boolean;
+    accommodationRequired: boolean;
+    carRentRequired: boolean;
 }

@@ -40,6 +40,10 @@ import { NewOfficeComponent } from './components/new-office/new-office.component
 import { OrganisedGroupTripViewComponent } from './components/organised-group-trip-view/organised-group-trip-view.component';
 import { TripService } from './services/trip/trip.service';
 import { EditGroupTripComponent } from './components/edit-group-trip/edit-group-trip.component';
+import { EmployeeManagementViewComponent } from './components/employee-management-view/employee-management-view.component';
+import { JoinTripModalComponent } from './components/modals/join-trip-modal/join-trip-modal.component';
+import { MemberDetailsComponent } from './components/member-details/member-details.component';
+import { RequiredCheckComponent } from './components/required-check/required-check.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +67,11 @@ import { EditGroupTripComponent } from './components/edit-group-trip/edit-group-
     OrganisedTripsListViewComponent,
     NewOfficeComponent,
     OrganisedGroupTripViewComponent,
-    EditGroupTripComponent
+    EditGroupTripComponent,
+    EmployeeManagementViewComponent,
+    JoinTripModalComponent,
+    MemberDetailsComponent,
+    RequiredCheckComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +103,8 @@ import { EditGroupTripComponent } from './components/edit-group-trip/edit-group-
   bootstrap: [AppComponent],
   entryComponents: [
     AddDocumentModalComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    JoinTripModalComponent
   ]
 })
 export class AppModule { }

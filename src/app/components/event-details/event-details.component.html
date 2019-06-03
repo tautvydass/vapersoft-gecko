@@ -3,22 +3,31 @@
     to <strong>{{viewModel.groupTrip.officeTo.name}}</strong>, <strong>{{viewModel.groupTrip.officeTo.address}}</strong>, 
     organised by <strong>{{viewModel.groupTrip.advisor.fullname}}</strong>
 </p>
-<p>
+<p *ngIf="members">
     Travelling along with <i>{{members}}</i>
+</p>
+<p *ngIf="viewModel.myTrip.confirmed" class="text-confirmed">
+    <i><b>You have confirmed this trip.</b></i>
+</p>
+<p *ngIf="!viewModel.myTrip.confirmed">
+    <i>You haven't confirmed this trip yet.</i>
 </p>
 <div class="details-container">
     <div class="details-text-container">
-        <div *ngIf="viewModel.myTrip.houserooms && viewModel.myTrip.houserooms.length !== 0">
+        <div *ngIf="viewModel.myTrip.houserooms && viewModel.myTrip.houserooms.length !== 0" class="margin-right-1">
             Office apartment reserved, <strong>{{viewModel.myTrip.houserooms[0].name}}</strong>
         </div>
-        <div *ngIf="!viewModel.myTrip.houserooms || viewModel.myTrip.houserooms.length === 0">
-            No office apartment reserved.
+        <div *ngIf="!viewModel.myTrip.houserooms || viewModel.myTrip.houserooms.length === 0 && viewModel.groupTrip.accommodationRequired" class="margin-right-1">
+            No office apartment reserved. Accommodation: <required-check class="sub-details-element" [value]="viewModel.myTrip.accommodationBooked"></required-check>
         </div>
-        <div *ngIf="viewModel.myTrip.documents && viewModel.myTrip.documents.length !== 0">
-            // TODO: documents are available
+        <div *ngIf="!viewModel.myTrip.houserooms || viewModel.myTrip.houserooms.length === 0 && !viewModel.groupTrip.accommodationRequired" class="margin-right-1">
+            No office apartment reserved. Accommodation: not required
         </div>
-        <div *ngIf="!viewModel.myTrip.documents || viewModel.myTrip.documents.length === 0">
-            No documents are available for this trip.
+        <div *ngIf="viewModel.groupTrip.transportRequired" class="margin-right-1">
+            Plane tickets: <required-check class="sub-details-element" [value]="viewModel.myTrip.transportBooked"></required-check>
+        </div>
+        <div class="details-element margin-right-1" *ngIf="viewModel.groupTrip.carRentRequired">
+            Car rent: <required-check class="sub-details-element" [value]="viewModel.myTrip.carRentBooked"></required-check>
         </div>
     </div>
     <div class="button-container">

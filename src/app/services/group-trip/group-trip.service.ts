@@ -32,7 +32,38 @@ export class GroupTripService {
         .subscribe(groupTrips => {
           groupTrips.forEach(groupTrip => {
             var values: number[] = groupTrip.dateFrom.split("-").map(value => +value);
-            groupTrip.date = values[0] * 365 + values[1] * 30 + values[2];
+            groupTrip.dateFromNumber = values[0] * 365 + values[1] * 30 + values[2];
+
+            var values2: number[] = groupTrip.dateTo.split("-").map(value => +value);
+            groupTrip.dateToNumber = values2[0] * 365 + values2[1] * 30 + values2[2];
+          });
+          observer.next(groupTrips);
+          observer.complete();
+        }, error => {
+          if (error.status === 401) {
+            observer.next(error.message);
+            this.userService.logout();
+          }
+          else if (error.status === 404) {
+            observer.next([]);
+          } else {
+            observer.next(error.message);
+          }
+          observer.complete();
+        });
+    });
+  }
+
+  getAll(): Observable<GroupTrip[]> {
+    return Observable.create(observer => {
+      this.httpClient.get<GroupTrip[]>(this.hostService.getHostServerUrl() + '/v1/group-trip/all')
+        .subscribe(groupTrips => {
+          groupTrips.forEach(groupTrip => {
+            var values: number[] = groupTrip.dateFrom.split("-").map(value => +value);
+            groupTrip.dateFromNumber = values[0] * 365 + values[1] * 30 + values[2];
+
+            var values2: number[] = groupTrip.dateTo.split("-").map(value => +value);
+            groupTrip.dateToNumber = values2[0] * 365 + values2[1] * 30 + values2[2];
           });
           observer.next(groupTrips);
           observer.complete();
@@ -57,7 +88,10 @@ export class GroupTripService {
         .subscribe(groupTrips => {
           groupTrips.forEach(groupTrip => {
             var values: number[] = groupTrip.dateFrom.split("-").map(value => +value);
-            groupTrip.date = values[0] * 365 + values[1] * 30 + values[2];
+            groupTrip.dateFromNumber = values[0] * 365 + values[1] * 30 + values[2];
+
+            var values2: number[] = groupTrip.dateTo.split("-").map(value => +value);
+            groupTrip.dateToNumber = values2[0] * 365 + values2[1] * 30 + values2[2];
           });
           observer.next(groupTrips);
           observer.complete();
@@ -82,7 +116,10 @@ export class GroupTripService {
         this.hostService.getHostServerUrl() + '/v1/group-trip/' + id.toString())
           .subscribe(groupTrip => {
             var values: number[] = groupTrip.dateFrom.split("-").map(value => +value);
-            groupTrip.date = values[0] * 365 + values[1] * 30 + values[2];
+            groupTrip.dateFromNumber = values[0] * 365 + values[1] * 30 + values[2];
+
+            var values2: number[] = groupTrip.dateTo.split("-").map(value => +value);
+            groupTrip.dateToNumber = values2[0] * 365 + values2[1] * 30 + values2[2];
             observer.next(groupTrip);
             observer.complete();
           }, error => {
@@ -160,6 +197,25 @@ export class GroupTripService {
     });
   }
 
+  joinGroupTrips(originalGroupTrip: GroupTrip, otherGroupTrip: GroupTrip): Observable<GroupTrip> {
+    return Observable.create(observer => {
+      this.httpClient.put<GroupTrip>(
+        this.hostService.getHostServerUrl() + '/v1/group-trip/' + originalGroupTrip.id.toString() + '/join/' + otherGroupTrip.id.toString(), null)
+          .subscribe(gt => {
+            observer.next(gt);
+          }, error => {
+            if (error.status === 401) {
+              this.userService.logout();
+            } else if (error.status === 409) {
+              // TODO: handle other errors
+            } 
+            observer.next(error);
+          }, () => {
+            observer.complete();
+          });
+    });
+  }
+
   addComment(id: number, comment: IComment): Observable<IComment> {
     return Observable.create(observer => {
       this.httpClient.post<IComment>(
@@ -172,6 +228,25 @@ export class GroupTripService {
             } else {
               // TODO: handle other errors
             }
+            observer.next(error.message);
+          }, () => {
+            observer.complete();
+          });
+    });
+  }
+
+  approveGroupTrip(groupTrip: GroupTrip): Observable<GroupTrip> {
+    return Observable.create(observer => {
+      this.httpClient.put<GroupTrip>(
+        this.hostService.getHostServerUrl() + '/v1/group-trip/' + groupTrip.id.toString() + ':approve', null)
+          .subscribe(result => {
+            observer.next(result);
+          }, error => {
+            if (error.status === 401) {
+              this.userService.logout();
+            } else if (error.status === 409) {
+              // TODO: handle other errors
+            } 
             observer.next(error.message);
           }, () => {
             observer.complete();

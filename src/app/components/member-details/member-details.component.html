@@ -1,0 +1,20 @@
+<div class="details-container">
+  <div class="details-element username-container">
+    {{userFullname}}
+  </div>
+  <div class="details-element confirmed confirmed-container" *ngIf="viewModel.myTrip.confirmed">
+    <strong>confirmed</strong>
+  </div>
+  <div class="details-element confirmed-container" *ngIf="!viewModel.myTrip.confirmed">
+    not confirmed
+  </div>
+  <div class="details-element" *ngIf="viewModel.groupTrip.accommodationRequired">
+    Accommodation: <required-check class="sub-details-element" [value]="viewModel.myTrip.accommodationBooked"></required-check>
+  </div>
+  <div class="details-element" *ngIf="viewModel.groupTrip.transportRequired">
+    Plane tickets: <required-check class="sub-details-element" [value]="viewModel.myTrip.transportBooked"></required-check>
+  </div>
+  <div class="details-element" *ngIf="viewModel.groupTrip.carRentRequired">
+    Car rent: <required-check class="sub-details-element" [value]="viewModel.myTrip.carRentBooked"></required-check>
+  </div>
+</div>

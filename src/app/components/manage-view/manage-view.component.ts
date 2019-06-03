@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 import { Role } from 'src/app/models/enums/role';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'manage-view',
@@ -13,7 +14,10 @@ export class ManageViewComponent implements OnInit {
   loadingAdmin: boolean = false;
 
   userWasJustRemoved: boolean = false;
-  removedUserFullname: string;
+  removedUserFullname: string = null;
+
+  userWasJustCreated: boolean = false;
+  newUserFullname: string = null;
 
   constructor(
     private router: Router,
@@ -39,6 +43,15 @@ export class ManageViewComponent implements OnInit {
 
   closeUserRemovedAlert(): void {
     this.userWasJustRemoved = false;
+  }
+
+  showUserCreatedDialog(user: User): void {
+    this.newUserFullname = user.fullname;
+    this.userWasJustCreated = true;
+  }
+
+  closeUserCreatedAlert(): void {
+    this.userWasJustCreated = false;
   }
 
 }

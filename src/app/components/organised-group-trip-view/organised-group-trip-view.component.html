@@ -16,20 +16,36 @@
     <p>Travelling from <strong>{{viewModel.groupTrip.officeFrom.name}}</strong>, <strong>{{viewModel.groupTrip.officeFrom.address}}</strong> to <strong>{{viewModel.groupTrip.officeTo.name}}</strong>, <strong>{{viewModel.groupTrip.officeTo.address}}</strong>, organised by <strong>{{viewModel.groupTrip.advisor.fullname}}</strong></p>
   </div>
 
+  <div *ngIf="memberCancelCount > 0" class="alert-container">
+    <ngb-alert type="warning" (close)="closeAlert()">
+      Warning! <strong>{{membersToCancel}}</strong> {{memberCancelCount === 1 ? 'has' : 'have'}} requested to cancel this trip.
+    </ngb-alert>
+  </div>
+
+  <div class="max-width margin-side-1" *ngFor="let detailViewModel of detailViewModels">
+    <member-details class="max-width" [viewModel]="detailViewModel" [userFullname]="detailViewModel.myTrip.user.fullname"></member-details>
+  </div>
+
   <div class="details-container">
     <div class="details-text-container">
-      <div>
-        Members: <i>{{members}}</i>
-      </div>
-      <div *ngIf="!viewModel.approvable">
+      <div *ngIf="!viewModel.approvable && approvableStatus">
         Waiting for all member confirmation.
       </div>
     </div>
+  </div>
+
+  <div class="details-container margin-top-1">
+    <button class="clickable-text margin-top-0 min-width-10" (click)="toggleComments()">{{viewModel.groupTrip.comments ? viewModel.groupTrip.comments.length : 0}} comments</button>
     <div class="button-container">
-      <button *ngIf="viewModel.approvable" class="btn btn-outline-primary button-container-element" (click)="approve()" [disabled]="loading">Approve</button>
-      <button class="btn btn-outline-secondary button-container-element" (click)="edit()" [disabled]="loading">Edit</button>
+      <button *ngIf="viewModel.approvable && approvableStatus" class="btn btn-outline-primary button-container-element" (click)="launchConfirmationModal()" [disabled]="loading">Approve</button>
+      <button class="btn btn-outline-primary button-container-element" (click)="launchJoinTripModal()" [disabled]="loading">Join</button>
+      <button class="btn btn-outline-secondary button-container-element" (click)="edit()" [disabled]="true">Edit</button>
       <div *ngIf="loading" class="button-container-element spinner-container"><spinner></spinner></div>
     </div>
+  </div>
+
+  <div class="event-view-line" *ngIf="commentViewModel && showComments">
+    <comment-list-view [viewModel]="commentViewModel" class="max-width"></comment-list-view>
   </div>
 
 </div>

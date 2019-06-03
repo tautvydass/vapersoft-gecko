@@ -77,6 +77,35 @@
               </div>
             </div>
           </div>
+          
+          <div class="switches-container">
+              <div class="switch-container">
+                <div class="switch-label">
+                  Accommodation
+                </div>
+                <div class="switch">
+                  <ui-switch [(ngModel)]="accommodationRequired" size="small" color="#4d724d"></ui-switch>
+                </div>
+              </div>
+    
+              <div class="switch-container">
+                <div class="switch-label">
+                  Plane tickets
+                </div>
+                <div class="switch">
+                  <ui-switch [(ngModel)]="planeTicketsRequired" size="small" color="#4d724d"></ui-switch>
+                </div>
+              </div>
+    
+              <div class="switch-container">
+                <div class="switch-label">
+                  Car rent
+                </div>
+                <div class="switch">
+                  <ui-switch [(ngModel)]="carRentRequired" size="small" color="#4d724d"></ui-switch>
+                </div>
+              </div>
+          </div>
 
           <div class="member-header-container">
             <button class="btn btn-outline-secondary" (click)="addMember()">Add Member</button>

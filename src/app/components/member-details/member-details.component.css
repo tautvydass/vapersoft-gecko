@@ -1,0 +1,31 @@
+.details-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    background-color: #f5f5f5;
+    border-radius: 0.4em;
+    padding: 0.4em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+}
+
+.details-element {
+    margin-right: 1em;
+}
+
+.sub-details-element {
+    display: inline-block;
+}
+
+.username-container {
+    width: 12em;
+}
+
+.confirmed-container {
+    width: 8em;
+}
+
+.confirmed {
+    color: #4d724d;
+}

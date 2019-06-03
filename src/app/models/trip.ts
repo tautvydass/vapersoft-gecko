@@ -11,4 +11,7 @@ export interface Trip {
     tripInfo: GroupTrip;
     confirmed: boolean;
     requestedCancel: boolean;
+    transportBooked: boolean;
+    accommodationBooked: boolean;
+    carRentBooked: boolean;
 }

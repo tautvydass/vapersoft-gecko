@@ -5,6 +5,7 @@ import { RefreshService } from 'src/app/services/refresh/refresh.service';
 import { User } from 'src/app/models/user';
 import { GroupTripViewModel } from 'src/app/view-models/group-trip-view-model';
 import { UserService } from 'src/app/services/user/user.service';
+import { Status } from 'src/app/models/enums/status';
 
 @Component({
   selector: 'organised-trips-list-view',
@@ -21,6 +22,9 @@ export class OrganisedTripsListViewComponent implements OnInit {
 
   approvableGroupTripCount: number = 0;
 
+  joinedGroupTripNames: string;
+  showSuccessAlert: boolean = false;
+
   constructor(
     private userService: UserService,
     private groupTripService: GroupTripService,
@@ -31,13 +35,24 @@ export class OrganisedTripsListViewComponent implements OnInit {
     this.refresh();
   }
 
+  refreshAndShowSuccessAlert(groupTripNames: string): void {
+    this.refresh();
+    this.joinedGroupTripNames = groupTripNames;
+    this.showSuccessAlert = true;
+  }
+
+  closeSuccessAlert(): void {
+    this.showSuccessAlert = false;
+  }
+
   refresh(): void {
+    this.groupTrips = null;
     this.loading = true;
     this.groupTripService.getOrganisedGroupTrips().subscribe(groupTrips => {
       this.groupTrips = groupTrips.sort((gt1, gt2) => this.sortByDate(gt1, gt2));
       this.userService.getCachedUser().subscribe(user => {
         this.viewModels = this.groupTrips.map(groupTrip => this.createGroupTripViewModel(groupTrip, user));
-        this.approvableGroupTripCount = this.viewModels.filter(viewModel => viewModel.approvable).length;
+        this.approvableGroupTripCount = this.viewModels.filter(viewModel => viewModel.approvable && viewModel.groupTrip.status === Status[Status.PENDING].toString()).length;
         this.loading = false;
       });
     }, error => {
@@ -65,11 +80,11 @@ export class OrganisedTripsListViewComponent implements OnInit {
   }
 
   sortByDate(groupTrip1: GroupTrip, groupTrip2: GroupTrip): number {
-    return groupTrip1.date - groupTrip2.date;
+    return groupTrip1.dateFromNumber - groupTrip2.dateFromNumber;
   }
 
-  closeAlert(): void {
-    
+  closeInfoAlert(): void {
+    this.approvableGroupTripCount = 0;
   }
 
 }

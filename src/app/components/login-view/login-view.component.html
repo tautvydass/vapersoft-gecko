@@ -5,10 +5,10 @@
         Sign in to begin your session
     </div>
     <div class="input-container">
-      <input placeholder="username" (keyup)="onUsernameKey($event)" autofocus>
+      <input class="form-control" placeholder="enter username" (keyup)="onUsernameKey($event)" autofocus>
     </div>
     <div class="input-container">
-      <input type="password" placeholder="password" (keyup)="onPasswordKey($event)" (keyup.enter)="login()" #passwordinput>
+      <input class="form-control" type="password" placeholder="enter password" (keyup)="onPasswordKey($event)" (keyup.enter)="login()" #passwordinput>
     </div>
     <div class="extra-container">
       <div *ngIf="loggingIn" class="spinner">
@@ -18,8 +18,8 @@
         {{errorMessage}}
       </div>
     </div>
-    <div class="button-container">
-      <button class="btn btn-outline-primary" (click)="login()" [disabled]="!canLogin || loggingIn">Log in</button>
+    <div class="input-container">
+      <button class="btn btn-outline-primary max-width" (click)="login()" [disabled]="!canLogin || loggingIn">Log in</button>
     </div>
   </div>
 </div>  

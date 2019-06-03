@@ -74,7 +74,7 @@ export class EventListViewComponent implements OnInit {
   }
 
   sortByDate(groupTrip1: GroupTrip, groupTrip2: GroupTrip): number {
-    return groupTrip1.date - groupTrip2.date;
+    return groupTrip1.dateFromNumber - groupTrip2.dateFromNumber;
   }
 
   emptyEvents(): boolean {

@@ -1,5 +1,5 @@
 <div (click)="$event.preventDefault(); $event.stopPropagation();">
-    <input class="no-comment" #box (keyup.enter)="addComment(box.value); box.value='' " placeholder="Write new comment..." [disabled]="loading">
+    <input class="form-control" #box (keyup.enter)="addComment(box.value); box.value='' " placeholder="Write new comment..." [disabled]="loading">
     <div *ngIf="viewModel.comments && viewModel.comments.length !== 0">
         <div *ngFor="let comment of viewModel.comments">
             <comment-view [comment]="comment" class="comment" *ngIf="comment"></comment-view>

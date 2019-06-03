@@ -1,0 +1,41 @@
+<div class="modal-content">
+
+    <div class="modal-header">
+        Join group trips
+    </div>
+  
+    <div class="modal-body">
+      <div class="sub-header">
+        Join <strong>{{viewModel.groupTrip.title}}</strong> with:
+      </div>
+      <div class="input-container">
+        <ng-template #groupTripResultTemplate let-r="result" let-t="term">
+          <ngb-highlight [result]="r.title" [term]="t"></ngb-highlight>, <ngb-highlight [result]="r.officeTo.name" [term]="t"></ngb-highlight>
+        </ng-template>
+  
+        <input
+          id="typeahead-focus"
+          type="text"
+          class="form-control"
+          placeholder="{{getPlaceholder()}}"
+          [(ngModel)]="groupTripModel"
+          [ngbTypeahead]="searchGroupTrip"
+          [inputFormatter]="groupTripFormatter"
+          (focus)="groupTripFocus$.next($event.target.value)"
+          (click)="groupTripClick$.next($event.target.value)"
+          (blur)="onGroupTripBlur()"
+          [resultTemplate]="groupTripResultTemplate"
+          [disabled]="!viewModel.groupTrips || viewModel.groupTrips.length === 0"
+          #groupTripInstance="ngbTypeahead"
+        />
+      </div>
+    </div>
+  
+    <div class="modal-footer">
+      <div *ngIf="loading" class="spinner-container"><spinner ></spinner></div>
+      <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+      <button type="button" class="btn btn-outline-primary" (click)="join()" [disabled]="!groupTripModel || loading">Join</button>
+    </div>
+  
+  </div>
+  

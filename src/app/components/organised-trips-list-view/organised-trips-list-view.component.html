@@ -1,5 +1,11 @@
 <div class="container">
 
+  <div *ngIf="showSuccessAlert" class="alert-container">
+    <ngb-alert type="success" (close)="closeSuccessAlert()">
+      <strong>Success!</strong> Group trips {{joinedGroupTripNames}} have been joined.
+    </ngb-alert>
+  </div>
+
   <div *ngIf="approvableGroupTripCount > 0" class="alert-container">
     <ngb-alert type="info" (close)="closeInfoAlert()">
       There {{approvableGroupTripCount === 1 ? 'is' : 'are'}} <strong>{{approvableGroupTripCount}}</strong> {{approvableGroupTripCount === 1 ? 'trip' : 'trips'}} pending your approval.
@@ -14,7 +20,7 @@
   </div>
   <div *ngIf="viewModels && viewModels.length > 0">
     <div *ngFor="let viewModel of viewModels">
-      <organised-group-trip-view [viewModel]="viewModel"></organised-group-trip-view>
+      <organised-group-trip-view (refresh)="refreshAndShowSuccessAlert($event)" [viewModel]="viewModel"></organised-group-trip-view>
     </div>
   </div>
 </div>

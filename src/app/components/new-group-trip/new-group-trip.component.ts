@@ -12,11 +12,9 @@ import { Houseroom } from 'src/app/models/houseroom';
 import { Role } from 'src/app/models/enums/role';
 import { GroupTrip } from 'src/app/models/group-trip';
 import { Status } from 'src/app/models/enums/status';
-import { toDate } from '@angular/common/src/i18n/format_date';
 import { Trip } from 'src/app/models/trip';
 import { GroupTripService } from 'src/app/services/group-trip/group-trip.service';
 import { Router } from '@angular/router';
-import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'new-group-trip',
@@ -66,6 +64,10 @@ export class NewGroupTripComponent implements OnInit {
 
   showErrorAlert: boolean = false;
   errorMessage: string = null;
+
+  accommodationRequired: boolean = true;
+  planeTicketsRequired: boolean = true;
+  carRentRequired: boolean = false;
 
   @ViewChild('instanceOfficeTo') instanceOfficeTo: NgbTypeahead;
   officeToFocus$ = new Subject<string>();
@@ -230,9 +232,12 @@ export class NewGroupTripComponent implements OnInit {
       userTrips: this.members.map(member => this.createTrip(member)),
       advisor: this.selectedAdvisor,
       comments: [],
-      date: null
+      dateFromNumber: null,
+      dateToNumber: null,
+      accommodationRequired: this.accommodationRequired,
+      transportRequired: this.planeTicketsRequired,
+      carRentRequired: this.carRentRequired
     };
-    console.log(JSON.stringify(groupTrip));
     this.loadingSubmit = true;
     this.groupTripService.createGroupTrip(groupTrip).subscribe(gt => {
       // TODO: show success alert
@@ -278,7 +283,10 @@ export class NewGroupTripComponent implements OnInit {
       houserooms: isNullOrUndefined(member.selectedHouseroom) ? [] : [member.selectedHouseroom],
       tripInfo: null,
       confirmed: false,
-      requestedCancel: false
+      requestedCancel: false,
+      accommodationBooked: !isNullOrUndefined(member.selectedHouseroom),
+      transportBooked: true,
+      carRentBooked: true
     };
   }
 

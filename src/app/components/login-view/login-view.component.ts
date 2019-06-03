@@ -44,7 +44,7 @@ export class LoginViewComponent implements OnInit {
       this.loggingIn = false;
     }, error => {
       // TODO: show message based on returned error code
-      this.errorMessage = error.message;
+      this.errorMessage = error;
       this.showError = true;
       this.passwordInputElement.nativeElement.focus();
       this.passwordInputElement.nativeElement.select();

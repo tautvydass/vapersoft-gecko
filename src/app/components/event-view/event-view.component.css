@@ -51,3 +51,7 @@ button {
 .active:active .focus:focus {
     background-color: red;
 }
+
+.content-box {
+    padding-left: 0.5em;
+}

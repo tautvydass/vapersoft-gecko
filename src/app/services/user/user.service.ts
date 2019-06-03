@@ -132,6 +132,33 @@ export class UserService {
     });
   }
 
+  registerUser(user: User, username: string, password: string): Observable<User> {
+    const md5 = new Md5();
+    let encodedPassword = md5.appendStr(password).end().toString();
+
+    return Observable.create(observer => {
+      this.httpClient.post<User>(
+        this.hostService.getHostServerUrl() + '/v1/user',
+        { 
+          username: username,
+          password: encodedPassword,
+          fullname: user.fullname,
+          email: user.email
+        }).subscribe(newUser => {
+          observer.next(newUser);
+          observer.complete();
+        }, error => {
+          switch(error.status) {
+            case 401: this.logout(); break;
+            default: break;
+          }
+          observer.error(error.message);
+        }, () => {
+          observer.complete();
+        });
+    });
+  }
+
   logout() {
     this.localStorageService.deleteCurrentUser();
     this.localStorageService.deleteAccessToken();

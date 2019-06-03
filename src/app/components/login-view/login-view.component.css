@@ -1,7 +1,7 @@
 .login-container {
     margin: 0 auto;
-    width: 20%;
-    min-width: 400px;
+    width: 15%;
+    min-width: 350px;
 }
 
 .content-box {
@@ -16,7 +16,11 @@
 
 .input-container {
     width: 100%;
-    margin-bottom: 0.25em;
+    margin-bottom: 0.5em;
+}
+
+.max-width {
+    width: 100% !important;
 }
 
 input {

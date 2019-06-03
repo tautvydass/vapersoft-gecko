@@ -249,6 +249,7 @@ export class EditGroupTripComponent implements OnInit {
   }
 
   submit(): void {
+    /*
     if (!this.validateForm()) {
       this.showErrorAlert = true;
       return;
@@ -276,6 +277,7 @@ export class EditGroupTripComponent implements OnInit {
     }, () => {
       this.loadingSubmit = false;
     });
+    */
   }
 
   validateForm(): boolean {
@@ -305,6 +307,7 @@ export class EditGroupTripComponent implements OnInit {
   }
 
   createTrip(member: MemberViewModel): Trip {
+    /*
     return {
       id: null,
       user: member.selectedUser,
@@ -314,6 +317,8 @@ export class EditGroupTripComponent implements OnInit {
       confirmed: false,
       requestedCancel: false
     };
+    */
+   return null;
   }
 
   checkUserAvailability(memberViewModel: MemberViewModel): void {

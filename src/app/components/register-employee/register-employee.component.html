@@ -2,5 +2,61 @@
   <div class="content-box-header">
     Register new employee
   </div>
+  <div class="input-container">
+    <div class="column-container">
+      <input
+        type="text"
+        class="form-control input-field"
+        placeholder="enter username"
+        [(ngModel)]="usernameModel"
+        maxlength="16"
+      />
+  
+      <input
+        type="text"
+        class="form-control input-field"
+        placeholder="enter full name"
+        [(ngModel)]="fullnameModel"
+        maxlength="32"
+      />
+  
+      <input
+        type="email"
+        class="form-control input-field"
+        placeholder="enter email"
+        [(ngModel)]="emailModel"
+        maxlength="32"
+      />
+    </div>
+
+    <div class="column-container">
+        <input
+          type="password"
+          class="form-control input-field"
+          placeholder="enter password"
+          [(ngModel)]="passwordModel"
+          maxlength="24"
+        />
+    
+        <input
+          type="password"
+          class="form-control input-field"
+          placeholder="repeat password"
+          [(ngModel)]="repeatPasswordModel"
+          maxlength="24"
+        />
+      </div>
+  </div>
+
+  <div *ngIf="showError" class="alert-container">
+    <ngb-alert type="danger" (close)="closeAlert()">
+      <strong>Error!</strong> {{errorMessage}}
+    </ngb-alert>
+  </div>
+
+  <div class="button-container">
+      <button class="btn btn-outline-primary" (click)="register()" [disabled]="loading || !filledIn()">Register</button>
+      <div *ngIf="loading" class="spinner-container"><spinner></spinner></div>
+  </div>
   
 </div>

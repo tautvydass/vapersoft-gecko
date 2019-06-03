@@ -142,11 +142,6 @@
     position: relative;
 }
 
-.member-header-container {
-    bottom: 0;
-    position: absolute;
-}
-
 .primary-text {
     color: #4d724d;
 }
@@ -162,4 +157,28 @@
 
 .margin-right-2 {
     margin-right: 0.5em;
+}
+
+.switch-container {
+    display: flex;
+    justify-content: left;
+    vertical-align: middle;
+    margin-right: 1em;
+}
+
+.switch {
+    padding-top: 0.2em;
+    margin-left: 0.4em;
+    display: inline-block;
+}
+
+.switches-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    vertical-align: middle;
+}
+
+.member-header-container {
+    margin-top: 1em;
 }
